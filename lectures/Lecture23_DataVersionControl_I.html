@@ -280,10 +280,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="learning-outcomes" class="level2">
 <h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes</h2>
 <ul>
-<li>Recognize the need for version control when working with code and data files.</li>
-<li>Explain how version control systems like Git track changes.</li>
-<li>Compare the use of Git and DVC for working with data files.</li>
-<li>Apply DVC to track changes to data files.</li>
+<li>Recognize the <strong>need for version control</strong> when working with code and data files.</li>
+<li>Explain how version control systems like Git <strong>track changes</strong>.</li>
+<li>Compare the use of Git and DVC for <strong>working with data files</strong>.</li>
+<li><strong>Apply DVC</strong> to track changes to data files.</li>
 </ul>
 </section>
 <section id="why-do-we-need-version-control" class="level2">
@@ -388,7 +388,7 @@ hint:
 hint:   git branch -m &lt;name&gt;
 hint:
 hint: Disable this message with "git config set advice.defaultBranchName false"
-Initialized empty Git repository in /tmp/RtmpakLWyN/dvc-example-1f776dadbd5f/.git/
+Initialized empty Git repository in /tmp/RtmpknZ59k/dvc-example-1fb82b07ac91/.git/
 Initialized DVC repository.
 
 You can now commit the changes to git.
@@ -415,7 +415,7 @@ What's next?
 <div class="cell" data-output-location="fragment">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Initial setup"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[master (root-commit) 61a15b9] Initial setup
+<pre><code>[master (root-commit) ed3be50] Initial setup
  3 files changed, 6 insertions(+)
  create mode 100644 .dvc/.gitignore
  create mode 100644 .dvc/config
@@ -457,7 +457,7 @@ What's next?
 <pre><code>
 To track the changes with git, run:
 
-    git add data/data.xml.dvc data/.gitignore
+    git add data/.gitignore data/data.xml.dvc
 
 To enable auto staging, run:
 
@@ -474,7 +474,7 @@ To enable auto staging, run:
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add data/data.xml.dvc data/.gitignore</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add initial version of dataset"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[master a447100] Add initial version of dataset
+<pre><code>[master a318f05] Add initial version of dataset
  2 files changed, 6 insertions(+)
  create mode 100644 data/.gitignore
  create mode 100644 data/data.xml.dvc</code></pre>
@@ -490,8 +490,8 @@ To enable auto staging, run:
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>total 14M
--rw-r--r-- 1 runner runner 14M Mar 12 21:38 data.xml
--rw-r--r-- 1 runner runner  92 Mar 12 21:38 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 14M Mar 12 22:00 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 22:00 data.xml.dvc</code></pre>
 </div>
 </div>
 </section>
@@ -514,8 +514,8 @@ To enable auto staging, run:
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>total 28M
--rw-r--r-- 1 runner runner 28M Mar 12 21:38 data.xml
--rw-r--r-- 1 runner runner  92 Mar 12 21:38 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 28M Mar 12 22:00 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 22:00 data.xml.dvc</code></pre>
 </div>
 </div>
 <div class="notes">
@@ -534,7 +534,7 @@ To track the changes with git, run:
 To enable auto staging, run:
 
     dvc config core.autostage true
-[master 6454e84] Double size of dataset
+[master 0f152fd] Double size of dataset
  1 file changed, 2 insertions(+), 2 deletions(-)</code></pre>
 </div>
 </div>
@@ -566,7 +566,7 @@ Or undo this operation with:
 
 Turn off this advice by setting config variable advice.detachedHead to false
 
-HEAD is now at a447100 Add initial version of dataset</code></pre>
+HEAD is now at a318f05 Add initial version of dataset</code></pre>
 </div>
 </div>
 <div class="notes">
@@ -587,8 +587,8 @@ HEAD is now at a447100 Add initial version of dataset</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>total 14M
--rw-r--r-- 1 runner runner 14M Mar 12 21:38 data.xml
--rw-r--r-- 1 runner runner  92 Mar 12 21:38 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 14M Mar 12 22:00 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 22:00 data.xml.dvc</code></pre>
 </div>
 </div>
 <div class="notes">
@@ -608,15 +608,15 @@ HEAD is now at a447100 Add initial version of dataset</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>total 14M
--rw-r--r-- 1 runner runner 14M Mar 12 21:38 data.xml
--rw-r--r-- 1 runner runner  92 Mar 12 21:38 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 14M Mar 12 22:00 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 22:00 data.xml.dvc</code></pre>
 </div>
 </div>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <div class="notes">
-<p>That concludes our overview of the how to use DVC to track changes to data files and switch between versions of those files. In the following lecture we will build on this by illustrating some more advanced features of DVC which allow us to track changes to models and whole data pipelines.</p>
+<p>That concludes our overview of the how to use Git and DVC to track changes to data files and switch between versions of those files. In the following lecture we will build on this by illustrating some more advanced features of DVC which allow us to track changes to models and whole data pipelines.</p>
 </div>
 
 

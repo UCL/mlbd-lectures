@@ -257,10 +257,10 @@
 <section id="learning-outcomes" class="slide level2">
 <h2>Learning outcomes</h2>
 <ul>
-<li class="fragment">Recognize the need for version control when working with code and data files.</li>
-<li class="fragment">Explain how version control systems like Git track changes.</li>
-<li class="fragment">Compare the use of Git and DVC for working with data files.</li>
-<li class="fragment">Apply DVC to track changes to data files.</li>
+<li class="fragment">Recognize the <strong>need for version control</strong> when working with code and data files.</li>
+<li class="fragment">Explain how version control systems like Git <strong>track changes</strong>.</li>
+<li class="fragment">Compare the use of Git and DVC for <strong>working with data files</strong>.</li>
+<li class="fragment"><strong>Apply DVC</strong> to track changes to data files.</li>
 </ul>
 </section>
 <section id="why-do-we-need-version-control" class="slide level2">
@@ -569,7 +569,7 @@ hint:
 hint:   git branch -m &lt;name&gt;
 hint:
 hint: Disable this message with "git config set advice.defaultBranchName false"
-Initialized empty Git repository in /tmp/RtmpwkccWh/dvc-example-1ff376898948/.git/
+Initialized empty Git repository in /tmp/RtmpeyXPds/dvc-example-20332678af0d/.git/
 Initialized DVC repository.
 
 You can now commit the changes to git.
@@ -614,7 +614,7 @@ What's next?
 </div>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>[master (root-commit) bf2f1c9] Initial setup
+<pre><code>[master (root-commit) fa2c9dd] Initial setup
  3 files changed, 6 insertions(+)
  create mode 100644 .dvc/.gitignore
  create mode 100644 .dvc/config
@@ -689,7 +689,7 @@ What's next?
 <pre><code>
 To track the changes with git, run:
 
-    git add data/.gitignore data/data.xml.dvc
+    git add data/data.xml.dvc data/.gitignore
 
 To enable auto staging, run:
 
@@ -739,7 +739,7 @@ To enable auto staging, run:
 </div>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>[master fa3b446] Add initial version of dataset
+<pre><code>[master 1f3b78f] Add initial version of dataset
  2 files changed, 6 insertions(+)
  create mode 100644 data/.gitignore
  create mode 100644 data/data.xml.dvc</code></pre>
@@ -804,13 +804,13 @@ To enable auto staging, run:
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>total 14M
--rw-r--r-- 1 runner runner 14M Mar 12 21:38 data.xml
--rw-r--r-- 1 runner runner  92 Mar 12 21:38 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 14M Mar 12 22:00 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 22:00 data.xml.dvc</code></pre>
 </div>
 </div>
 <div class="fragment">
 <div class="slides-only">
-<p>The original data takes up 14MB, while the proxy file is only 80 bytes long.</p>
+<p>The original data takes up 14MB, while the proxy file is only ~100 bytes long.</p>
 </div>
 </div>
 </section>
@@ -862,8 +862,8 @@ To enable auto staging, run:
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>total 28M
--rw-r--r-- 1 runner runner 28M Mar 12 21:38 data.xml
--rw-r--r-- 1 runner runner  92 Mar 12 21:38 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 28M Mar 12 22:00 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 22:00 data.xml.dvc</code></pre>
 </div>
 </div>
 </div>
@@ -906,7 +906,7 @@ To track the changes with git, run:
 To enable auto staging, run:
 
     dvc config core.autostage true
-[master 4790b45] Double size of dataset
+[master 3801078] Double size of dataset
  1 file changed, 2 insertions(+), 2 deletions(-)</code></pre>
 </div>
 </div>
@@ -957,7 +957,7 @@ Or undo this operation with:
 
 Turn off this advice by setting config variable advice.detachedHead to false
 
-HEAD is now at fa3b446 Add initial version of dataset</code></pre>
+HEAD is now at 1f3b78f Add initial version of dataset</code></pre>
 </div>
 </div>
 </div>
@@ -1014,8 +1014,8 @@ HEAD is now at fa3b446 Add initial version of dataset</code></pre>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>total 14M
--rw-r--r-- 1 runner runner 14M Mar 12 21:38 data.xml
--rw-r--r-- 1 runner runner  92 Mar 12 21:38 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 14M Mar 12 22:00 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 22:00 data.xml.dvc</code></pre>
 </div>
 </div>
 </div>
@@ -1075,8 +1075,8 @@ HEAD is now at fa3b446 Add initial version of dataset</code></pre>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>total 14M
--rw-r--r-- 1 runner runner 14M Mar 12 21:38 data.xml
--rw-r--r-- 1 runner runner  92 Mar 12 21:38 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 14M Mar 12 22:00 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 22:00 data.xml.dvc</code></pre>
 </div>
 </div>
 </div>
@@ -1084,7 +1084,7 @@ HEAD is now at fa3b446 Add initial version of dataset</code></pre>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
 <aside class="notes">
-<p>That concludes our overview of the how to use DVC to track changes to data files and switch between versions of those files. In the following lecture we will build on this by illustrating some more advanced features of DVC which allow us to track changes to models and whole data pipelines.</p>
+<p>That concludes our overview of the how to use Git and DVC to track changes to data files and switch between versions of those files. In the following lecture we will build on this by illustrating some more advanced features of DVC which allow us to track changes to models and whole data pipelines.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1097,11 +1097,11 @@ HEAD is now at fa3b446 Add initial version of dataset</code></pre>
           display:block!important;
       }</style></aside>
 <div class="slides-only">
-<p>This has been the basic usage of DVC to track and revert changes to a file.</p>
+<p>In this lecture we have covered has been the basic usage of Git and DVC to <strong>track and revert changes</strong> to a file.</p>
 </div>
 <div class="fragment">
 <div class="slides-only">
-<p>Building on this, in the next lecture we will see how DVC can be used to track models and entire machine learning workflows.</p>
+<p>Building on this, in the next lecture we will see how DVC can be used to track <strong>models</strong> and entire machine learning <strong>workflows</strong>.</p>
 </div>
 
 
