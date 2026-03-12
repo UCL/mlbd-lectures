@@ -95,7 +95,7 @@ The data is then ready to be used in our algorithm of choice.
 ![](Lecture22_Images/pipeline.svg){fig-alt="Image of a data pipeline comprising the steps of accessing, preprocessing, transforming, serving, modelling and publishing data. Each step is represented as a box with arrows linking them"  width="100%"}
 
 ::: {.notes}
-The overall sequences of steps involved in such a typical machine learning workflow is sometimes called a data pipeline, with related terms such as extract-transform-load or ETL also being used.
+The overall sequences of steps involved in such a typical machine learning workflow is sometimes called a _data pipeline_, with related terms such as _extract-transform-load_ or ETL also being used.
 
 We can visualise this as a data flow graph as shown here. To ensure reproducibility ideally all stages in the pipeline should be defined programmatically through code rather than requiring manual actions. We'll now go through and explain what might be involved in each of these stages, and use running example of analysing historical climate records data to illustrate an concrete example of a data pipeline.
 :::
@@ -119,12 +119,12 @@ When possible, it is useful to perform these steps programmatically (through cod
 ## Accessing data
 
 ::: {.notes}
-Commonly the first step in any data science project will be to get hold of the data we will be analysing, unless we happen to have collected it ourselves. This typically happens in a variety of different ways, for example
+Commonly the first step in any data science project will be to get hold of the data we will be analysing, unless we happen to have collected it ourselves. This typically happens in a variety of different ways, for example:
 
-- We get sent a data file by a colleague
-- We pull the data from some web service
-- We might run a scraper to extract data from a website
-- Or we might execute a query to a database we have access to.
+- we get sent a data file by a colleague.
+- we pull the data from some web service.
+- we might run a scraper to extract data from a website
+- or we might execute a query to a database we have access to.
 :::
 
 ::: {.slides-only}
@@ -170,7 +170,7 @@ How we get it on our own computer will depend on the source, format and size of 
 
 ::: {.notes}
 
-To give an example of how we might access data programmatically, we will consider how to download a set of [historical global climate records](https://github.com/awslabs/open-data-docs/tree/main/docs/noaa/noaa-ghcn) from an open dataset hosted on _Simple Storage Service_ (S3) that is part of _Amazon Web Services_ (AWS) cloud offering.
+To give an example of how we might access data programmatically, we will consider how to download a set of [historical global climate records](https://github.com/awslabs/open-data-docs/tree/main/docs/noaa/noaa-ghcn) from an open dataset hosted on _Simple Storage Service_ (S3) that is part of the _Amazon Web Services_ (AWS) cloud offering.
 
 In this example we will use [the Python standard library module `urllib.request`](https://docs.python.org/3/library/urllib.request.html) which allows programmatically accessing data hosted on the web via _hypertext transfer protocol_ (HTTP). In more complex cases, for example where access to an S3 bucket requires authentication, [the Python package `boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) is a dedicated Python package for interacting with AWS services programmatically.
 
@@ -231,11 +231,11 @@ display(input_data.head())
 ::: {.notes}
 Typically getting access to the data we need is only the first step, with often the raw data needing to be preprocessed before use. This might be for example because,
 
-- There are errors in the data
-- The dimensionality of each data point or number of data points is too large for us to be able to use directly
-- The data contains irrelevant information for our analysis
-- The variables in the raw data do not directly correspond to quantities of interest which need to be derived from the raw data
-- There may be outliers or imbalances in the dataset that might affect the fitting of some models.
+- there are errors in the data,
+- the dimensionality of each data point or number of data points is too large for us to be able to use directly,
+- the data contains irrelevant information for our analysis,
+- the variables in the raw data do not directly correspond to quantities of interest which need to be derived from the raw data,
+- there may be outliers or imbalances in the dataset that might affect the fitting of some models.
 :::
 
 ::: {.slides-only}
@@ -253,8 +253,8 @@ Getting hold of the data you want to work with is only the first step. Sometimes
 ::: {.notes}
 The sorts of preprocessing steps we might perform to address these issues include,
 
-- Removing problematic values from the data
-- Filtering the data to a smaller subset or augmenting it by repeating samples
+- removing problematic values from the data,
+- filtering the data to a smaller subset or augmenting it by repeating samples.
 
 This process is sometimes referred to as _data cleaning_, and is a vital and often overlooked stage in data pipelines. While such cleaning steps can be performed manually, tools such as [OpenRefine](https://openrefine.org/) have been developed to help automate the process.
 :::
@@ -569,7 +569,7 @@ We can visualise the fitted model's predictions over the input range to check th
 #| output-location: fragment
 fig, ax = plt.subplots(figsize=(8, 3))
 ax.plot(X_train, y_train, model.predict(X_train))
-ax.set(xlabel=r"Day of year", ylabel="Daily temperature range / $^\circ C$")
+ax.set(xlabel="Day of year", ylabel=r"Daily temperature range / $^\circ C$")
 ax.legend(["Data", "Spline fit"])
 fig.tight_layout()
 ```
@@ -715,7 +715,7 @@ That brings us to end of this first lecture. To summarize what we have covered s
 - A key point that we tried to illustrate via our running climate data example is that ideally all these stages can be defined programatically with this giving an explicit record of the operations that went in to building a model and allowing these steps to easily reproduced by others.
 - One point that we touched on early in the lecture is that because of both the increasingly large size of datasets but also prevalence of technologies for sharing data, being able to access data which is held remotely is becoming more and important for data science workflows and so it is useful to be aware of tools and packages that help facilitate this.
 
-That concludes this first session. In the next lecture we introduce a tool, data version control, which can help us in automating some of these tasks around accessing remote data and keeping track of the outputs of data pipeline stages.
+In the next lecture we introduce a tool, data version control, which can help us in automating some of these tasks around accessing remote data and keeping track of the outputs of data pipeline stages.
 :::
 
 ::: {.slides-only}

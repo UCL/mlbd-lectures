@@ -9,9 +9,7 @@ title-image-width: "80%"
 ## Introduction
 
 ::: {.notes}
-We're now in the final lecture for today where we will be continuing to explore data version control. This lecture will be a bit shorter than the other two so there should be time to answer any questions about all of the material today at the end or if you don't have any questions to head off for an earlier lunch.
-
-Specifically in this lecture we will look at some more advanced features of DVC, namely
+In this lecture we will be continuing to explore data version control. Specifically in this lecture we will look at some more advanced features of DVC, namely
 
 - How we can access and track files from remote data sources such as cloud storage services.
 - How we use DVC to define the stages of a data pipeline in a way that makes it easily reproducible by both ourselves and others.
@@ -69,9 +67,9 @@ DVC offers different options:
 ## Adding external files {.slides-only}
 
 ::: {.notes}
-The `get` and `import` commands are similar and easy to confuse, but the key point is `import` also sets up tracking from the remote repository, and so if a data file we need is already under a remote repository, should be generally preferred. If the file is subsequently updated in the remote repository we can bring these changes in locally using the `dvc update` command.
+The [`get`](https://dvc.org/doc/command-reference/get) and [`import`](https://dvc.org/doc/command-reference/import) commands are similar and easy to confuse, but the key point is `import` also sets up tracking from the remote repository, and so if a data file we need is already under a remote repository, should be generally preferred. If the file is subsequently updated in the remote repository we can bring these changes in locally using the [`dvc update`](https://dvc.org/doc/command-reference/update) command.
 
-The `get-url` and `import-url` variants allow us the flexibility of working with non-Git based storage, with there built in support for a range of protocols and providers and an extensible interface for working with additional unsupported providers.
+The []`get-url`](https://dvc.org/doc/command-reference/get-url) and [`import-url`](https://dvc.org/doc/command-reference/import-url) variants allow us the flexibility of working with non-Git based storage, with there built in support for a range of protocols and providers and an extensible interface for working with additional unsupported providers.
 :::
 
 ::: {.slides-only}
@@ -101,11 +99,11 @@ The [`get-url`](https://dvc.org/doc/command-reference/get-url) and [`import-url`
 ::: {.notes}
 While the ability to track potentially large datasets with DVC is useful, its power becomes more apparent in its support for working with data pipelines. Pipelines are a first class construct in DVC and let us think in terms of data flows and the dependencies between files rather than the individual files themselves.
 
-DVC allows us to in a very generic way
+DVC allows us to in a very generic way:
 
-- Defines the stages of a data pipeline.
-- Infer the graph of dependencies between the pipeline stages.
-- Reproducibly run a whole pipeline, or if we make changes to only some dependencies only the parts of the pipeline that need to be rerun, which can be a major efficiency gain for computationally intensive pipelines.
+- defines the stages of a data pipeline,
+- infer the graph of dependencies between the pipeline stages,
+- reproducibly run a whole pipeline, or if we make changes to only some dependencies only the parts of the pipeline that need to be rerun, which can be a major efficiency gain for computationally intensive pipelines.
 :::
 
 ::: {.slides-only}
@@ -149,9 +147,9 @@ Running `log_reg.py` then trains a logistic regression classifier on the reduced
 ## Representing a pipeline
 
 ::: {.notes}
-In DVC a pipeline is defined as a collection of steps or stages, each with a set of input dependencies, and one or more outputs. The dependencies between stages are inferred from them having mutually shared outputs and inputs.
+In DVC a pipeline is defined as a collection of steps or stages, each with a set of input __dependencies__, and one or more __outputs__. The dependencies between stages are inferred from them having mutually shared outputs and inputs.
 
-Pipeline stages can additionally have parameters that control the behaviour of the stage, and which typically represent variables we will want to investigate varying to explore their effect on performance.
+Pipeline stages can additionally have __parameters__ that control the behaviour of the stage, and which typically represent variables we will want to investigate varying to explore their effect on performance.
 :::
 
 ::: {.slides-only}
@@ -199,7 +197,7 @@ stages:
 ::: {.notes}
 The format is relatively human readable - under the `stages` key we have a set of pipeline stages, keyed by their stage names. Each pipeline stage species the command to run, a list of file dependencies for the stage, a list of outputs for the stage and optionally any parameters that control the stage.
 
-An important point is that the code used to run the stage should be considered a dependency of the stage as well as any data inputs as if the code changes we want to know to re-run the stage.
+An important point is that _the code used to run the stage should be considered a dependency of the stage_ as well as any data inputs as if the code changes we want to know to re-run the stage.
 :::
 
 ::: {.slides-only}
@@ -477,7 +475,7 @@ It is similar to DVC but is controlled programatically rather than the command l
 ## Summary
 
 ::: {.notes}
-In this last lecture we have explored
+In this lecture we have explored:
 
 - DVC's support for loading and tracking files from remote repositories and storage services.
 - How we can use DVC to programmatically define the stages of a data pipeline and allow us to easily reproduce pipeline outputs.
