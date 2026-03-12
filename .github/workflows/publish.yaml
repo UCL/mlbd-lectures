@@ -21,13 +21,15 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install graphviz
+        run: sudo apt install -y graphviz
       
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.x'
           cache: 'pip'
-
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
