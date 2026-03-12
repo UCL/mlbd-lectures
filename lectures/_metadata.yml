@@ -1,0 +1,32 @@
+author: 
+  - name: Matt Graham
+    affiliation: Centre for Advanced Research Computing
+    url: https://matt-graham.github.io
+    orcid: 0000-0001-9104-7960
+  - name: Anastasis Georgoulas
+    url: https://uk.linkedin.com/in/anastasis-georgoulas-265b12167
+    orcid: 0000-0001-7187-5443
+format:
+  html:
+    echo: false
+  revealjs:
+    output-ext: slides.html
+    incremental: true
+    slide-number: true
+    css: styles.css
+    template-partials:
+      - title-slide.html
+    auto-animate-easing: none
+    auto-animate-duration: 0
+    auto-animate-unmatched: false
+    echo: false
+    margin: 0.15
+    width: 1050
+    height: 720
+  ipynb:
+    echo: true
+engine: jupyter
+filters:
+  - remove-pause.lua
+  - incremental-stack.lua
+  - remove-slide-only.lua

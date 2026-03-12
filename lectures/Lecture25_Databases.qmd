@@ -1,0 +1,569 @@
+---
+title: Databases
+lecture-number: 25
+description: Relational and non-relational databases
+title-image: "https://imgs.xkcd.com/comics/exploits_of_a_mom_2x.png"
+title-image-caption: "Image credit: Randall Munroe https://xkcd.com/327/"
+title-image-width: "90%"
+---
+
+## Introduction
+
+As the volume of data we are handling grows, it becomes harder to keep track of how it is structured and what information it contains.
+
+. . .
+
+We need to store the data in a way that lets us inspect and update it in a straightforward, principled manner.
+
+. . .
+
+A __database__ is a collection of data that offers easier and more efficient storage and retrieval.
+
+## Learning outcomes
+
+* Describe what a relational database is.
+* Explain the benefits of using databases for storing and accessing data.
+* Use structured query language to extract information from a relational database.
+* Assess the advantages and disadvantages of relational and non-relational databases.
+
+## Why use databases?
+
+Benefits of databases include:
+
+- The ability to query the data to find entries of interest.
+- Structured approaches for adding and modifying data.
+- A more abstract view of the data, focusing on high-level entities and relationships, rather than low-level variables.
+- Performance improvements through internal book-keeping.
+- Control over who can access their contents.
+
+## Relational databases
+
+Traditionally, the most common way of storing data like this has been in a __relational database__.
+
+. . .
+
+In a relational database, data exists in tables:
+
+::: {.compressed-list}
+- Rows correspond to individual records or data samples.
+- Columns are variables of a particular type.
+:::
+
+. . .
+
+The structure of each table is critical. This includes:
+
+::: {.compressed-list}
+- the number of columns,
+- the name of each column,
+- the type of data in each column.
+:::
+
+## Database schemas
+
+This structure is called the __schema__ of the database.
+
+. . .
+
+Deciding on the structure of the database is very important. A good schema aims to:
+
+- capture all the relevant information,
+- avoid duplication of data as much as possible,
+- capture constraints about the data, such as types,
+- represent relations between different fields and tables.
+
+## Database schemas {.slides-only}
+
+![CC-BY 4.0, Software Carpentries Databases and SQL lesson authors](Lecture25_Images/sql-join-structure.svg){ fig-alt="Sample of a database schema, showing four tables, the columns in each table and their types, and the relationships between columns in different tables" width=25% fig-align="center"}
+
+::: {.incremental-stack}
+
+Here is an example (taken from a [Software Carpentry tutorial](https://swcarpentry.github.io/sql-novice-survey/01-select.html)) of how a schema can be depicted graphically.
+
+For each of the four tables, the schema lists its columns and their types. 
+
+The arrows show dependencies between different tables. 
+
+For example, the `person` column in the `Survey` table cannot contain arbitrary values; it must be a valid person ID.
+
+It must match the value of the `id` column for some row in the `Person` table. 
+
+This is a common type of constraint that relational databases enforce.
+
+:::
+
+## Data integrity
+
+The database checks that all constraints and relations are satisfied at all times.
+
+. . .
+
+If the user tries to insert data that would violate the constraints, the database system will reject that update, ensuring the __integrity__ of the data.
+
+## ACID properties
+
+More broadly the [ACID properties](https://en.wikipedia.org/wiki/ACID) of database _transactions_ are intended to ensure data remains valid irrespective of errors and failures:
+
+::: {.compressed-list}
+- _Atomic_ - each transaction is treated as a single unit which succeeds or fails completely.
+- _Consistent_ - transactions can only change database from one consistent state to another.
+- _Isolated_ - the database state is invariant to the order of execution of concurrent transactions.
+- _Durable_ - once transactions are committed they persist even in the case of system failures.
+:::
+
+## Relational database management systems
+
+There are several _relational database management systems_ (RDBMSs), such as [MySQL](https://www.mysql.com/), [Postgresql](https://www.postgresql.org/), [Oracle](https://oracle.com/database) and [SQLite](https://sqlite.org/).
+
+. . .
+
+These are software systems that allow users to _define, create, maintain and control access_ to relational databases.^[Connolly and Begg (2014). _Database Systems – A Practical Approach to Design Implementation and Management_]
+
+. . .
+
+Each RDBMS offers slightly different features but they share the same fundamental approach.
+
+## SQL
+
+To extract information from a relational database, we can write queries in the _Structured Query Language_ (SQL).
+
+. . .
+
+Common operations include:
+
+- __Selecting__ only certain __columns__ of interest.
+- __Filtering to a subset__ of records based on the value of one or more fields.
+- Performing __aggregations__ (summing or counting records).
+- __Combining__ or __joining__ data  from multiple tables.
+
+## Example: reading an SQL database
+
+::: {.incremental-stack}
+To illustrate some of these concepts, we will work with a small database of fictional experimental measurements. 
+
+You can read more about the structure of the database in the [tutorial](https://swcarpentry.github.io/sql-novice-survey/01-select/index.html) it originates from.
+
+First we need to download the data. In this case, database itself is stored in a file which can be shared like any other file.
+:::
+
+. . .
+
+```{python}
+#| echo: true
+#| output-location: fragment
+#| code-line-numbers: "1,4-6|2,8|10-12|14"
+import urllib.request
+import tempfile
+
+response = urllib.request.urlopen(
+    "https://swcarpentry.github.io/sql-novice-survey/files/survey.db"
+)
+
+database_temp_file = tempfile.NamedTemporaryFile()
+
+with open(database_temp_file.name, "wb") as f:
+    contents = response.read()
+    f.write(contents)
+    
+print(contents[:15])
+```
+
+## SQLite
+
+The database we have downloaded is for the [SQLite](https://en.wikipedia.org/wiki/SQLite) system.
+
+. . .
+
+SQLite is an __open-source__, __lightweight__ and __self-contained__ RDBMS designed as a library which can be __embedded__ in other applications.  
+
+. . .
+
+Many programming languages provide interfaces for working with SQLite databases and it is included by default in a variety of operating systems.
+
+## Example: connecting to a database
+
+Python comes with built-in support for SQLite databases through the [`sqlite3` package](https://docs.python.org/3/library/sqlite3.html).
+
+. . .
+
+The [`sqlite3.connect` function](https://docs.python.org/3/library/sqlite3.html#sqlite3.connect) can be used to create a connection to a database given a path to the database file.
+
+```{python}
+#| echo: true
+import sqlite3
+
+connection = sqlite3.connect(database_temp_file.name)
+```
+
+## Example: executing queries
+
+Once connected, we can execute SQL queries to get results.
+
+```{python}
+#| echo: true
+#| output-location: fragment
+help(connection.execute)
+```
+
+. . .
+
+The `Connection.execute` method returns a `Cursor` object that we can _iterate_ over to get the result rows.
+
+## Selecting rows of data
+
+The fundamental way of extracting data with SQL is a query of the form:
+
+```{.sql code-line-numbers="1|2|"}
+SELECT <column(s) of interest>
+FROM <corresponding table(s)>
+```
+
+. . .
+
+For example, we can get the personal and family names of everyone in the database:
+
+```sql
+SELECT personal, family
+FROM Person
+```
+
+## Example: querying database
+
+Let's run this query in Python and print the results:
+
+```{python}
+#| echo: true
+#| output-location: fragment
+#| code-line-numbers: "1|2|3"
+results = connection.execute("SELECT personal, family FROM Person")
+for result in results:
+    print(result)
+```
+
+. . .
+
+As we iterate over `results` the values for each column specified in the query are returned as a tuple, with each tuple corresponding to a different row.
+
+## Filtering with `WHERE` clauses
+
+Often we will want to get only a subset of the rows that satisfy one or more _conditions_. 
+
+. . .
+
+We can restrict the results using an extra `WHERE` clause:
+
+```{.sql code-line-numbers="3|"}
+SELECT <column(s) of interest>
+FROM <corresponding table(s)>
+WHERE <condition(s) records must match>
+```
+
+. . .
+
+The conditions may be specified using (in)equality  operators (`=`, `!=`, `<`, `>`, `<=`, `>=`)
+and additional operators such as `IN`, `BETWEEN` and `LIKE`.
+
+. . .
+
+Conditions can be logically combined using `AND` and `OR`, and negated using `NOT`.
+
+## Example: using a `WHERE` clause
+
+In our example, we may wish to select all columns from the `Survey` table,
+returning only rows where the value for the reading column is negative.
+
+. . .
+
+This could be implemented as a SQL query as follows:
+
+```{python}
+#| echo: true
+#| output-location: fragment
+for result in connection.execute("SELECT * FROM Survey WHERE reading < 0"):
+    print(result)
+```
+
+## Combining information across tables
+
+Queries can combine information from multiple tables.
+
+. . .
+
+In our running example the `Survey` table only holds scientists' identifiers, not their names.
+
+. . .
+
+We can get all the readings  made by a person if we know their family name by combining information from the `Survey` and `Person` tables:
+
+```{.sql code-line-numbers="1|2|3"}
+SELECT Person.family, Survey.reading
+FROM Survey, Person
+WHERE Survey.person = Person.id AND Person.family = 'Lake'
+```
+
+## Example: joining across tables
+
+We can execute this query and print the results:
+
+```{python}
+#| echo: true
+#| output-location: fragment
+for result in connection.execute("""
+SELECT Person.family, Survey.reading
+FROM Survey, Person
+WHERE Survey.person = Person.id AND Person.family = 'Lake'
+"""):
+    print(result)
+```
+
+. . .
+
+The family name of the person who took the reading for all returned results is Lake as expected.
+
+## Example: joining across tables {.slides-only}
+
+While the previous query works, more commonly this sort of combining of data from tables
+would usually be expressed using the `JOIN` and `ON` keywords
+
+```{python}
+#| echo: true
+#| output-location: fragment
+for result in connection.execute("""
+SELECT Person.family, Survey.reading
+FROM Survey
+JOIN Person ON Survey.person = Person.id
+WHERE Person.family = 'Lake'
+"""):
+    print(result)
+```
+
+## Database indices
+
+When we run a query like this, the database system may not need to inspect every row to find the results.
+
+. . .
+
+Instead, it uses an internal set of __indices__ that allow it to look up the relevant rows. 
+
+. . .
+
+These indices are __updated automatically__ and stored alongside the tables.
+
+. . .
+
+This gives __increased performance__, without the user having to worry about maintaining these indices or even know the details of how queries run.
+
+## Aggregating data
+
+SQL provides several built-in functions for _aggregating_ data across records:
+
+::: {.compressed-list}
+- `min`: minimum of values,
+- `max`: maximum of values,
+- `avg`: average (mean) of values,
+- `sum`: sum of values,
+- `count`: count of values.
+:::
+
+. . .
+
+These aggregation functions can be combined with `WHERE` clauses to aggregate only
+across values meeting one or more conditions.
+
+## Example: aggregating readings
+
+In our running example to compute the mean salinity reading we could execute a query
+as follows:
+
+```{python}
+#| echo: true
+#| output-location: fragment
+result = connection.execute("SELECT avg(reading) FROM Survey WHERE quant = 'sal'")
+print(next(result))
+```
+
+. . .
+
+Likewise we could compute the number of readings by the person with identifier `lake` as follows
+```{python}
+#| echo: true
+#| output-location: fragment
+result = connection.execute("SELECT count(*) FROM Survey WHERE person = 'lake'")
+print(next(result))
+```
+
+## Modifying data
+
+Apart from extracting data, SQL can be used to:
+
+- insert new rows into a table using  
+  `INSERT INTO <table> VALUES <record values>`,
+- modify existing rows using  
+  `UPDATE <table and column(s)> SET <column update(s)>`,
+- delete rows using  
+  `DELETE FROM <table>`.
+
+## Inserting data into tables
+
+For example, the query
+
+```{.sql code-line-numbers="1|2"}
+INSERT INTO Person (id, personal, family)
+VALUES ('bta', 'Beatriz', 'Torres')
+```
+
+will 
+
+- create a new row in the `Person` table,
+- for a person named Beatriz Torres with identifier `bta`.
+
+## More complex queries
+
+We can also combine modification with other SQL feature to build up more complex queries.
+
+. . .
+
+For instance, in our running example a query to increase by 10% every measurement which is below the mean, unless it is of temperature would be
+
+
+```{.sql code-line-numbers="1|2|3"}
+UPDATE Survey
+SET reading = reading * 1.1
+WHERE reading < avg(reading) AND quant != "temp" 
+```
+
+## Other SQL features
+
+SQL offers more functionality, such as:
+
+- Basic arithmetic and computations.
+- Built-in functions for working with dates and other data types (depending on the RDBMS).
+- Syntax for creating tables and altering their schema.
+- Syntax for specifying constraints and dependencies.
+
+. . .
+
+More complex operations can be completed by "combining" SQL with a programming language.
+
+```{python}
+#| output: false
+connection.close()
+```
+
+## Benefits of relational databases
+
+Relational databases were practically the standard until recently. They offer:
+
+- A shared way of using them (the core of SQL is the same despite variations in different RDBMSs).
+- Guarantees about the integrity of the data.
+- Stability and a large community of experienced users.
+- Decades of theoretical research and performance optimisations.
+
+## Interacting with databases
+
+There are different ways we can connect to a relational database, read and modify its contents. These include:
+
+. . .
+
+::: {.compressed-list}
+- Running the RDBMS application directly and issuing SQL commands from there.
+- For many programming languages, using a library to connect and run queries (like `sqlite3` in the examples).
+- Depending on the RDBMS, it may be possible to store a copy of the database into a file and then reload it.
+- Libraries like `pandas` also allow reading database tables and running queries.
+:::
+
+## Example: loading a table with `pandas`
+
+For example we can use [the `pandas.read_sql_table` function](https://pandas.pydata.org/docs/reference/api/pandas.read_sql_table.html) to open the `Person` table from our running example database.
+
+```{python}
+#| echo: true
+#| output-location: fragment
+#| code-line-numbers: "1|2|3"
+import pandas as pd
+dataframe = pd.read_sql_table("Person", f"sqlite:///{database_temp_file.name}")
+dataframe.head()
+```
+
+## Non-relational databases
+
+Sometimes the rigid structure of a relational database is restrictive.
+
+. . .
+
+Non-relational or __NoSQL databases__ can store data even when it does not have a consistent structure. 
+
+. . .
+
+This flexibility is useful, for example, when our data comes in various forms, or when we are still gathering it and therefore don't know what the best structure to use will be.
+
+. . .
+
+There are many NoSQL database systems, such as [MongoDB](https://www.mongodb.com/) and [Neo4j](https://neo4j.com/).
+
+## Non-relational databases {.slides-only}
+
+Instead of tables with fixed columns, these databases model their contents in different ways.
+
+. . .
+
+For example, MongoDB treats its contents as documents containing multiple fields. 
+
+. . .
+
+The fields don't need to be the same across documents. 
+
+. . .
+
+This means we can store entries with different types of information in the same database without issue.
+
+## Non-relational databases {.slides-only}
+
+Instead of SQL, each system usually offers its own libraries for accessing a database through a programming language (for example, MongoDB has the [`pymongo`](https://pymongo.readthedocs.io/en/stable/) package for Python, and [similar for other languages](https://docs.mongodb.com/drivers/)).
+
+. . .
+
+_Benefit_: Access can be more intuitive, without needing to learn a new language.
+
+. . .
+
+_Downside_: Systems differ in how they expect users to structure and access their data.
+
+## Comparison
+
+The two approaches are most effective in different situations:
+
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+_SQL_
+
+::: {.compressed-list .nonincremental .no-bullet}
+- [Emphasises data integrity but requires rigid structure.]{.fragment .fade-in-then-semi-out fragment-index=0}
+- [Structure focuses on eliminating duplication and improving performance.]{.fragment .fade-in-then-semi-out fragment-index=1}
+- [Has an established presence and set of tools.]{.fragment .fade-in-then-semi-out fragment-index=2}
+:::
+
+:::
+
+::: {.column width="50%"}
+
+_NoSQL_
+
+::: {.compressed-list .nonincremental .no-bullet}
+- [Offers flexibility but leaves checks up to the user.]{.fragment .fade-in-then-semi-out fragment-index=0}
+- [More concerned with availability & scaling, even if it means replicating data.]{.fragment .fade-in-then-semi-out fragment-index=1}
+- [Systems show more frequent innovation.]{.fragment .fade-in-then-semi-out fragment-index=2}
+:::
+
+:::
+
+:::
+
+## Summary
+
+- Databases provide a principled way for storing, sharing and querying large amounts of data.
+- Relational databases can be queried through SQL.
+- NoSQL databases offer more flexibility at the expense of potentially fewer guarantees on integrity and consistency.

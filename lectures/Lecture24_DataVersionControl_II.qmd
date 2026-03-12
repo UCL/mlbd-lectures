@@ -1,0 +1,491 @@
+---
+title: Data version control II
+lecture-number: 24
+description: Advanced features of DVC
+title-image: "Lecture24_Images/pipeline-example.svg"
+title-image-width: "80%"
+---
+
+## Introduction
+
+::: {.notes}
+We're now in the final lecture for today where we will be continuing to explore data version control. This lecture will be a bit shorter than the other two so there should be time to answer any questions about all of the material today at the end or if you don't have any questions to head off for an earlier lunch.
+
+Specifically in this lecture we will look at some more advanced features of DVC, namely
+
+- How we can access and track files from remote data sources such as cloud storage services.
+- How we use DVC to define the stages of a data pipeline in a way that makes it easily reproducible by both ourselves and others.
+:::
+
+::: {.slides-only}
+This lecture is part of a series on [Data Version control (DVC)](https://dvc.org), 
+a way of systematically keeping track of different versions of models and datasets.
+:::
+
+. . .
+
+::: {.slides-only}
+This second lecture in the series will cover
+
+- Including files from external sources.
+- Automation: creating and rerunning pipelines.
+:::
+
+## Learning outcomes
+
+- Apply different approaches for adding external files to a DVC repository.
+- Understand how pipelines are represented in DVC.
+- Define a DVC pipeline via a YAML file or commands.
+- Explain how DVC reproduces the outputs of pipelines.
+- Use parameters and metrics to control and compare the outputs of DVC pipelines.
+- Compare DVC to other workflow tools such as MLFlow.
+
+## Adding external files
+
+::: {.notes}
+In the last lecture we saw how to use the `dvc add` command to track files that are already in our local repository. In practice however we will often want to include data files that are already available in an external repository or remote storage service.
+
+There are several different commands available in DVC for working with external files
+
+- We have already seen `dvc get` which allows us to download a file from a remote DVC or Git repository.
+- `dvc import` allows to reuse a file from a remote repository, both downloading the file and setting up tracking including specifying the remote source of the file to allow checking if it has been updated there in future.
+- There are also variants of these two commands `dvc get-url` and `dvc import-url` that allow us to work with more general, non-Git based, remote storage services such as files accessible directly using hypertext transfer protocol (HTTP) or on cloud storage services.
+:::
+
+::: {.slides-only}
+We have seen how we can track our own files with `dvc add`. But what if we want to include data or other files that are already available?
+:::
+
+. . .
+
+::: {.slides-only}
+DVC offers different options:
+
+- `dvc get` to download a file from a DVC or Git repository.
+- `dvc import` to reuse (download and track) a file from a DVC or Git repository.
+- `dvc get-url` and `dvc import-url` to download or reuse a file from general remote storage.
+:::
+
+## Adding external files {.slides-only}
+
+::: {.notes}
+The `get` and `import` commands are similar and easy to confuse, but the key point is `import` also sets up tracking from the remote repository, and so if a data file we need is already under a remote repository, should be generally preferred. If the file is subsequently updated in the remote repository we can bring these changes in locally using the `dvc update` command.
+
+The `get-url` and `import-url` variants allow us the flexibility of working with non-Git based storage, with there built in support for a range of protocols and providers and an extensible interface for working with additional unsupported providers.
+:::
+
+::: {.slides-only}
+The [`get`](https://dvc.org/doc/command-reference/get) and [`import`](https://dvc.org/doc/command-reference/import) commands are similar. 
+:::
+
+. . .
+
+::: {.slides-only}
+The difference is that the latter also links to the original file and tracks its history. 
+:::
+
+. . .
+
+::: {.slides-only}
+Therefore, if an update is made to the original repository later on, we can get the changes to our copy (see [`dvc update`](https://dvc.org/doc/command-reference/update)).
+:::
+
+. . .
+
+::: {.slides-only}
+The [`get-url`](https://dvc.org/doc/command-reference/get-url) and [`import-url`](https://dvc.org/doc/command-reference/import-url) variants are useful when the original data is not already in a repository. They can handle different storage protocols and providers.
+:::
+
+## Creating pipelines
+
+::: {.notes}
+While the ability to track potentially large datasets with DVC is useful, its power becomes more apparent in its support for working with data pipelines. Pipelines are a first class construct in DVC and let us think in terms of data flows and the dependencies between files rather than the individual files themselves.
+
+DVC allows us to in a very generic way
+
+- Defines the stages of a data pipeline.
+- Infer the graph of dependencies between the pipeline stages.
+- Reproducibly run a whole pipeline, or if we make changes to only some dependencies only the parts of the pipeline that need to be rerun, which can be a major efficiency gain for computationally intensive pipelines.
+:::
+
+::: {.slides-only}
+One of the core benefits of using a data-focused version control system is that we can structure our work around data flows, not individual files.
+:::
+
+. . .
+
+::: {.slides-only}
+With DVC, we can
+
+- specify each stage of a pipeline,
+- infer the connections between them,
+- run a whole pipeline or only the parts required.
+:::
+
+## Pipeline example {.nostretch}
+
+::: {.notes}
+We will consider a toy example here of a data pipeline for performing a logistic regression on a comma separated value formatted dataset. You can find a [toy implementation](https://github.com/ucl/dvc-example-pipeline) of it on GitHub. We will assume the covariates in the dataset are high-dimensional and so we perform an initial dimensionality reduction step using principle components analysis to produce reduced dimensionality features. The reduced dimensionality features and associated target labels are then used to train a logistic regression classification model, before the model is serialized to a file in pickle format for sharing.
+:::
+
+::: {.slides-only}
+Let's consider an example data pipeline - you can find a [toy implementation](https://github.com/ucl/dvc-example-pipeline) of it on GitHub
+:::
+
+<img alt="Image of a data pipeline with a set of samples undergoing PCA and logistic regression. Each step is represented as a box with arrows linking them." src="Lecture24_Images/pipeline-example.svg" width="100%" />
+
+. . .
+
+Start with a labelled set of samples in a file `samples.csv`.
+
+. . .
+
+First step is to run `reduce_dim.py`. This reads the inputs, performs _principle component analysis_ (PCA) to reduce their dimensionality and outputs to a file `reduced.csv`.
+
+. . .
+
+Running `log_reg.py` then trains a logistic regression classifier on the reduced dataset, serializes the trained model and outputs it in Pickle format to a file `classifier.pkl`.
+
+## Representing a pipeline
+
+::: {.notes}
+In DVC a pipeline is defined as a collection of steps or stages, each with a set of input dependencies, and one or more outputs. The dependencies between stages are inferred from them having mutually shared outputs and inputs.
+
+Pipeline stages can additionally have parameters that control the behaviour of the stage, and which typically represent variables we will want to investigate varying to explore their effect on performance.
+:::
+
+::: {.slides-only}
+DVC sees pipelines as collections of steps. Each step has some inputs or __dependencies__ and produces __outputs__. The different stages are linked to each other through these.
+:::
+
+. . .
+
+::: {.slides-only}
+Furthermore, a pipeline can have one or more __parameters__ that control its stages and customize their behaviour.
+:::
+
+## `dvc.yaml` files
+
+::: {.notes}
+As we build up the definition of a pipeline, DVC stores the description in a structured format in a `dvc.yaml` file. The toy example we just introduced might have a `dvc.yaml` file with something like the following content.
+:::
+
+::: {.slides-only}
+DVC defines pipelines in a structured file `dvc.yaml` written in the YAML format. The previous example could be defined by:
+:::
+
+```yaml
+stages:
+  pca:
+    cmd: python reduce_dim.py
+    deps:
+      - reduce_dim.py
+      - samples.csv
+    params:
+      - total_var
+    outs:
+      - reduced.csv 
+  classification:
+    cmd: python log_reg.py
+    deps:
+      - log_reg.py
+      - reduced.csv
+    outs:
+      - classifier.pkl
+```
+
+## `dvc.yaml` files {.slides-only}
+
+::: {.notes}
+The format is relatively human readable - under the `stages` key we have a set of pipeline stages, keyed by their stage names. Each pipeline stage species the command to run, a list of file dependencies for the stage, a list of outputs for the stage and optionally any parameters that control the stage.
+
+An important point is that the code used to run the stage should be considered a dependency of the stage as well as any data inputs as if the code changes we want to know to re-run the stage.
+:::
+
+::: {.slides-only}
+Every step has its own section, appropriately named (`pca`, `classification`). Each section specification has:
+
+:::: {.compressed-list}
+- the command to run that step (`cmd`),
+- a list of dependencies (`deps`) which feed into the step,
+- a list of outputs (`outs`) that the step produces,
+- a list of parameters (`params`) that control that step.
+::::
+:::
+
+. . .
+
+::: {.slides-only}
+Note that the dependencies include the code itself, as well as any input files!
+:::
+
+## DVC parameters
+
+::: {.notes}
+The actual parameter values are stored in a dedicated file, by default a YAML file `params.yaml` though it is possible to use different formats such as JSON.
+
+Here we have just one parameter which controls the total variance to be explained by the chosen number of principle components in the dimension reduction stage.
+:::
+
+::: {.slides-only}
+The parameters are stored in a separate file. By default this is called `params.yaml` but other formats are allowed.
+:::
+
+. . .
+
+::: {.slides-only}
+In our example, the file needs to contain one parameter (the total variance explained by the chosen PCA dimensions):
+:::
+
+```yaml
+total_var: 0.9
+```
+
+## Creating steps
+
+::: {.notes}
+While we can directly create a `dvc.yaml` file specifying the stages of a pipeline, in practice we will often add the steps sequentially as we build up a workflow, and DVC has commands available to add pipeline stages from the command line.
+
+In particular [the `dvc stage add` command](https://dvc.org/doc/command-reference/stage/add) command allows use to specify the properties of a stage to be added, with command options specifying the stage name, dependencies, parameters, outputs and command to run the stage.
+:::
+
+::: {.slides-only}
+Rather than write the above `dvc.yaml` file all at once, we can add the steps in order and let DVC create the file.
+:::
+
+. . .
+
+::: {.slides-only}
+To do this, we need to tell it how to execute each step, by using [the `dvc stage add` command](https://dvc.org/doc/command-reference/stage/add) at the terminal:
+:::
+
+```bash
+dvc stage add \
+    -n pca \
+    -d reduce_dim.py -d samples.csv \
+    -p total_var \
+    -o reduced.csv \
+    python reduce_dim.py
+```
+
+## Creating steps {.slides-only}
+
+The properties of the stage are given in the command options:
+
+- `-n`: name of the step,
+- `-d`: dependencies,
+- `-p`: parameters,
+- `-o`: outputs,
+- finally, the command to run.
+
+## Reproducing a pipeline
+
+::: {.notes}
+Once we have defined a pipeline in DVC we can use the `dvc repro` command to run the pipeline stages.
+
+Commonly it will be the case that we do not need to run all the steps in a pipeline. For instance, if we change only the `log_reg.py` script used to fit the model since we last ran the pipeline then the output of the previous dimension reduction stage would be unaffected by this change and so not need to rerun.
+
+Conversely if we update the input `samples.csv` data file then initial dimension reduction step would need to be re-run as well as all stages that depend directly or indirectly on outputs of it.
+
+Importantly, DVC automates this process of considering the dependencies between pipeline stages and only running the stages that are effected by changes when we execute `dvc repro`, which for larger and more complex pipelines can be a significant efficiency saving.
+:::
+
+::: {.slides-only}
+We can run the pipeline stages using the command `dvc repro`.
+:::
+
+. . .
+
+::: {.slides-only}
+Often, running all stages will be redundant. For example, if we have only made changes to the `log_reg.py` file since the last time we ran the pipeline, then the previous step is unaffected and does not need to be rerun. 
+:::
+
+. . .
+
+::: {.slides-only}
+However, if we had updated the samples file or modified the parameter controlling the PCA step, then that step would need to be rerun, as well as all steps downstream of it.
+:::
+
+. . .
+
+::: {.slides-only}
+By tracking changes to files and using the pipeline structure, DVC can infer which steps have changed and only run those.
+:::
+
+## Metrics and outputs
+
+::: {.notes}
+In addition to its support for data pipelines, DVC also offers the ability to compare and track the performance of models as changes are made to them, by defining the performance metrics of interest.
+
+For our toy logistic regression example, we might for example have an additional stage which scores our trained classifier model with its precision and are under the receiver operator characteristic curve, outputting the computed metrics to a file `scores.json`.
+:::
+
+::: {.slides-only}
+DVC also allows us to compare the performance of our models as we make changes to them. 
+:::
+
+. . .
+
+::: {.slides-only}
+We do this by declaring __metrics__ as part of a pipeline.
+:::
+
+. . .
+
+::: {.slides-only}
+In the our example, let's assume we have an additional script `evaluate.py` which evaluates our trained classifier and stores the results in a file `scores.json`. 
+:::
+
+. . .
+
+::: {.slides-only}
+If we compute two performance metrics, the precision and the area under the ROC curve, the results may look like:
+:::
+
+```json
+{ "precision": 0.63, "roc_auc": 0.85 }
+```
+
+## Metrics and outputs {.slides-only}
+
+::: {.notes}
+We can indicate that a stage produces performance metrics using the `metrics` key in the `dvc.yaml` file or using the `-m` option when specifying a stage using `dvc stage add`.
+
+A pipeline with this additional evaluation stage would now additionally produce the `scores.json` file when run with `dvc repro`.
+:::
+
+::: {.slides-only}
+We can record this by expanding the pipeline description with an extra step, like this:
+:::
+
+```yaml
+stages:
+  (...as above...)
+  evaluation:
+    cmd: python evaluate.py
+    deps:
+      - evaluate.py
+      - classifier.pkl
+    outs:
+      - scores.json
+metrics:
+  - scores.json
+```
+
+## Metrics and outputs {.slides-only}
+
+::: {.notes}
+Importantly as well as outputting the metrics, compared to standard stage outputs, DVC allows use to use the metrics to compare the runs of the pipeline, for example across different parameter values or versions.
+
+For example if we change the `total_var` parameter in the `parameters.yaml` file, DVC will identify the parameter has been changed. We can see the change by for example running `dvc params diff` .
+:::
+
+::: {.slides-only}
+Running the whole pipeline with `dvc repro` will now also produce the file with the scores.
+:::
+
+. . .
+
+::: {.slides-only}
+Let's make a change to the parameters file, e.g. to increase `total_var` to 0.95.
+:::
+
+. . .
+
+::: {.slides-only}
+DVC will notice this and can show us the difference if we run `dvc params diff`:
+:::
+
+```
+Path         Param          Old    New
+params.yaml  total_var      0.9    0.95
+```
+
+## Metrics and outputs {.slides-only}
+
+::: {.notes}
+If we re-run the pipeline we can also compare the effect on the performance metrics using the `dvc metrics diff` command which will output the changes in the performance metrics.
+:::
+
+::: {.slides-only}
+We can also easily inspect what effect this has on the performance metrics. 
+:::
+
+. . .
+
+::: {.slides-only}
+If we run the pipeline again, then `dvc metrics diff` will show us how the metrics have changed:
+:::
+
+```
+Path         Metric     Old     New      Change
+scores.json  precision  0.63    0.65     0.02
+scores.json  roc_auc    0.85    0.91     0.06
+```
+
+. . .
+
+::: {.notes}
+This allows us to iteratively try out different values for parameters and easily see the effect it has on performance metrics, and importantly allows us to easily track these changes to allow us to go back to promising parameter values later.
+:::
+
+::: {.slides-only}
+In two commands, we can run a whole series of steps and inspect the results - in this case, see that changing how we choose features after PCA has improved performance.
+:::
+
+## Other DVC features
+
+::: {.notes}
+That concludes our brief tour of DVC. We have only covered a subset of the features DVC offers here, with for example it additionally offering
+
+- Support for automatically producing plots of metrics.
+- An experiment management system for systematically tracking the results of different pipeline runs and presenting them cleanly.
+- The ability to push the repository to remote hosts.
+- A programmatic Python API that allows us to directly use DVC within our Python code.
+:::
+
+::: {.slides-only}
+- __Automated plots__ for metrics.
+- __Experiments__ collect different runs and present them cleanly.
+- __Pushing__ to remote storage, for backups and sharing.
+- __Python API__ lets us call DVC functionality from a program (e.g. add a new file).
+:::
+
+## MLflow
+
+::: {.notes}
+While we have concentrated on DVC here, there are a range of other MLOps tools which offer overlapping features. One package of note is [MLflow](https://mlflow.org/) which also offers the ability for tracking and reproducing machine learning workflows. Unlike DVC it is typically used directly within the code defining the pipeline, and is more specific to Python workflows, offering tight integrations with a number of frameworks such as Tensorflow and Pytorch. Compared to DVC it offers some additional features such as a visual web based interface for live monitoring of the progress of experiments.
+:::
+
+::: {.slides-only}
+[MLflow](https://mlflow.org/) is a tool for tracking and rerunning machine learning workflows. 
+:::
+
+. . .
+
+::: {.slides-only}
+It is similar to DVC but is controlled programatically rather than the command line, and is primarily focused on Python workflows. It provides:
+
+:::: {.compressed-list}
+- Tracking of code, data files, parameter configurations, environment, results.
+- (Re)running code locally or remotely.
+- Visual interface for monitoring progress.
+- Integrations with specific toolchains and frameworks, e.g. Tensorflow.
+::::
+:::
+
+## Summary
+
+::: {.notes}
+In this last lecture we have explored
+
+- DVC's support for loading and tracking files from remote repositories and storage services.
+- How we can use DVC to programmatically define the stages of a data pipeline and allow us to easily reproduce pipeline outputs.
+- DVC's support for comparing how pipelines perform on different metrics as we vary parameter values.
+:::
+
+::: {.slides-only}
+- DVC supports including data and files from other projects, from a variety of sources.
+- Combining steps in pipelines makes it simpler to rerun analyses without manual intervention.
+- Apart from files, DVC can also track metrics and automatically present the effect of changes.
+:::
