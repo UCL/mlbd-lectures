@@ -31,11 +31,11 @@ This second lecture in the series will cover
 
 ## Learning outcomes
 
-- Apply different approaches for adding external files to a DVC repository.
-- Understand how pipelines are represented in DVC.
+- Apply different approaches for __adding external files__ to a DVC repository.
+- Understand how __pipelines__ are represented in DVC.
 - Define a DVC pipeline via a YAML file or commands.
-- Explain how DVC reproduces the outputs of pipelines.
-- Use parameters and metrics to control and compare the outputs of DVC pipelines.
+- Explain how DVC __reproduces the outputs__ of pipelines.
+- Use parameters and metrics to __control__ and __compare__ the outputs of DVC pipelines.
 - Compare DVC to other workflow tools such as MLFlow.
 
 ## Adding external files

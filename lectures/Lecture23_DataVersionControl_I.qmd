@@ -36,10 +36,10 @@ This first lecture in the series will cover:
 
 ## Learning outcomes
 
-- Recognize the need for version control when working with code and data files.
-- Explain how version control systems like Git track changes.
-- Compare the use of Git and DVC for working with data files.
-- Apply DVC to track changes to data files.
+- Recognize the __need for version control__ when working with code and data files.
+- Explain how version control systems like Git __track changes__.
+- Compare the use of Git and DVC for __working with data files__.
+- __Apply DVC__ to track changes to data files.
 
 ## Why do we need version control?
 
@@ -389,7 +389,7 @@ ls -lh data
 . . .
 
 ::: {.slides-only}
-The original data takes up 14MB, while the proxy file is only 80 bytes long.
+The original data takes up 14MB, while the proxy file is only ~100 bytes long.
 :::
 
 ## Making changes
@@ -559,15 +559,15 @@ ls -lh data
 ## Summary
 
 ::: {.notes}
-That concludes our overview of the how to use DVC to track changes to data files and switch between versions of those files. In the following lecture we will build on this by illustrating some more advanced features of DVC which allow us to track changes to models and whole data pipelines.
+That concludes our overview of the how to use Git and DVC to track changes to data files and switch between versions of those files. In the following lecture we will build on this by illustrating some more advanced features of DVC which allow us to track changes to models and whole data pipelines.
 :::
 
 ::: {.slides-only}
-This has been the basic usage of DVC to track and revert changes to a file. 
+In this lecture we have covered has been the basic usage of Git and DVC to __track and revert changes__ to a file. 
 :::
 
 . . .
 
 ::: {.slides-only}
-Building on this, in the next lecture we will see how DVC can be used to track models and entire machine learning workflows.
+Building on this, in the next lecture we will see how DVC can be used to track __models__ and entire machine learning __workflows__.
 :::

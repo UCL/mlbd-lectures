@@ -37,7 +37,7 @@ we will look at tools and ways of working that address questions like:
 . . .
 
 ::: {.slides-only}
-Begin by looking at broader picture of how we handle data
+We'll begin with the broader picture of how we handle data.
 :::
 
 ## Learning outcomes
@@ -128,7 +128,7 @@ Commonly the first step in any data science project will be to get hold of the d
 :::
 
 ::: {.slides-only}
-If we haven't collected the data ourselves, we will first need to access it! This can be done in a number of ways. For example:
+If we haven't collected the data ourselves, we will first need to access it. This can be done in a number of ways. For example:
 
 - A colleague gives us a file.
 - We connect to a web service that produces the data.
