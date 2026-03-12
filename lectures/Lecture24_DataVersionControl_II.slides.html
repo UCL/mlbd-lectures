@@ -223,8 +223,7 @@
 <section id="introduction" class="slide level2">
 <h2>Introduction</h2>
 <aside class="notes">
-<p>We’re now in the final lecture for today where we will be continuing to explore data version control. This lecture will be a bit shorter than the other two so there should be time to answer any questions about all of the material today at the end or if you don’t have any questions to head off for an earlier lunch.</p>
-<p>Specifically in this lecture we will look at some more advanced features of DVC, namely</p>
+<p>In this lecture we will be continuing to explore data version control. Specifically in this lecture we will look at some more advanced features of DVC, namely</p>
 <ul>
 <li>How we can access and track files from remote data sources such as cloud storage services.</li>
 <li>How we use DVC to define the stages of a data pipeline in a way that makes it easily reproducible by both ourselves and others.</li>
@@ -302,8 +301,8 @@
 <section id="adding-external-files-1" class="slide level2 slides-only">
 <h2>Adding external files</h2>
 <aside class="notes">
-<p>The <code>get</code> and <code>import</code> commands are similar and easy to confuse, but the key point is <code>import</code> also sets up tracking from the remote repository, and so if a data file we need is already under a remote repository, should be generally preferred. If the file is subsequently updated in the remote repository we can bring these changes in locally using the <code>dvc update</code> command.</p>
-<p>The <code>get-url</code> and <code>import-url</code> variants allow us the flexibility of working with non-Git based storage, with there built in support for a range of protocols and providers and an extensible interface for working with additional unsupported providers.</p>
+<p>The <a href="https://dvc.org/doc/command-reference/get"><code>get</code></a> and <a href="https://dvc.org/doc/command-reference/import"><code>import</code></a> commands are similar and easy to confuse, but the key point is <code>import</code> also sets up tracking from the remote repository, and so if a data file we need is already under a remote repository, should be generally preferred. If the file is subsequently updated in the remote repository we can bring these changes in locally using the <a href="https://dvc.org/doc/command-reference/update"><code>dvc update</code></a> command.</p>
+<p>The []<code>get-url</code>](https://dvc.org/doc/command-reference/get-url) and <a href="https://dvc.org/doc/command-reference/import-url"><code>import-url</code></a> variants allow us the flexibility of working with non-Git based storage, with there built in support for a range of protocols and providers and an extensible interface for working with additional unsupported providers.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -338,11 +337,11 @@
 <h2>Creating pipelines</h2>
 <aside class="notes">
 <p>While the ability to track potentially large datasets with DVC is useful, its power becomes more apparent in its support for working with data pipelines. Pipelines are a first class construct in DVC and let us think in terms of data flows and the dependencies between files rather than the individual files themselves.</p>
-<p>DVC allows us to in a very generic way</p>
+<p>DVC allows us to in a very generic way:</p>
 <ul>
-<li>Defines the stages of a data pipeline.</li>
-<li>Infer the graph of dependencies between the pipeline stages.</li>
-<li>Reproducibly run a whole pipeline, or if we make changes to only some dependencies only the parts of the pipeline that need to be rerun, which can be a major efficiency gain for computationally intensive pipelines.</li>
+<li>defines the stages of a data pipeline,</li>
+<li>infer the graph of dependencies between the pipeline stages,</li>
+<li>reproducibly run a whole pipeline, or if we make changes to only some dependencies only the parts of the pipeline that need to be rerun, which can be a major efficiency gain for computationally intensive pipelines.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -401,8 +400,8 @@
 <section id="representing-a-pipeline" class="slide level2">
 <h2>Representing a pipeline</h2>
 <aside class="notes">
-<p>In DVC a pipeline is defined as a collection of steps or stages, each with a set of input dependencies, and one or more outputs. The dependencies between stages are inferred from them having mutually shared outputs and inputs.</p>
-<p>Pipeline stages can additionally have parameters that control the behaviour of the stage, and which typically represent variables we will want to investigate varying to explore their effect on performance.</p>
+<p>In DVC a pipeline is defined as a collection of steps or stages, each with a set of input <strong>dependencies</strong>, and one or more <strong>outputs</strong>. The dependencies between stages are inferred from them having mutually shared outputs and inputs.</p>
+<p>Pipeline stages can additionally have <strong>parameters</strong> that control the behaviour of the stage, and which typically represent variables we will want to investigate varying to explore their effect on performance.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -463,7 +462,7 @@
 <h2><code>dvc.yaml</code> files</h2>
 <aside class="notes">
 <p>The format is relatively human readable - under the <code>stages</code> key we have a set of pipeline stages, keyed by their stage names. Each pipeline stage species the command to run, a list of file dependencies for the stage, a list of outputs for the stage and optionally any parameters that control the stage.</p>
-<p>An important point is that the code used to run the stage should be considered a dependency of the stage as well as any data inputs as if the code changes we want to know to re-run the stage.</p>
+<p>An important point is that <em>the code used to run the stage should be considered a dependency of the stage</em> as well as any data inputs as if the code changes we want to know to re-run the stage.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -806,7 +805,7 @@ scores.json  roc_auc    0.85    0.91     0.06</code></pre>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
 <aside class="notes">
-<p>In this last lecture we have explored</p>
+<p>In this lecture we have explored:</p>
 <ul>
 <li>DVC’s support for loading and tracking files from remote repositories and storage services.</li>
 <li>How we can use DVC to programmatically define the stages of a data pipeline and allow us to easily reproduce pipeline outputs.</li>

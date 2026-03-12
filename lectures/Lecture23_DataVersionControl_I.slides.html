@@ -328,7 +328,7 @@
 <section id="tracking-changes" class="slide level2 nostretch" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Tracking changes</h2>
 <aside class="notes">
-<p>A central concept in Git is that of a commit, which as mentioned earlier corresponds to a checkpoint of the state of the files we are tracking. Every commit is associated with a unique hexadecimal string ID or hash, which identifies the specific changes made to the files, when the changes were made and who made them. As well as the machine-oriented identifier, we will typically also associate each commit with a human readable commit message which summarizes the changes made. To help visualize how Git tracks changes we represent each commit as a node in a graph.</p>
+<p>A central concept in Git is that of a commit, which as mentioned earlier corresponds to a checkpoint of the state of the files we are tracking. Every commit is associated with a unique hexadecimal string identifier or hash, which identifies the specific changes made to the files, when the changes were made and who made them. As well as the machine-oriented identifier, we will typically also associate each commit with a human readable commit message which summarizes the changes made. To help visualize how Git tracks changes we represent each commit as a node in a graph.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -448,7 +448,7 @@
 <section id="why-data-version-control" class="slide level2">
 <h2>Why data version control?</h2>
 <aside class="notes">
-<p>Now that we understand better what what standard version control systems do, we can get back to the specific topic of interest, that is data version control. Data science related projects and workflows experience very similar needs in this regards to other situations where we might use version control. Very commonly we will regularly make mistakes or revisit our assumptions and so want to go back to earlier versions of files. Often we also have new data becoming available over time, meaning we want to record updates to our models. As we mentioned previously most data workflows are also very exploratory and iterative in nature with we wanting to investigate the performance of different variants of models - for example different parameter values or choices of model class or algorithm, or adding or removing stages from our overall data pipeline such as pre-processing steps.</p>
+<p>Now that we understand better what what standard version control systems do, we can get back to the specific topic of interest, that is data version control. Data science related projects and workflows experience similar needs in this regards to other situations where we might use version control. Very commonly we will regularly make mistakes or revisit our assumptions and so want to go back to earlier versions of files. Often we also have new data becoming available over time, meaning we want to record updates to our models. As we mentioned previously most data workflows are also exploratory and iterative in nature with we wanting to investigate the performance of different variants of models - for example different parameter values or choices of model class or algorithm, or adding or removing stages from our overall data pipeline such as pre-processing steps.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -474,7 +474,7 @@
 <aside class="notes">
 <p>While Git is most commonly applied to tracking changes in the source code for software projects, it can actually be used to track changes to any set of files, and so can equally be applied to data and model artefacts generated during a data science project as well as the associated code.</p>
 <p>However, while Git can be used to track such files, there are some pitfalls which suggest a more bespoke solution such as DVC can be helpful.</p>
-<p>One key issue is that Git is primarily targeted at text based files, and its approach for storing commits and displaying changes across files does not scale well to large files particularly those with binary formats such as images and videos, were even a perceptually small change can lead to significant bit level differences between files. In contrast DVC has an efficient system for dealing with tracking large files such as datasets.</p>
+<p>One key issue is that Git is primarily targeted at text based files, and its approach for storing commits and displaying changes across files does not scale well to large files particularly those with binary formats such as images and videos, where even a perceptually small change can lead to significant bit level differences between files. In contrast DVC has an efficient system for dealing with tracking large files such as datasets.</p>
 <p>Being generic in nature, Git also does not have built-in support for data science specific abstractions such data pipelines, parameters and performance metrics, while these all have first-class support in DVC, with useful functionality provided to allow automating pipelines and ensuring reproducibility.</p>
 <p>DVC also offers tight integration with a variety of remote data providers, such as cloud storage services like Amazon Web Services Simple Storage Service.</p>
 <p>While DVC offers several advantages over using Git directly for data workflows, a key point is that it builds on top of Git rather than replacing it, and so can be naturally used in conjunction with Git on a project, allowing for example code and data artefacts to be version controlled in the same repository.</p>
@@ -503,8 +503,8 @@
 <h2>Getting started with DVC</h2>
 <aside class="notes">
 <p>Now that we have seen why we would want to use data version control, we will now run through the basic workflow for using DVC and Git to track changes in a new project.</p>
-<p>Like Git, DVC is a command-line tool and runs across a wide range of platforms. The lecture notes have a link to installation instructions in the DVC documentation for getting set up on a range of systems.</p>
-<p>We will walkthrough of some of the key DVC commands, with this based on the <a href="https://dvc.org/doc/start">official tutorial</a> which you can revisit in full after the lectures if you want to learn more.</p>
+<p>Like Git, DVC is a command-line tool and runs across a wide range of platforms. <a href="https://dvc.org/doc/install">The installation instructions in the DVC documentation</a> detail how to get set up on a range of systems.</p>
+<p>We will walkthrough of some of the key DVC commands, with this based on an <a href="https://dvc.org/doc/start">official DVC tutorial</a> which you can revisit in full after the lectures if you want to learn more.</p>
 <p>To ensure the commands we run here don’t affect any other files on your system, we will first create a new directory called <code>dvc-example</code> to run the tutorial commands in, and change this to be the current working directory. In a bash shell we can use the <code>mkdir</code> and <code>cd</code> commands to do this.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -547,7 +547,9 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<div class="slides-only">
 <p>First, initialize your directory as a DVC (and Git) repository to allow tracking changes:</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a></a><span class="fu">git</span> init</span>
 <span id="cb2-2"><a></a><span class="ex">dvc</span> init</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -567,7 +569,7 @@ hint:
 hint:   git branch -m &lt;name&gt;
 hint:
 hint: Disable this message with "git config set advice.defaultBranchName false"
-Initialized empty Git repository in /tmp/RtmpwbgIZu/dvc-example-38b672b736f7/.git/
+Initialized empty Git repository in /tmp/RtmpwkccWh/dvc-example-1ff376898948/.git/
 Initialized DVC repository.
 
 You can now commit the changes to git.
@@ -604,13 +606,15 @@ What's next?
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<div class="slides-only">
 <p>After the above, DVC creates some new files and gives a hint about what to run: <em>You can now commit the changes to git.</em></p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Initial setup"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>[master (root-commit) 5358c92] Initial setup
+<pre><code>[master (root-commit) bf2f1c9] Initial setup
  3 files changed, 6 insertions(+)
  create mode 100644 .dvc/.gitignore
  create mode 100644 .dvc/config
@@ -634,7 +638,9 @@ What's next?
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<div class="slides-only">
 <p>Download a sample data file by running</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a></a><span class="ex">dvc</span> get https://github.com/iterative/dataset-registry <span class="dt">\</span></span>
 <span id="cb6-2"><a></a>    get-started/data.xml <span class="at">-o</span> data/data.xml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -683,7 +689,7 @@ What's next?
 <pre><code>
 To track the changes with git, run:
 
-    git add data/data.xml.dvc data/.gitignore
+    git add data/.gitignore data/data.xml.dvc
 
 To enable auto staging, run:
 
@@ -724,14 +730,16 @@ To enable auto staging, run:
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<div class="slides-only">
 <p>Run the command it suggests, and then commit:</p>
+</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a></a><span class="fu">git</span> add data/data.xml.dvc data/.gitignore</span>
 <span id="cb11-2"><a></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add initial version of dataset"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
-<pre><code>[master 8c4b367] Add initial version of dataset
+<pre><code>[master fa3b446] Add initial version of dataset
  2 files changed, 6 insertions(+)
  create mode 100644 data/.gitignore
  create mode 100644 data/data.xml.dvc</code></pre>
@@ -796,8 +804,8 @@ To enable auto staging, run:
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>total 14M
--rw-r--r-- 1 runner runner 14M Mar 12 19:11 data.xml
--rw-r--r-- 1 runner runner  92 Mar 12 19:11 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 14M Mar 12 21:38 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 21:38 data.xml.dvc</code></pre>
 </div>
 </div>
 <div class="fragment">
@@ -854,8 +862,8 @@ To enable auto staging, run:
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>total 28M
--rw-r--r-- 1 runner runner 28M Mar 12 19:11 data.xml
--rw-r--r-- 1 runner runner  92 Mar 12 19:11 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 28M Mar 12 21:38 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 21:38 data.xml.dvc</code></pre>
 </div>
 </div>
 </div>
@@ -898,7 +906,7 @@ To track the changes with git, run:
 To enable auto staging, run:
 
     dvc config core.autostage true
-[master ba5dce2] Double size of dataset
+[master 4790b45] Double size of dataset
  1 file changed, 2 insertions(+), 2 deletions(-)</code></pre>
 </div>
 </div>
@@ -949,7 +957,7 @@ Or undo this operation with:
 
 Turn off this advice by setting config variable advice.detachedHead to false
 
-HEAD is now at 8c4b367 Add initial version of dataset</code></pre>
+HEAD is now at fa3b446 Add initial version of dataset</code></pre>
 </div>
 </div>
 </div>
@@ -1006,8 +1014,8 @@ HEAD is now at 8c4b367 Add initial version of dataset</code></pre>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>total 14M
--rw-r--r-- 1 runner runner 14M Mar 12 19:11 data.xml
--rw-r--r-- 1 runner runner  92 Mar 12 19:11 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 14M Mar 12 21:38 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 21:38 data.xml.dvc</code></pre>
 </div>
 </div>
 </div>
@@ -1067,8 +1075,8 @@ HEAD is now at 8c4b367 Add initial version of dataset</code></pre>
 <div class="cell fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>total 14M
--rw-r--r-- 1 runner runner 14M Mar 12 19:11 data.xml
--rw-r--r-- 1 runner runner  92 Mar 12 19:11 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 14M Mar 12 21:38 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 21:38 data.xml.dvc</code></pre>
 </div>
 </div>
 </div>
