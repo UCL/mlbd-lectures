@@ -1,0 +1,7 @@
+---
+title: "SPCE0038: Machine Learning with Big Data"
+---
+
+This websites contains the lecture material for the [UCL module _Machine Learning with Big Data_ (SPCE0038)](https://www.ucl.ac.uk/module-catalogue/modules/machine-learning-with-big-data-SPCE0038) delivered by staff from the [Centre for Advanced Research Computing (ARC)](https://www.ucl.ac.uk/advanced-research-computing). The module is led, and the remaining lecture material delivered by, [Daisuke Kawata](https://profiles.ucl.ac.uk/364-daisuke-kawata) and [Nicolas Tessore](https://profiles.ucl.ac.uk/81094-nicolas-tessore), both at the [Department of Space and Climate Physics](https://www.ucl.ac.uk/mathematical-physical-sciences/mssl). [Jason McEwen](http://www.jasonmcewen.org/) previously led the module.
+
+The lectures are currently delivered by [Matt Graham](https://matt-graham.github.io). The lecture slides here are based on those previously written by [Anastasis Georgoulas](https://uk.linkedin.com/in/anastasis-georgoulas-265b12167), who delivered the lectures from 2020-2022. 

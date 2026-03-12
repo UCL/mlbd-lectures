@@ -1,0 +1,28 @@
+project:
+  type: website
+  output-dir: _output
+
+website:
+  title: "SPCE0038: Machine Learning with Big Data"
+  navbar:
+    left:
+      - text: Home
+        href: index.qmd
+      - text: Lectures
+        href: lectures.qmd
+  sidebar:
+    - title: Lectures
+      style: docked
+      contents: lectures/*.qmd
+  page-footer:
+    left: © 2026. This work is openly licensed via [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+    
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    toc: true
+
+license: "CC BY-SA"

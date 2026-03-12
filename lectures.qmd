@@ -1,0 +1,8 @@
+---
+title: Lectures
+listing:
+  contents: "lectures/Lecture*.qmd"
+  type: default
+---
+
+The links below will take you to the notes for each lecture. The lecture slides (in [revealjs](https://revealjs.com/) format) and a [Jupyter notebook](https://jupyter.org/) version which can be run locally, can be accessed from the sidebar.
