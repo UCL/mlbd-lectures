@@ -1,0 +1,39 @@
+.reveal .slide-logo {
+  height: 126px !important;
+  width: 240px !important;
+  max-width: unset !important;
+  max-height: unset !important;
+}
+
+.reveal .quarto-figure {
+  margin-bottom: 0;
+}
+
+.reveal .quarto-layout-panel {
+  margin-bottom: 0;
+}
+
+.reveal .slides section .compressed-list li {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.reveal .slides section .no-bullet li {
+  list-style-type: none;
+}
+
+.top-align div.fragment {
+  margin-top: 0;
+}
+
+.dataframe {
+  font-size: 70%;
+}
+
+.cell-output strong {
+  font-size: 70%;
+}
+
+.reveal pre {
+  font-size: .53em;
+}

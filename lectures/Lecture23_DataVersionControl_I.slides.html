@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.27">
+
+  <meta name="author" content="Matt Graham">
+  <meta name="author" content="Anastasis Georgoulas">
+  <title>SPCE0038: Machine Learning with Big Data – Data version control I</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-534cd8e3a96973385dffff3f4709048d.css">
+  <link rel="stylesheet" href="styles.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">
+    Lecture 23:
+    Data version control I
+  </h1>
+  <figure>
+    <img src="Lecture23_Images/dvc.svg" width="50%">
+  </figure>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+<a href="https://matt-graham.github.io">Matt Graham</a> <a href="https://orcid.org/0000-0001-9104-7960" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+        <p class="quarto-title-affiliation">
+            Centre for Advanced Research Computing
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+<a href="https://uk.linkedin.com/in/anastasis-georgoulas-265b12167">Anastasis Georgoulas</a> <a href="https://orcid.org/0000-0001-7187-5443" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+</div>
+</div>
+
+</section>
+<section id="introduction" class="slide level2">
+<h2>Introduction</h2>
+<aside class="notes">
+<p>In this second lecture we will introduce a tool called <a href="https://dvc.org">Data Version Control</a>, often shortened to DVC, which can be used to automate some of the tasks involved in accessing data and managing the steps in data pipelines that we encountered in the previous lecture.</p>
+<p>Importantly, as suggested by the name, DVC also provides a systematic way of keeping track of different versions of models and datasets. For data science workflows which are often very iterative and involve lots of going back and forth, training models with different values for hyperparameter and integrating new data that has become available, having an approach for systematically organizing our models and data becomes really important. It can help avoid the common issue for example of not being able to identify the particular model parameters which gave the best performance on some metric, or exactly reproducing all the steps that were used to produce a model output.</p>
+<p>For the current lecture we will cover</p>
+<ul>
+<li>Why using data version control specifically, and version control systems more generally is a good idea.</li>
+<li>How we can use DVC to access and track data files and change between different tracked versions of files.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>This lecture is part of series on <a href="https://dvc.org">Data Version Control (DVC)</a>, a way of systematically keeping track of different versions of models and datasets.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>This first lecture in the series will cover:</p>
+<ul>
+<li class="fragment">Why using DVC is a good idea.</li>
+<li class="fragment">How to track files and move between versions.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="learning-outcomes" class="slide level2">
+<h2>Learning outcomes</h2>
+<ul>
+<li class="fragment">Recognize the need for version control when working with code and data files.</li>
+<li class="fragment">Explain how version control systems like Git track changes.</li>
+<li class="fragment">Compare the use of Git and DVC for working with data files.</li>
+<li class="fragment">Apply DVC to track changes to data files.</li>
+</ul>
+</section>
+<section id="why-do-we-need-version-control" class="slide level2">
+<h2>Why do we need version control?</h2>
+<aside class="notes">
+<p>Before looking at data version control specifically, we will give a bit of an introduction to idea of version control systems in a more general settings. Let’s first consider why we need to use version control in the first place.</p>
+<p>You may have seen this cartoon from PhD Comics by Jorge Cham before, which summarizes very well that using version control can be helpful in a range of contexts, via a situation many of you may have experienced yourself, that is editing a document in response to feedback from for example a supervisor or peer. A common ad-hoc approach used in such setting is to use naming schemes to try to track the different versions of a document. While this may work for a couple of sets of changes, once we start getting beyond this it becomes increasingly difficult to ensure we remain consistent in our naming scheme when tracking versions manually like this. It also is typically difficult to manage diverging sets of revisions of a file due to for example multiple people working on edits to a file and merging these back together.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div style="text-align:center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="http://phdcomics.com/comics/archive/phd101212s.gif" width="400"></p>
+<figcaption>From <a href="http://phdcomics.com/comics/archive.php?comicid=1531">PHD Comics</a></figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="what-is-version-control" class="slide level2">
+<h2>What is version control</h2>
+<aside class="notes">
+<p>Version control provides an alternative systematic approach to this problem.</p>
+<ul>
+<li>Changes to a set of files are tracked by creating distinct checkpoints or <em>commits</em> as we work.</li>
+<li>Importantly the relationship between the commits is recorded allowing us to move backwards and forward through the history of files.</li>
+<li>As well as allow recording linear histories, version control systems will typically allow us to create diverging history where two different sets of changes are made to one set of files, resulting in a <em>branching</em> history. Conversely we can also <em>merge</em> changes from parallel lines of work back together, with systematic approaches for dealing with conflicting changes between files.</li>
+<li>In addition to giving a systematic way of tracking changes, version control systems also ease working collaboratively with other people, typically allowing us to share the entire history of a project and have multiple all making changes to the same set of files.</li>
+</ul>
+<p>There are several different version control systems available, with Git, Subversion and Mercurial all being currently used options. We will concentrate on Git here, with this being the most popular system currently, though a lot of the concepts are shared with other systems.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>Instead of having multiple copies or working on a shared version:</p>
+<ul>
+<li class="fragment"><strong>track changes</strong> in distinct stages (<em>commits</em>) as you work,</li>
+<li class="fragment">move backwards and forwards in history,</li>
+<li class="fragment">explore different alternatives (<em>branches</em>),</li>
+<li class="fragment">share entire history with others.</li>
+</ul>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>Different systems: <strong>Git</strong>, Subversion, Mercurial, …</p>
+</div>
+</div>
+</section>
+<section id="tracking-changes" class="slide level2 nostretch" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Tracking changes</h2>
+<aside class="notes">
+<p>A central concept in Git is that of a commit, which as mentioned earlier corresponds to a checkpoint of the state of the files we are tracking. Every commit is associated with a unique hexadecimal string ID or hash, which identifies the specific changes made to the files, when the changes were made and who made them. As well as the machine-oriented identifier, we will typically also associate each commit with a human readable commit message which summarizes the changes made. To help visualize how Git tracks changes we represent each commit as a node in a graph.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only" style="height: 3em;">
+<p>We start our work with by <em>committing</em> the state of our code or data. Each commit we create is given a unique identifier:</p>
+</div>
+<p><img src="Lecture23_Images/git-one.svg" alt="Diagram of a single commit, represented as a labelled circle" width="16.5%" data-id="commit-graph"></p>
+</section>
+<section id="tracking-changes-1" class="slide level2 nostretch slides-only" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Tracking changes</h2>
+<aside class="notes">
+<p>As we continue making changes to the files, we make further commits, typically each time there is self-contained set of changes we wish to record. Each commit we make directly depends on a previous commit the changes were made from, which we can visualize as as an edge connecting the nodes corresponding to each commit in the graph.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only" style="height: 3em;">
+<p>As we work, we make more commits:</p>
+</div>
+<p><img src="Lecture23_Images/git-two.svg" alt="Diagram of two commits with a link from the first to the second" width="29%" data-id="commit-graph"></p>
+</section>
+<section id="tracking-changes-2" class="slide level2 nostretch slides-only" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Tracking changes</h2>
+<aside class="notes">
+<p>A common occurrence is that after we add a commit that we decide that we want to discard the changes made, for example because we made a mistake.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only" style="height: 3em;">
+<p>Sometimes we make mistakes:</p>
+</div>
+<p><img src="Lecture23_Images/git-wrong.svg" alt="Diagram of three linked commits, where the third is highlighted as wrong" width="41.5%" data-id="commit-graph"></p>
+</section>
+<section id="tracking-changes-3" class="slide level2 nostretch slides-only" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Tracking changes</h2>
+<aside class="notes">
+<p>Git allows us to undo the changes associated with a commit, returning to an earlier point in the commit history, before making different changes and making a new commit.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only" style="height: 3em;">
+<p>After realising the error, we can go back and fix it, replacing it with a new commit:</p>
+</div>
+<p><img alt="Diagram of three commits, where the previous mistake has been replaced with a new, fixed commit" src="Lecture23_Images/git-fixed.svg" width="41.5%" data-id="commit-graph"></p>
+</section>
+<section id="tracking-changes-4" class="slide level2 nostretch slides-only" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Tracking changes</h2>
+<aside class="notes">
+<p>Another common situation is to want to explore parallel lines of development, for example investigating different approaches for solving a problem. Git allows to create a <em>branch</em> from the main line of development. When we create a branch the base commit may the end up being the parent to multiple child commits, represented visually here by the two commit nodes branching off from the base commit, one on the main line of development in blue and second on a separate branch in yellow.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only" style="height: 3em;">
+<p>Often, we want to try out different approaches before we decide on what’s best:</p>
+</div>
+<p><img alt="Diagram of a commit history with two branches" src="Lecture23_Images/git-branch.svg" width="66.5%" data-id="commit-graph"></p>
+</section>
+<section id="tracking-changes-5" class="slide level2 nostretch slides-only" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Tracking changes</h2>
+<aside class="notes">
+<p>With branches we end up with a non-linear commit history, with our commit graph no longer a simple chain of commits. If we decide we want to integrate the changes from a branch into another branch such as our main line of development, we can <em>merge</em> the two branches creating a special type of commit called a <em>merge commit</em> which unlike standard commits has two parent commits. When we merge branches like this, if the changes on the two branches are in conflict with each other we must resolve the conflicts before we can merge, with Git having tools to help automate this process.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only" style="height: 3em;">
+<p>This results in a non-linear history. If we want, we can also merge the two branches:</p>
+</div>
+<p><img alt="Diagram of a commit history where two branches split off and are then rejoined" src="Lecture23_Images/git-merge.svg" width="91.5%" data-id="commit-graph"></p>
+</section>
+<section id="why-data-version-control" class="slide level2">
+<h2>Why data version control?</h2>
+<aside class="notes">
+<p>Now that we understand better what what standard version control systems do, we can get back to the specific topic of interest, that is data version control. Data science related projects and workflows experience very similar needs in this regards to other situations where we might use version control. Very commonly we will regularly make mistakes or revisit our assumptions and so want to go back to earlier versions of files. Often we also have new data becoming available over time, meaning we want to record updates to our models. As we mentioned previously most data workflows are also very exploratory and iterative in nature with we wanting to investigate the performance of different variants of models - for example different parameter values or choices of model class or algorithm, or adding or removing stages from our overall data pipeline such as pre-processing steps.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>Similar principles apply to data workflows as to code:</p>
+<ul>
+<li class="fragment">Mistakes happen!</li>
+<li class="fragment">New data appearing.</li>
+<li class="fragment">Try variants of model (e.g.&nbsp;algorithm or its parameters) or data pipeline (e.g.&nbsp;preprocessing).</li>
+</ul>
+</div>
+</section>
+<section id="why-data-version-control-1" class="slide level2 slides-only">
+<h2>Why data version control?</h2>
+<aside class="notes">
+<p>While Git is most commonly applied to tracking changes in the source code for software projects, it can actually be used to track changes to any set of files, and so can equally be applied to data and model artefacts generated during a data science project as well as the associated code.</p>
+<p>However, while Git can be used to track such files, there are some pitfalls which suggest a more bespoke solution such as DVC can be helpful.</p>
+<p>One key issue is that Git is primarily targeted at text based files, and its approach for storing commits and displaying changes across files does not scale well to large files particularly those with binary formats such as images and videos, were even a perceptually small change can lead to significant bit level differences between files. In contrast DVC has an efficient system for dealing with tracking large files such as datasets.</p>
+<p>Being generic in nature, Git also does not have built-in support for data science specific abstractions such data pipelines, parameters and performance metrics, while these all have first-class support in DVC, with useful functionality provided to allow automating pipelines and ensuring reproducibility.</p>
+<p>DVC also offers tight integration with a variety of remote data providers, such as cloud storage services like Amazon Web Services Simple Storage Service.</p>
+<p>While DVC offers several advantages over using Git directly for data workflows, a key point is that it builds on top of Git rather than replacing it, and so can be naturally used in conjunction with Git on a project, allowing for example code and data artefacts to be version controlled in the same repository.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>Git is not only for source code files. However, a dedicated data-focused solution is more attractive:</p>
+<ul>
+<li class="fragment">Git does not handle very large files efficiently.</li>
+<li class="fragment">Thinking in terms of data workflows offers new useful functionality, e.g.&nbsp;reproducibility, metrics.</li>
+<li class="fragment">Better integration with remote data providers, e.g.&nbsp;Amazon Web Services S3.</li>
+<li class="fragment">Can still use Git under the hood, keeping code and data versioned simultaneously.</li>
+</ul>
+</div>
+</section>
+<section id="getting-started-with-dvc" class="slide level2">
+<h2>Getting started with DVC</h2>
+<aside class="notes">
+<p>Now that we have seen why we would want to use data version control, we will now run through the basic workflow for using DVC and Git to track changes in a new project.</p>
+<p>Like Git, DVC is a command-line tool and runs across a wide range of platforms. The lecture notes have a link to installation instructions in the DVC documentation for getting set up on a range of systems.</p>
+<p>We will walkthrough of some of the key DVC commands, with this based on the <a href="https://dvc.org/doc/start">official tutorial</a> which you can revisit in full after the lectures if you want to learn more.</p>
+<p>To ensure the commands we run here don’t affect any other files on your system, we will first create a new directory called <code>dvc-example</code> to run the tutorial commands in, and change this to be the current working directory. In a bash shell we can use the <code>mkdir</code> and <code>cd</code> commands to do this.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>DVC is a command-line application that runs on any platform. Follow the <a href="https://dvc.org/doc/install">installation instructions</a> to get it on your computer.</p>
+<p>To follow along, first create a new directory and switch it to be the current working directory by running</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a></a><span class="fu">mkdir</span> dvc-example</span>
+<span id="cb1-2"><a></a><span class="bu">cd</span> dvc-example</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="slides-only">
+<p>in a terminal.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>This walkthrough is based on the <a href="https://dvc.org/doc/start">official tutorial</a>.</p>
+</div>
+</div>
+</section>
+<section id="initializing-project" class="slide level2">
+<h2>Initializing project</h2>
+<aside class="notes">
+<p>The first step to use both Git and DVC with a project is to initialise the directory of interest as a Git and DVC repository to enable us to begin tracking changes. As we will see through this tutorial, as DVC builds on top of Git we will often use pairs of Git and DVC commands together. In this case we first use <code>git init</code> to initialise the directory as a Git repository before running the corresponding DVC command <code>dvc init</code> which performs additional DVC specific initialization.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<p>First, initialize your directory as a DVC (and Git) repository to allow tracking changes:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a></a><span class="fu">git</span> init</span>
+<span id="cb2-2"><a></a><span class="ex">dvc</span> init</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint:   git config --global init.defaultBranch &lt;name&gt;
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint:   git branch -m &lt;name&gt;
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+Initialized empty Git repository in /tmp/RtmpwbgIZu/dvc-example-38b672b736f7/.git/
+Initialized DVC repository.
+
+You can now commit the changes to git.
+
++---------------------------------------------------------------------+
+|                                                                     |
+|        DVC has enabled anonymous aggregate usage analytics.         |
+|     Read the analytics documentation (and how to opt-out) here:     |
+|             &lt;https://dvc.org/doc/user-guide/analytics&gt;              |
+|                                                                     |
++---------------------------------------------------------------------+
+
+What's next?
+------------
+- Check out the documentation: &lt;https://dvc.org/doc&gt;
+- Get help and share ideas: &lt;https://dvc.org/chat&gt;
+- Star us on GitHub: &lt;https://github.com/treeverse/dvc&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="initializing-project-1" class="slide level2 slides-only">
+<h2>Initializing project</h2>
+<aside class="notes">
+<p>The output we get from these commands tells us that DVC has created some new files and gives us a hint that we should now commit these changes using Git, so let’s follow that advice by creating a commit using the <code>git commit</code> command, passing a descriptive commit message as an argument.</p>
+<p>The <code>git commit</code> command outputs a summary of the changes committed, which here tells us three files were added, all with a <code>.dvc</code> prefix. The two files ending with <code>ignore</code> are configuration files telling Git and DVC to ignore certain files matching specified patterns, which can be useful to avoid accidentally tracking files we shouldn’t be. The <code>.dvc/config</code> file stores project-specific configuration settings.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<p>After the above, DVC creates some new files and gives a hint about what to run: <em>You can now commit the changes to git.</em></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Initial setup"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>[master (root-commit) 5358c92] Initial setup
+ 3 files changed, 6 insertions(+)
+ create mode 100644 .dvc/.gitignore
+ create mode 100644 .dvc/config
+ create mode 100644 .dvcignore</code></pre>
+</div>
+</div>
+</section>
+<section id="downloading-data" class="slide level2">
+<h2>Downloading data</h2>
+<aside class="notes">
+<p>Now that we have both Git and DVC initialized we are ready to download a sample data file using DVC. DVC has several different commands available for accessing external data files, but we will start with one of the simplest, the <code>dvc get</code> command, here, which provides an easy way of downloading files from a remote Git or DVC repository.</p>
+<p>The <code>dvc get</code> commands accepts two positional arguments, the first a URL to the remote Git repository and the second a path to a file or directory within this remote repository which we wish to download. Optionally we can also specify the path to write the downloaded file or directory to in the local repository using the <code>-o</code> option. Here we use <code>dvc get</code> to download an XML data file from a tutorial Git repository hosted by the developers of DVC on GitHub, downloading this data to a new directory <code>data</code> under the current directory.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<p>Download a sample data file by running</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a></a><span class="ex">dvc</span> get https://github.com/iterative/dataset-registry <span class="dt">\</span></span>
+<span id="cb6-2"><a></a>    get-started/data.xml <span class="at">-o</span> data/data.xml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+
+</div>
+<p>This should create a directory called <code>data</code> in your new directory, with a file called <code>data.xml</code> inside it.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a></a><span class="ex">tree</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>.
+└── data
+    └── data.xml
+
+2 directories, 1 file</code></pre>
+</div>
+</div>
+</section>
+<section id="initializing-tracking" class="slide level2">
+<h2>Initializing tracking</h2>
+<aside class="notes">
+<p>By itself the <code>dvc get</code> command only fetches the specified file or directory from the remote repository, but does not deal with tracking this file locally.</p>
+<p>To begin tracking changes to a data file with DVC we use the <code>dvc add</code> command with a single argument corresponding to the path to the file to track.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>We are not tracking any files yet. Let’s tell DVC to track the dataset we downloaded:</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a></a><span class="ex">dvc</span> add data/data.xml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+To track the changes with git, run:
+
+    git add data/data.xml.dvc data/.gitignore
+
+To enable auto staging, run:
+
+    dvc config core.autostage true</code></pre>
+</div>
+</div>
+<div class="fragment">
+<aside class="notes">
+<p>As we saw previously the output from the DVC command gives us some hints about what to do next, with we seeing that DVC has created two additional files it uses for tracking the dataset and it instructing use to stage these new files with Git and commit them. Again we have an ignore file created here, which in this case tells Git to ignore the original XML data file - this is wanted here as we don’t want to track changes to this large data file directly with Git. Instead DVC has additionally created a ‘proxy’ file with the same path and name as the original data file but suffixed with a <code>.dvc</code> extension. This proxy file contains some basic metadata about the associated file, specifically its size, path and a hash of its contents which with high probability will be different for two files with differing contents, and so can be used to identify if changes have been made to the file since the last commit.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>As before, DVC creates some internal files and tells us what to commit with Git.</p>
+</div>
+</div>
+</section>
+<section id="initializing-tracking-1" class="slide level2 slides-only">
+<h2>Initializing tracking</h2>
+<aside class="notes">
+<p>We now do as instructed and use <code>git add</code> to stage these additional files and then commit them to the Git repository with an appropriate commit message.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<p>Run the command it suggests, and then commit:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a></a><span class="fu">git</span> add data/data.xml.dvc data/.gitignore</span>
+<span id="cb11-2"><a></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add initial version of dataset"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>[master 8c4b367] Add initial version of dataset
+ 2 files changed, 6 insertions(+)
+ create mode 100644 data/.gitignore
+ create mode 100644 data/data.xml.dvc</code></pre>
+</div>
+</div>
+</section>
+<section id="initializing-tracking-2" class="slide level2 slides-only">
+<h2>Initializing tracking</h2>
+<aside class="notes">
+<p>As we just mentioned rather than adding the <code>data.xml</code> file itself to a Git commit we instead committed the much smaller proxy file <code>data.xml.dvc</code>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>Note that this is different from the usual Git workflow.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>Normally, we would be <code>add</code>ing the data file itself (<code>data.xml</code>).</p>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>Instead, we are adding a smaller “proxy” file (<code>data.xml.dvc</code>).</p>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>This file is much smaller, and DVC knows it represents the original dataset.</p>
+</div>
+</div>
+</section>
+<section id="initializing-tracking-3" class="slide level2 slides-only">
+<h2>Initializing tracking</h2>
+<aside class="notes">
+<p>We can directly illustrate the difference in file size between the original and proxy by using the bash <code>ls</code> command to list the details of the files, from which we see that the original data file is 14 megabytes while the proxy file is only 80 bytes.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>To verify the size difference, run</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>total 14M
+-rw-r--r-- 1 runner runner 14M Mar 12 19:11 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 19:11 data.xml.dvc</code></pre>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>The original data takes up 14MB, while the proxy file is only 80 bytes long.</p>
+</div>
+</div>
+</section>
+<section id="making-changes" class="slide level2">
+<h2>Making changes</h2>
+<aside class="notes">
+<p>While we now know how to start tracking a data file using DVC, to be useful we need to also be able to make further changes to file and be able to move back and forth between different versions of the file.</p>
+<p>Here we will simulate a change being made to the data file by just overwriting the data with its original contents repeated twice, first creating a temporary copy, then appending this copy to the original before removing the copy.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>During the course of our work, the dataset may change - intentionally or by accident. For simplicity, we will simulate a change by repeating the dataset twice:</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a></a><span class="fu">cp</span> data/data.xml temp.xml  <span class="co"># create a temporary copy</span></span>
+<span id="cb15-2"><a></a><span class="fu">cat</span> temp.xml <span class="op">&gt;&gt;</span> data/data.xml  <span class="co"># append the copy to the original</span></span>
+<span id="cb15-3"><a></a><span class="fu">rm</span> temp.xml  <span class="co"># remove the copy</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
+<aside class="notes">
+<p>We can then check the size of the modified file as before using the <code>ls</code> command</p>
+<p>From which we see that it has as expected doubled in size.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>We can check the size of the file with</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>total 28M
+-rw-r--r-- 1 runner runner 28M Mar 12 19:11 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 19:11 data.xml.dvc</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>to verify it has doubled.</p>
+</div>
+</div>
+</section>
+<section id="making-changes-1" class="slide level2 slides-only">
+<h2>Making changes</h2>
+<aside class="notes">
+<p>To track these modifications to the file with Git and DVC, we need to run equivalent <code>add</code> and <code>commit</code> commands as previously.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>To register the changes with Git and DVC, we run similar commands to before:</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a></a><span class="ex">dvc</span> add data/data.xml</span>
+<span id="cb18-2"><a></a><span class="fu">git</span> add data/data.xml.dvc  <span class="co"># as suggested by dvc</span></span>
+<span id="cb18-3"><a></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Double size of dataset"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+To track the changes with git, run:
+
+    git add data/data.xml.dvc
+
+To enable auto staging, run:
+
+    dvc config core.autostage true
+[master ba5dce2] Double size of dataset
+ 1 file changed, 2 insertions(+), 2 deletions(-)</code></pre>
+</div>
+</div>
+</section>
+<section id="switching-versions" class="slide level2">
+<h2>Switching versions</h2>
+<aside class="notes">
+<p>Now that we have committed some changes to the data file, let us consider how to switch to a different version of the file.</p>
+<p>This happens in two stages. First we use Git to <em>checkout</em> the previous commit.</p>
+<p>Here <code>HEAD</code> refers to the current commit and the tilde indicates one commit back relative to this so that <code>HEAD~</code> indicates the previous commit, that is the one before we doubled the size of the data.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>Switching to another version happens in two stages.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>First, we switch with Git. In Git <code>HEAD</code> refers to the current commit and a <code>~</code> suffix indicates the parent of a commit.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a></a><span class="fu">git</span> checkout HEAD~</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>Note: switching to 'HEAD~'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c &lt;new-branch-name&gt;
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 8c4b367 Add initial version of dataset</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="switching-versions-1" class="slide level2 slides-only">
+<h2>Switching versions</h2>
+<aside class="notes">
+<p>Once we have moved back to the previous Git commit, we then need to separately instruct DVC to synchronise the files it is tracking to reflect the versions expected under this new commit using the <code>dvc checkout</code> command.</p>
+<p>This identifies the version of the data file when the commit was made and checks it out, that is restores that version of the file to the local working directory.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>Then we “synchronise” the files under DVC with</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a></a><span class="ex">dvc</span> checkout</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>M       data/data.xml</code></pre>
+</div>
+</div>
+<div class="fragment">
+<aside class="notes">
+<p>We can verify the changes have been made as expected by again using the <code>ls</code> command to view the file sizes</p>
+<p>We see that the data file is back to its original size of 14 megabytes.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>This will find the version of the data when that commit was made, and check it out.</p>
+<p>Verify that the version changed with</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>total 14M
+-rw-r--r-- 1 runner runner 14M Mar 12 19:11 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 19:11 data.xml.dvc</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>Notice <code>data.xml</code> is back to its original size.</p>
+</div>
+</div>
+</section>
+<section id="switching-versions-2" class="slide level2 slides-only">
+<h2>Switching versions</h2>
+<aside class="notes">
+<p>If we wanted to return to the newer version of the data file in which had been doubled, we would run <code>git checkout main</code> to checkout the latest commit on the <code>main</code> branch and then use <code>dvc checkout</code> to synchronize the DVC tracked files with this commit.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>Go back to the newest version (doubled data) with</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a></a><span class="fu">git</span> checkout main</span>
+<span id="cb26-2"><a></a><span class="ex">dvc</span> checkout</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>error: pathspec 'main' did not match any file(s) known to git</code></pre>
+</div>
+</div>
+<div class="fragment">
+<aside class="notes">
+<p>We can verify that we then again are back to having the double data file.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>and we see we are back to the doubled size</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>total 14M
+-rw-r--r-- 1 runner runner 14M Mar 12 19:11 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 12 19:11 data.xml.dvc</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<aside class="notes">
+<p>That concludes our overview of the how to use DVC to track changes to data files and switch between versions of those files. In the following lecture we will build on this by illustrating some more advanced features of DVC which allow us to track changes to models and whole data pipelines.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>This has been the basic usage of DVC to track and revert changes to a file.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>Building on this, in the next lecture we will see how DVC can be used to track models and entire machine learning workflows.</p>
+</div>
+
+
+</div>
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "none",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': false,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.15,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/UCL\.github\.io\/mlbd-lectures\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

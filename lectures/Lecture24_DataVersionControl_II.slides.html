@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.27">
+
+  <meta name="author" content="Matt Graham">
+  <meta name="author" content="Anastasis Georgoulas">
+  <title>SPCE0038: Machine Learning with Big Data – Data version control II</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-534cd8e3a96973385dffff3f4709048d.css">
+  <link rel="stylesheet" href="styles.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">
+    Lecture 24:
+    Data version control II
+  </h1>
+  <figure>
+    <img src="Lecture24_Images/pipeline-example.svg" width="80%">
+  </figure>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+<a href="https://matt-graham.github.io">Matt Graham</a> <a href="https://orcid.org/0000-0001-9104-7960" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+        <p class="quarto-title-affiliation">
+            Centre for Advanced Research Computing
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+<a href="https://uk.linkedin.com/in/anastasis-georgoulas-265b12167">Anastasis Georgoulas</a> <a href="https://orcid.org/0000-0001-7187-5443" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+</div>
+</div>
+
+</section>
+<section id="introduction" class="slide level2">
+<h2>Introduction</h2>
+<aside class="notes">
+<p>We’re now in the final lecture for today where we will be continuing to explore data version control. This lecture will be a bit shorter than the other two so there should be time to answer any questions about all of the material today at the end or if you don’t have any questions to head off for an earlier lunch.</p>
+<p>Specifically in this lecture we will look at some more advanced features of DVC, namely</p>
+<ul>
+<li>How we can access and track files from remote data sources such as cloud storage services.</li>
+<li>How we use DVC to define the stages of a data pipeline in a way that makes it easily reproducible by both ourselves and others.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>This lecture is part of a series on <a href="https://dvc.org">Data Version control (DVC)</a>, a way of systematically keeping track of different versions of models and datasets.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>This second lecture in the series will cover</p>
+<ul>
+<li class="fragment">Including files from external sources.</li>
+<li class="fragment">Automation: creating and rerunning pipelines.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="learning-outcomes" class="slide level2">
+<h2>Learning outcomes</h2>
+<ul>
+<li class="fragment">Apply different approaches for adding external files to a DVC repository.</li>
+<li class="fragment">Understand how pipelines are represented in DVC.</li>
+<li class="fragment">Define a DVC pipeline via a YAML file or commands.</li>
+<li class="fragment">Explain how DVC reproduces the outputs of pipelines.</li>
+<li class="fragment">Use parameters and metrics to control and compare the outputs of DVC pipelines.</li>
+<li class="fragment">Compare DVC to other workflow tools such as MLFlow.</li>
+</ul>
+</section>
+<section id="adding-external-files" class="slide level2">
+<h2>Adding external files</h2>
+<aside class="notes">
+<p>In the last lecture we saw how to use the <code>dvc add</code> command to track files that are already in our local repository. In practice however we will often want to include data files that are already available in an external repository or remote storage service.</p>
+<p>There are several different commands available in DVC for working with external files</p>
+<ul>
+<li>We have already seen <code>dvc get</code> which allows us to download a file from a remote DVC or Git repository.</li>
+<li><code>dvc import</code> allows to reuse a file from a remote repository, both downloading the file and setting up tracking including specifying the remote source of the file to allow checking if it has been updated there in future.</li>
+<li>There are also variants of these two commands <code>dvc get-url</code> and <code>dvc import-url</code> that allow us to work with more general, non-Git based, remote storage services such as files accessible directly using hypertext transfer protocol (HTTP) or on cloud storage services.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>We have seen how we can track our own files with <code>dvc add</code>. But what if we want to include data or other files that are already available?</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>DVC offers different options:</p>
+<ul>
+<li class="fragment"><code>dvc get</code> to download a file from a DVC or Git repository.</li>
+<li class="fragment"><code>dvc import</code> to reuse (download and track) a file from a DVC or Git repository.</li>
+<li class="fragment"><code>dvc get-url</code> and <code>dvc import-url</code> to download or reuse a file from general remote storage.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="adding-external-files-1" class="slide level2 slides-only">
+<h2>Adding external files</h2>
+<aside class="notes">
+<p>The <code>get</code> and <code>import</code> commands are similar and easy to confuse, but the key point is <code>import</code> also sets up tracking from the remote repository, and so if a data file we need is already under a remote repository, should be generally preferred. If the file is subsequently updated in the remote repository we can bring these changes in locally using the <code>dvc update</code> command.</p>
+<p>The <code>get-url</code> and <code>import-url</code> variants allow us the flexibility of working with non-Git based storage, with there built in support for a range of protocols and providers and an extensible interface for working with additional unsupported providers.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>The <a href="https://dvc.org/doc/command-reference/get"><code>get</code></a> and <a href="https://dvc.org/doc/command-reference/import"><code>import</code></a> commands are similar.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>The difference is that the latter also links to the original file and tracks its history.</p>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>Therefore, if an update is made to the original repository later on, we can get the changes to our copy (see <a href="https://dvc.org/doc/command-reference/update"><code>dvc update</code></a>).</p>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>The <a href="https://dvc.org/doc/command-reference/get-url"><code>get-url</code></a> and <a href="https://dvc.org/doc/command-reference/import-url"><code>import-url</code></a> variants are useful when the original data is not already in a repository. They can handle different storage protocols and providers.</p>
+</div>
+</div>
+</section>
+<section id="creating-pipelines" class="slide level2">
+<h2>Creating pipelines</h2>
+<aside class="notes">
+<p>While the ability to track potentially large datasets with DVC is useful, its power becomes more apparent in its support for working with data pipelines. Pipelines are a first class construct in DVC and let us think in terms of data flows and the dependencies between files rather than the individual files themselves.</p>
+<p>DVC allows us to in a very generic way</p>
+<ul>
+<li>Defines the stages of a data pipeline.</li>
+<li>Infer the graph of dependencies between the pipeline stages.</li>
+<li>Reproducibly run a whole pipeline, or if we make changes to only some dependencies only the parts of the pipeline that need to be rerun, which can be a major efficiency gain for computationally intensive pipelines.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>One of the core benefits of using a data-focused version control system is that we can structure our work around data flows, not individual files.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>With DVC, we can</p>
+<ul>
+<li class="fragment">specify each stage of a pipeline,</li>
+<li class="fragment">infer the connections between them,</li>
+<li class="fragment">run a whole pipeline or only the parts required.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="pipeline-example" class="slide level2 nostretch">
+<h2>Pipeline example</h2>
+<aside class="notes">
+<p>We will consider a toy example here of a data pipeline for performing a logistic regression on a comma separated value formatted dataset. You can find a <a href="https://github.com/ucl/dvc-example-pipeline">toy implementation</a> of it on GitHub. We will assume the covariates in the dataset are high-dimensional and so we perform an initial dimensionality reduction step using principle components analysis to produce reduced dimensionality features. The reduced dimensionality features and associated target labels are then used to train a logistic regression classification model, before the model is serialized to a file in pickle format for sharing.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>Let’s consider an example data pipeline - you can find a <a href="https://github.com/ucl/dvc-example-pipeline">toy implementation</a> of it on GitHub</p>
+</div>
+<p><img alt="Image of a data pipeline with a set of samples undergoing PCA and logistic regression. Each step is represented as a box with arrows linking them." src="Lecture24_Images/pipeline-example.svg" width="100%"></p>
+<div class="fragment">
+<p>Start with a labelled set of samples in a file <code>samples.csv</code>.</p>
+</div>
+<div class="fragment">
+<p>First step is to run <code>reduce_dim.py</code>. This reads the inputs, performs <em>principle component analysis</em> (PCA) to reduce their dimensionality and outputs to a file <code>reduced.csv</code>.</p>
+</div>
+<div class="fragment">
+<p>Running <code>log_reg.py</code> then trains a logistic regression classifier on the reduced dataset, serializes the trained model and outputs it in Pickle format to a file <code>classifier.pkl</code>.</p>
+</div>
+</section>
+<section id="representing-a-pipeline" class="slide level2">
+<h2>Representing a pipeline</h2>
+<aside class="notes">
+<p>In DVC a pipeline is defined as a collection of steps or stages, each with a set of input dependencies, and one or more outputs. The dependencies between stages are inferred from them having mutually shared outputs and inputs.</p>
+<p>Pipeline stages can additionally have parameters that control the behaviour of the stage, and which typically represent variables we will want to investigate varying to explore their effect on performance.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>DVC sees pipelines as collections of steps. Each step has some inputs or <strong>dependencies</strong> and produces <strong>outputs</strong>. The different stages are linked to each other through these.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>Furthermore, a pipeline can have one or more <strong>parameters</strong> that control its stages and customize their behaviour.</p>
+</div>
+</div>
+</section>
+<section id="dvc.yaml-files" class="slide level2">
+<h2><code>dvc.yaml</code> files</h2>
+<aside class="notes">
+<p>As we build up the definition of a pipeline, DVC stores the description in a structured format in a <code>dvc.yaml</code> file. The toy example we just introduced might have a <code>dvc.yaml</code> file with something like the following content.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>DVC defines pipelines in a structured file <code>dvc.yaml</code> written in the YAML format. The previous example could be defined by:</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a></a><span class="fu">stages</span><span class="kw">:</span></span>
+<span id="cb1-2"><a></a><span class="at">  </span><span class="fu">pca</span><span class="kw">:</span></span>
+<span id="cb1-3"><a></a><span class="at">    </span><span class="fu">cmd</span><span class="kw">:</span><span class="at"> python reduce_dim.py</span></span>
+<span id="cb1-4"><a></a><span class="at">    </span><span class="fu">deps</span><span class="kw">:</span></span>
+<span id="cb1-5"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> reduce_dim.py</span></span>
+<span id="cb1-6"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> samples.csv</span></span>
+<span id="cb1-7"><a></a><span class="at">    </span><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb1-8"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> total_var</span></span>
+<span id="cb1-9"><a></a><span class="at">    </span><span class="fu">outs</span><span class="kw">:</span></span>
+<span id="cb1-10"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> reduced.csv </span></span>
+<span id="cb1-11"><a></a><span class="at">  </span><span class="fu">classification</span><span class="kw">:</span></span>
+<span id="cb1-12"><a></a><span class="at">    </span><span class="fu">cmd</span><span class="kw">:</span><span class="at"> python log_reg.py</span></span>
+<span id="cb1-13"><a></a><span class="at">    </span><span class="fu">deps</span><span class="kw">:</span></span>
+<span id="cb1-14"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> log_reg.py</span></span>
+<span id="cb1-15"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> reduced.csv</span></span>
+<span id="cb1-16"><a></a><span class="at">    </span><span class="fu">outs</span><span class="kw">:</span></span>
+<span id="cb1-17"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> classifier.pkl</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="dvc.yaml-files-1" class="slide level2 slides-only">
+<h2><code>dvc.yaml</code> files</h2>
+<aside class="notes">
+<p>The format is relatively human readable - under the <code>stages</code> key we have a set of pipeline stages, keyed by their stage names. Each pipeline stage species the command to run, a list of file dependencies for the stage, a list of outputs for the stage and optionally any parameters that control the stage.</p>
+<p>An important point is that the code used to run the stage should be considered a dependency of the stage as well as any data inputs as if the code changes we want to know to re-run the stage.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>Every step has its own section, appropriately named (<code>pca</code>, <code>classification</code>). Each section specification has:</p>
+<div class="compressed-list">
+<ul>
+<li class="fragment">the command to run that step (<code>cmd</code>),</li>
+<li class="fragment">a list of dependencies (<code>deps</code>) which feed into the step,</li>
+<li class="fragment">a list of outputs (<code>outs</code>) that the step produces,</li>
+<li class="fragment">a list of parameters (<code>params</code>) that control that step.</li>
+</ul>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>Note that the dependencies include the code itself, as well as any input files!</p>
+</div>
+</div>
+</section>
+<section id="dvc-parameters" class="slide level2">
+<h2>DVC parameters</h2>
+<aside class="notes">
+<p>The actual parameter values are stored in a dedicated file, by default a YAML file <code>params.yaml</code> though it is possible to use different formats such as JSON.</p>
+<p>Here we have just one parameter which controls the total variance to be explained by the chosen number of principle components in the dimension reduction stage.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>The parameters are stored in a separate file. By default this is called <code>params.yaml</code> but other formats are allowed.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>In our example, the file needs to contain one parameter (the total variance explained by the chosen PCA dimensions):</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a></a><span class="fu">total_var</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.9</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="creating-steps" class="slide level2">
+<h2>Creating steps</h2>
+<aside class="notes">
+<p>While we can directly create a <code>dvc.yaml</code> file specifying the stages of a pipeline, in practice we will often add the steps sequentially as we build up a workflow, and DVC has commands available to add pipeline stages from the command line.</p>
+<p>In particular <a href="https://dvc.org/doc/command-reference/stage/add">the <code>dvc stage add</code> command</a> command allows use to specify the properties of a stage to be added, with command options specifying the stage name, dependencies, parameters, outputs and command to run the stage.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>Rather than write the above <code>dvc.yaml</code> file all at once, we can add the steps in order and let DVC create the file.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>To do this, we need to tell it how to execute each step, by using <a href="https://dvc.org/doc/command-reference/stage/add">the <code>dvc stage add</code> command</a> at the terminal:</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a></a><span class="ex">dvc</span> stage add <span class="dt">\</span></span>
+<span id="cb3-2"><a></a>    <span class="at">-n</span> pca <span class="dt">\</span></span>
+<span id="cb3-3"><a></a>    <span class="at">-d</span> reduce_dim.py <span class="at">-d</span> samples.csv <span class="dt">\</span></span>
+<span id="cb3-4"><a></a>    <span class="at">-p</span> total_var <span class="dt">\</span></span>
+<span id="cb3-5"><a></a>    <span class="at">-o</span> reduced.csv <span class="dt">\</span></span>
+<span id="cb3-6"><a></a>    python reduce_dim.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="creating-steps-1" class="slide level2 slides-only">
+<h2>Creating steps</h2>
+<p>The properties of the stage are given in the command options:</p>
+<ul>
+<li class="fragment"><code>-n</code>: name of the step,</li>
+<li class="fragment"><code>-d</code>: dependencies,</li>
+<li class="fragment"><code>-p</code>: parameters,</li>
+<li class="fragment"><code>-o</code>: outputs,</li>
+<li class="fragment">finally, the command to run.</li>
+</ul>
+</section>
+<section id="reproducing-a-pipeline" class="slide level2">
+<h2>Reproducing a pipeline</h2>
+<aside class="notes">
+<p>Once we have defined a pipeline in DVC we can use the <code>dvc repro</code> command to run the pipeline stages.</p>
+<p>Commonly it will be the case that we do not need to run all the steps in a pipeline. For instance, if we change only the <code>log_reg.py</code> script used to fit the model since we last ran the pipeline then the output of the previous dimension reduction stage would be unaffected by this change and so not need to rerun.</p>
+<p>Conversely if we update the input <code>samples.csv</code> data file then initial dimension reduction step would need to be re-run as well as all stages that depend directly or indirectly on outputs of it.</p>
+<p>Importantly, DVC automates this process of considering the dependencies between pipeline stages and only running the stages that are effected by changes when we execute <code>dvc repro</code>, which for larger and more complex pipelines can be a significant efficiency saving.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>We can run the pipeline stages using the command <code>dvc repro</code>.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>Often, running all stages will be redundant. For example, if we have only made changes to the <code>log_reg.py</code> file since the last time we ran the pipeline, then the previous step is unaffected and does not need to be rerun.</p>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>However, if we had updated the samples file or modified the parameter controlling the PCA step, then that step would need to be rerun, as well as all steps downstream of it.</p>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>By tracking changes to files and using the pipeline structure, DVC can infer which steps have changed and only run those.</p>
+</div>
+</div>
+</section>
+<section id="metrics-and-outputs" class="slide level2">
+<h2>Metrics and outputs</h2>
+<aside class="notes">
+<p>In addition to its support for data pipelines, DVC also offers the ability to compare and track the performance of models as changes are made to them, by defining the performance metrics of interest.</p>
+<p>For our toy logistic regression example, we might for example have an additional stage which scores our trained classifier model with its precision and are under the receiver operator characteristic curve, outputting the computed metrics to a file <code>scores.json</code>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>DVC also allows us to compare the performance of our models as we make changes to them.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>We do this by declaring <strong>metrics</strong> as part of a pipeline.</p>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>In the our example, let’s assume we have an additional script <code>evaluate.py</code> which evaluates our trained classifier and stores the results in a file <code>scores.json</code>.</p>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>If we compute two performance metrics, the precision and the area under the ROC curve, the results may look like:</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a></a><span class="fu">{</span> <span class="dt">"precision"</span><span class="fu">:</span> <span class="fl">0.63</span><span class="fu">,</span> <span class="dt">"roc_auc"</span><span class="fu">:</span> <span class="fl">0.85</span> <span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="metrics-and-outputs-1" class="slide level2 slides-only">
+<h2>Metrics and outputs</h2>
+<aside class="notes">
+<p>We can indicate that a stage produces performance metrics using the <code>metrics</code> key in the <code>dvc.yaml</code> file or using the <code>-m</code> option when specifying a stage using <code>dvc stage add</code>.</p>
+<p>A pipeline with this additional evaluation stage would now additionally produce the <code>scores.json</code> file when run with <code>dvc repro</code>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>We can record this by expanding the pipeline description with an extra step, like this:</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb5-1"><a></a><span class="fu">stages</span><span class="kw">:</span></span>
+<span id="cb5-2"><a></a><span class="at">  (...as above...)</span></span>
+<span id="cb5-3"><a></a><span class="at">  </span><span class="fu">evaluation</span><span class="kw">:</span></span>
+<span id="cb5-4"><a></a><span class="at">    </span><span class="fu">cmd</span><span class="kw">:</span><span class="at"> python evaluate.py</span></span>
+<span id="cb5-5"><a></a><span class="at">    </span><span class="fu">deps</span><span class="kw">:</span></span>
+<span id="cb5-6"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> evaluate.py</span></span>
+<span id="cb5-7"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> classifier.pkl</span></span>
+<span id="cb5-8"><a></a><span class="at">    </span><span class="fu">outs</span><span class="kw">:</span></span>
+<span id="cb5-9"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> scores.json</span></span>
+<span id="cb5-10"><a></a><span class="fu">metrics</span><span class="kw">:</span></span>
+<span id="cb5-11"><a></a><span class="at">  </span><span class="kw">-</span><span class="at"> scores.json</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="metrics-and-outputs-2" class="slide level2 slides-only">
+<h2>Metrics and outputs</h2>
+<aside class="notes">
+<p>Importantly as well as outputting the metrics, compared to standard stage outputs, DVC allows use to use the metrics to compare the runs of the pipeline, for example across different parameter values or versions.</p>
+<p>For example if we change the <code>total_var</code> parameter in the <code>parameters.yaml</code> file, DVC will identify the parameter has been changed. We can see the change by for example running <code>dvc params diff</code> .</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>Running the whole pipeline with <code>dvc repro</code> will now also produce the file with the scores.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>Let’s make a change to the parameters file, e.g.&nbsp;to increase <code>total_var</code> to 0.95.</p>
+</div>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>DVC will notice this and can show us the difference if we run <code>dvc params diff</code>:</p>
+</div>
+<pre><code>Path         Param          Old    New
+params.yaml  total_var      0.9    0.95</code></pre>
+</div>
+</section>
+<section id="metrics-and-outputs-3" class="slide level2 slides-only">
+<h2>Metrics and outputs</h2>
+<aside class="notes">
+<p>If we re-run the pipeline we can also compare the effect on the performance metrics using the <code>dvc metrics diff</code> command which will output the changes in the performance metrics.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>We can also easily inspect what effect this has on the performance metrics.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>If we run the pipeline again, then <code>dvc metrics diff</code> will show us how the metrics have changed:</p>
+</div>
+<pre><code>Path         Metric     Old     New      Change
+scores.json  precision  0.63    0.65     0.02
+scores.json  roc_auc    0.85    0.91     0.06</code></pre>
+</div>
+<div class="fragment">
+<aside class="notes">
+<p>This allows us to iteratively try out different values for parameters and easily see the effect it has on performance metrics, and importantly allows us to easily track these changes to allow us to go back to promising parameter values later.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p>In two commands, we can run a whole series of steps and inspect the results - in this case, see that changing how we choose features after PCA has improved performance.</p>
+</div>
+</div>
+</section>
+<section id="other-dvc-features" class="slide level2">
+<h2>Other DVC features</h2>
+<aside class="notes">
+<p>That concludes our brief tour of DVC. We have only covered a subset of the features DVC offers here, with for example it additionally offering</p>
+<ul>
+<li>Support for automatically producing plots of metrics.</li>
+<li>An experiment management system for systematically tracking the results of different pipeline runs and presenting them cleanly.</li>
+<li>The ability to push the repository to remote hosts.</li>
+<li>A programmatic Python API that allows us to directly use DVC within our Python code.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<ul>
+<li class="fragment"><strong>Automated plots</strong> for metrics.</li>
+<li class="fragment"><strong>Experiments</strong> collect different runs and present them cleanly.</li>
+<li class="fragment"><strong>Pushing</strong> to remote storage, for backups and sharing.</li>
+<li class="fragment"><strong>Python API</strong> lets us call DVC functionality from a program (e.g.&nbsp;add a new file).</li>
+</ul>
+</div>
+</section>
+<section id="mlflow" class="slide level2">
+<h2>MLflow</h2>
+<aside class="notes">
+<p>While we have concentrated on DVC here, there are a range of other MLOps tools which offer overlapping features. One package of note is <a href="https://mlflow.org/">MLflow</a> which also offers the ability for tracking and reproducing machine learning workflows. Unlike DVC it is typically used directly within the code defining the pipeline, and is more specific to Python workflows, offering tight integrations with a number of frameworks such as Tensorflow and Pytorch. Compared to DVC it offers some additional features such as a visual web based interface for live monitoring of the progress of experiments.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<p><a href="https://mlflow.org/">MLflow</a> is a tool for tracking and rerunning machine learning workflows.</p>
+</div>
+<div class="fragment">
+<div class="slides-only">
+<p>It is similar to DVC but is controlled programatically rather than the command line, and is primarily focused on Python workflows. It provides:</p>
+<div class="compressed-list">
+<ul>
+<li class="fragment">Tracking of code, data files, parameter configurations, environment, results.</li>
+<li class="fragment">(Re)running code locally or remotely.</li>
+<li class="fragment">Visual interface for monitoring progress.</li>
+<li class="fragment">Integrations with specific toolchains and frameworks, e.g.&nbsp;Tensorflow.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<aside class="notes">
+<p>In this last lecture we have explored</p>
+<ul>
+<li>DVC’s support for loading and tracking files from remote repositories and storage services.</li>
+<li>How we can use DVC to programmatically define the stages of a data pipeline and allow us to easily reproduce pipeline outputs.</li>
+<li>DVC’s support for comparing how pipelines perform on different metrics as we vary parameter values.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="slides-only">
+<ul>
+<li class="fragment">DVC supports including data and files from other projects, from a variety of sources.</li>
+<li class="fragment">Combining steps in pipelines makes it simpler to rerun analyses without manual intervention.</li>
+<li class="fragment">Apart from files, DVC can also track metrics and automatically present the effect of changes.</li>
+</ul>
+</div>
+
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "none",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': false,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.15,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/UCL\.github\.io\/mlbd-lectures\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

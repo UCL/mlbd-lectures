@@ -1,0 +1,3233 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Matt Graham">
+<meta name="author" content="Anastasis Georgoulas">
+<meta name="description" content="Working with data pipelines and defining them programmatically">
+
+<title>Data pipelines – SPCE0038: Machine Learning with Big Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-17036d4dc503a054b08c9a8cd30d1ed9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">SPCE0038: Machine Learning with Big Data</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../lectures.html"> 
+<span class="menu-text">Lectures</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/Lecture22_DataPipelines.html">Data pipelines</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/Lecture22_DataPipelines.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Data pipelines</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/Lecture23_DataVersionControl_I.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data version control I</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/Lecture24_DataVersionControl_II.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data version control II</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/Lecture25_Databases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Databases</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/Lecture26_PerformanceBigData_I.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Performance of big data problems I</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/Lecture27_PerformanceBigData_II.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Performance of big data problems II</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning outcomes</a></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data preparation</a></li>
+  <li><a href="#pipelines" id="toc-pipelines" class="nav-link" data-scroll-target="#pipelines">Pipelines</a></li>
+  <li><a href="#accessing-data" id="toc-accessing-data" class="nav-link" data-scroll-target="#accessing-data">Accessing data</a></li>
+  <li><a href="#example-downloading-climate-data" id="toc-example-downloading-climate-data" class="nav-link" data-scroll-target="#example-downloading-climate-data">Example: Downloading climate data</a></li>
+  <li><a href="#preprocessing" id="toc-preprocessing" class="nav-link" data-scroll-target="#preprocessing">Preprocessing</a></li>
+  <li><a href="#example-filtering-climate-records" id="toc-example-filtering-climate-records" class="nav-link" data-scroll-target="#example-filtering-climate-records">Example: filtering climate records</a></li>
+  <li><a href="#transforming" id="toc-transforming" class="nav-link" data-scroll-target="#transforming">Transforming</a></li>
+  <li><a href="#example-transforming-to-temperature-range-time-series" id="toc-example-transforming-to-temperature-range-time-series" class="nav-link" data-scroll-target="#example-transforming-to-temperature-range-time-series">Example: transforming to temperature range time series</a></li>
+  <li><a href="#serving" id="toc-serving" class="nav-link" data-scroll-target="#serving">Serving</a></li>
+  <li><a href="#example-serving-for-scikit-learn" id="toc-example-serving-for-scikit-learn" class="nav-link" data-scroll-target="#example-serving-for-scikit-learn">Example: serving for scikit-learn</a></li>
+  <li><a href="#model-fitting" id="toc-model-fitting" class="nav-link" data-scroll-target="#model-fitting">Model fitting</a></li>
+  <li><a href="#example-fitting-a-periodic-spline" id="toc-example-fitting-a-periodic-spline" class="nav-link" data-scroll-target="#example-fitting-a-periodic-spline">Example: fitting a periodic spline</a></li>
+  <li><a href="#publishing" id="toc-publishing" class="nav-link" data-scroll-target="#publishing">Publishing</a></li>
+  <li><a href="#publishing-data" id="toc-publishing-data" class="nav-link" data-scroll-target="#publishing-data">Publishing data</a></li>
+  <li><a href="#fair-principles" id="toc-fair-principles" class="nav-link" data-scroll-target="#fair-principles">FAIR principles</a></li>
+  <li><a href="#publishing-models" id="toc-publishing-models" class="nav-link" data-scroll-target="#publishing-models">Publishing models</a></li>
+  <li><a href="#model-serialization" id="toc-model-serialization" class="nav-link" data-scroll-target="#model-serialization">Model serialization</a></li>
+  <li><a href="#example-serializing-trained-model" id="toc-example-serializing-trained-model" class="nav-link" data-scroll-target="#example-serializing-trained-model">Example: serializing trained model</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Lecture22_DataPipelines.slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li><li><a href="Lecture22_DataPipelines.ipynb" download="Lecture22_DataPipelines.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Data pipelines</h1>
+</div>
+
+<div>
+  <div class="description">
+    Working with data pipelines and defining them programmatically
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author"><a href="https://matt-graham.github.io">Matt Graham</a> <a href="https://orcid.org/0000-0001-9104-7960" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Centre for Advanced Research Computing
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author"><a href="https://uk.linkedin.com/in/anastasis-georgoulas-265b12167">Anastasis Georgoulas</a> <a href="https://orcid.org/0000-0001-7187-5443" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<div class="notes">
+<p>We are going to step back a bit from the details of fitting specific classes of machine learning models as covered in the earlier lectures, and instead look at some of the wider issues involved in managing the data and model outputs we accumulate during data science projects. This comes under the umbrella of what is sometimes termed machine learning operations or MLOps for short.</p>
+<p>The sorts of questions we will consider include</p>
+<ul>
+<li>How to store and access datasets hosted remotely.</li>
+<li>How to manage the multiple versions of datasets and models we produce during a typical project.</li>
+<li>And how to ensure our analyses are reproducible.</li>
+</ul>
+<p>Importantly we will also cover some useful tools that can help streamlines our workflows and ensure they can be reproduced by others.</p>
+<p>We will begin by considering how we structure our overall workflows, including not just the model fitting process but the stages that feed in and out of this.</p>
+</div>
+</section>
+<section id="learning-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes</h2>
+<ul>
+<li>Recognize that model training is <strong>just one part</strong> of machine learning workflows.</li>
+<li>Describe key <strong>typical stages of data pipelines</strong>.</li>
+<li>Identify the benefits of defining data pipelines <strong>programmatically</strong>.</li>
+<li>Explain the importance of the <strong>FAIR principles</strong> for data management.</li>
+</ul>
+</section>
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation">Data preparation</h2>
+<div class="notes">
+<p>Typically before we train any machine learning model there will steps we need to go through to get the data into the format required to fit the model, and potentially also to get hold of the data in the first place.</p>
+<p>For example,</p>
+<ul>
+<li>we may need to access the data from some remote repository,</li>
+<li>the data may need cleaning or other preprocessing,</li>
+<li>we may need to transform the raw data to generate the features required for training the model,</li>
+<li>we may need to serve the data in a particular way for it to be consumable by the model,</li>
+<li>once the model is fitted we may wish to share it with others.</li>
+</ul>
+</div>
+</section>
+<section id="pipelines" class="level2 nostretch">
+<h2 class="nostretch anchored" data-anchor-id="pipelines">Pipelines</h2>
+<p><img src="Lecture22_Images/pipeline.svg" class="img-fluid" style="width:100.0%" alt="Image of a data pipeline comprising the steps of accessing, preprocessing, transforming, serving, modelling and publishing data. Each step is represented as a box with arrows linking them"></p>
+<div class="notes">
+<p>The overall sequences of steps involved in such a typical machine learning workflow is sometimes called a data pipeline, with related terms such as extract-transform-load or ETL also being used.</p>
+<p>We can visualise this as a data flow graph as shown here. To ensure reproducibility ideally all stages in the pipeline should be defined programmatically through code rather than requiring manual actions. We’ll now go through and explain what might be involved in each of these stages, and use running example of analysing historical climate records data to illustrate an concrete example of a data pipeline.</p>
+</div>
+</section>
+<section id="accessing-data" class="level2">
+<h2 class="anchored" data-anchor-id="accessing-data">Accessing data</h2>
+<div class="notes">
+<p>Commonly the first step in any data science project will be to get hold of the data we will be analysing, unless we happen to have collected it ourselves. This typically happens in a variety of different ways, for example</p>
+<ul>
+<li>We get sent a data file by a colleague</li>
+<li>We pull the data from some web service</li>
+<li>We might run a scraper to extract data from a website</li>
+<li>Or we might execute a query to a database we have access to.</li>
+</ul>
+</div>
+<div class="notes">
+<p>It will often be the case that we in fact have to combine data from multiple different sources. We will discuss some of the intricacies of querying data from a database in a later lecture.</p>
+<p>A unifying aspect of most of these examples is that the data is hosted remotely on a different computer. How specifically we access it will depend on the details of the remote host, the format of the data and its sizes, however importantly the steps to access the data can often be defined programatically.</p>
+</div>
+</section>
+<section id="example-downloading-climate-data" class="level2">
+<h2 class="anchored" data-anchor-id="example-downloading-climate-data">Example: Downloading climate data</h2>
+<div class="notes">
+<p>To give an example of how we might access data programmatically, we will consider how to download a set of <a href="https://github.com/awslabs/open-data-docs/tree/main/docs/noaa/noaa-ghcn">historical global climate records</a> from an open dataset hosted on <em>Simple Storage Service</em> (S3) that is part of <em>Amazon Web Services</em> (AWS) cloud offering.</p>
+<p>In this example we will use <a href="https://docs.python.org/3/library/urllib.request.html">the Python standard library module <code>urllib.request</code></a> which allows programmatically accessing data hosted on the web via <em>hypertext transfer protocol</em> (HTTP). In more complex cases, for example where access to an S3 bucket requires authentication, <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html">the Python package <code>boto3</code></a> is a dedicated Python package for interacting with AWS services programmatically.</p>
+</div>
+<div class="notes">
+<p>The particular data we will be using are the climate records from the year 1800, which are held in an S3 bucket <code>noaa-ghcn-pds</code> in tabular format as a <em>comma separated variable</em> (CSV) file, which has been compressed using <a href="https://en.wikipedia.org/wiki/Gzip">gzip</a>. Python has a built-in module <code>gzip</code> which can be used to uncompress the file and we will use Pandas to read in the data to a dataframe.</p>
+</div>
+<div id="e841fbc1" class="cell" data-output-location="fragment" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> urllib.request</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> gzip</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> pandas</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>data_url <span class="op">=</span> <span class="st">"https://noaa-ghcn-pds.s3.amazonaws.com/csv.gz/1800.csv.gz"</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="cf">with</span> urllib.request.urlopen(data_url) <span class="im">as</span> response:</span>
+<span id="cb1-7"><a href="#cb1-7"></a>    <span class="cf">with</span> gzip.<span class="bu">open</span>(response, <span class="st">"rb"</span>) <span class="im">as</span> f:</span>
+<span id="cb1-8"><a href="#cb1-8"></a>        input_data <span class="op">=</span> pandas.read_csv(</span>
+<span id="cb1-9"><a href="#cb1-9"></a>            f, usecols<span class="op">=</span><span class="bu">range</span>(<span class="dv">4</span>), names<span class="op">=</span>[<span class="st">"station"</span>, <span class="st">"date"</span>, <span class="st">"quantity"</span>, <span class="st">"value"</span>]</span>
+<span id="cb1-10"><a href="#cb1-10"></a>        )</span>
+<span id="cb1-11"><a href="#cb1-11"></a>display(input_data.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">station</th>
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">quantity</th>
+<th data-quarto-table-cell-role="th">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>EZE00100082</td>
+<td>18000101</td>
+<td>TMAX</td>
+<td>-86</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>EZE00100082</td>
+<td>18000101</td>
+<td>TMIN</td>
+<td>-135</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>GM000010962</td>
+<td>18000101</td>
+<td>PRCP</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>ITE00100554</td>
+<td>18000101</td>
+<td>TMAX</td>
+<td>-75</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>ITE00100554</td>
+<td>18000101</td>
+<td>TMIN</td>
+<td>-148</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="preprocessing">Preprocessing</h2>
+<div class="notes">
+<p>Typically getting access to the data we need is only the first step, with often the raw data needing to be preprocessed before use. This might be for example because,</p>
+<ul>
+<li>There are errors in the data</li>
+<li>The dimensionality of each data point or number of data points is too large for us to be able to use directly</li>
+<li>The data contains irrelevant information for our analysis</li>
+<li>The variables in the raw data do not directly correspond to quantities of interest which need to be derived from the raw data</li>
+<li>There may be outliers or imbalances in the dataset that might affect the fitting of some models.</li>
+</ul>
+</div>
+<div class="notes">
+<p>The sorts of preprocessing steps we might perform to address these issues include,</p>
+<ul>
+<li>Removing problematic values from the data</li>
+<li>Filtering the data to a smaller subset or augmenting it by repeating samples</li>
+</ul>
+<p>This process is sometimes referred to as <em>data cleaning</em>, and is a vital and often overlooked stage in data pipelines. While such cleaning steps can be performed manually, tools such as <a href="https://openrefine.org/">OpenRefine</a> have been developed to help automate the process.</p>
+</div>
+</section>
+<section id="example-filtering-climate-records" class="level2">
+<h2 class="anchored" data-anchor-id="example-filtering-climate-records">Example: filtering climate records</h2>
+<div class="notes">
+<p>Returning to our running climate data example, at the end of the previous stage of our pipeline we had the data loaded into a dataframe <code>input_data</code> containing climate records for the year 1800 for multiple different land-observation stations. We will assume we are interested in fitting a model to daily temperature range recorded for a single station. This will mean we will need to preprocess the input data to filter for the records associated with a particular station.</p>
+</div>
+<div class="notes">
+<p>Specifically here we will look for the records recorded at a station in Milan, Italy and use the <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.query.html">Pandas <code>DataFrame.query</code> method</a> to perform the filtering.</p>
+</div>
+<div id="844b59d2" class="cell" data-output-location="fragment" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>preprocessed_data <span class="op">=</span> input_data.query(</span>
+<span id="cb2-2"><a href="#cb2-2"></a>    <span class="st">'station == "ITE00100554" and quantity in ["TMIN", "TMAX"]'</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a>display(preprocessed_data.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">station</th>
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">quantity</th>
+<th data-quarto-table-cell-role="th">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">3</th>
+<td>ITE00100554</td>
+<td>18000101</td>
+<td>TMAX</td>
+<td>-75</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4</th>
+<td>ITE00100554</td>
+<td>18000101</td>
+<td>TMIN</td>
+<td>-148</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>ITE00100554</td>
+<td>18000102</td>
+<td>TMAX</td>
+<td>-60</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>ITE00100554</td>
+<td>18000102</td>
+<td>TMIN</td>
+<td>-125</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">13</th>
+<td>ITE00100554</td>
+<td>18000103</td>
+<td>TMAX</td>
+<td>-23</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="transforming" class="level2">
+<h2 class="anchored" data-anchor-id="transforming">Transforming</h2>
+<div class="notes">
+<p>Once we have performed any necessary cleaning and preprocessing of the data, while closer to have data in the form necessary for model fitting, often we will need go through further stages of data processing first. A very common requirement is to generate features suitable for training the model from the variables present in the raw data.</p>
+</div>
+</section>
+<section id="example-transforming-to-temperature-range-time-series" class="level2">
+<h2 class="anchored" data-anchor-id="example-transforming-to-temperature-range-time-series">Example: transforming to temperature range time series</h2>
+<div class="notes">
+<p>Going back to our running example again, after the preprocessing step we have a dataframe <code>preprocessed_data</code> containing records of all the daily minimum and maximum temperature measurements, in tenths of a degree Celsius, for each day in 1800 for the station of interest in Milan. Our aim is to fit a model to the daily temperature range in degrees Celsius against the date, and so we need to process the dataframe to produce the required variates and covariates for regression.</p>
+</div>
+<div id="ba5beb7c" class="cell" data-output-location="fragment" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>pivoted_data <span class="op">=</span> preprocessed_data.pivot(</span>
+<span id="cb3-2"><a href="#cb3-2"></a>    index<span class="op">=</span><span class="st">"date"</span>, columns<span class="op">=</span><span class="st">"quantity"</span>, values<span class="op">=</span><span class="st">"value"</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a>pivoted_data.index <span class="op">=</span> pandas.to_datetime(pivoted_data.index, <span class="bu">format</span><span class="op">=</span><span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5"></a>display(pivoted_data.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">quantity</th>
+<th data-quarto-table-cell-role="th">TMAX</th>
+<th data-quarto-table-cell-role="th">TMIN</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1800-01-01</th>
+<td>-75</td>
+<td>-148</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1800-01-02</th>
+<td>-60</td>
+<td>-125</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1800-01-03</th>
+<td>-23</td>
+<td>-46</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1800-01-04</th>
+<td>0</td>
+<td>-13</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1800-01-05</th>
+<td>10</td>
+<td>-6</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="918d63a9" class="cell" data-output-location="fragment" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>transformed_data <span class="op">=</span> pandas.DataFrame(</span>
+<span id="cb4-2"><a href="#cb4-2"></a>    {<span class="st">"temperature_range"</span>: (pivoted_data.TMAX <span class="op">-</span> pivoted_data.TMIN) <span class="op">/</span> <span class="dv">10</span>}</span>
+<span id="cb4-3"><a href="#cb4-3"></a>)</span>
+<span id="cb4-4"><a href="#cb4-4"></a>display(transformed_data.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">temperature_range</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1800-01-01</th>
+<td>7.3</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1800-01-02</th>
+<td>6.5</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1800-01-03</th>
+<td>2.3</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1800-01-04</th>
+<td>1.3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1800-01-05</th>
+<td>1.6</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="serving" class="level2">
+<h2 class="anchored" data-anchor-id="serving">Serving</h2>
+<div class="notes">
+<p>The code to trained a model will often require data to be provided in a particular format. After we have finished preprocessing the data we therefore still need to ensure the data is <em>served</em> to the model in the correct format for consumption by the model.</p>
+</div>
+<p><img src="Lecture22_Images/mismatch.svg" class="img-fluid" style="width:70.0%" alt="Diagram of a format mismatch between a data source and model"></p>
+<div class="notes">
+<p>The data can be served to a model in a variety of ways - while file based input-output is common, in other cases we might for example make the data available via a web service. They key point is the data needs to be in the format required to feed to the model.</p>
+</div>
+<div class="notes">
+<p>Libraries such as Pandas provide a variety of functions for reading from and writing to data in a range of commonly used formats - for example JSON or CSV files.</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_json(<span class="st">'my_data.json'</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ...Perform any transformations...</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">'my_ready_data.csv'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="example-serving-for-scikit-learn" class="level2">
+<h2 class="anchored" data-anchor-id="example-serving-for-scikit-learn">Example: serving for scikit-learn</h2>
+<div class="notes">
+<p>In previous lectures you have seen that scikit-learn requires that the training data provided to regression models is formatted as a features matrix with rows corresponding to the numeric features of each training data point and a one-dimensional target array containing the target values for each training data point.</p>
+</div>
+<div class="notes">
+<p>For our running example we will convert the measurement dates to integer days of the year as the input features, so that they are of a numeric type as required. For the target outputs we will use the temperature ranges.</p>
+</div>
+<div id="dd70ad06" class="cell" data-output-location="fragment" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a>X_train <span class="op">=</span> transformed_data.index.day_of_year.array[:, <span class="va">None</span>]</span>
+<span id="cb6-4"><a href="#cb6-4"></a>y_train <span class="op">=</span> transformed_data.temperature_range.array</span>
+<span id="cb6-5"><a href="#cb6-5"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">3</span>))</span>
+<span id="cb6-6"><a href="#cb6-6"></a>ax.plot(X_train, y_train)</span>
+<span id="cb6-7"><a href="#cb6-7"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Day of year"</span>, ylabel<span class="op">=</span><span class="vs">r"Daily temperature range / </span><span class="dv">$^</span><span class="er">\</span><span class="vs">circ C</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8"></a>fig.tight_layout()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture22_DataPipelines_files/figure-html/cell-7-output-1.png" width="756" height="278" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="model-fitting" class="level2">
+<h2 class="anchored" data-anchor-id="model-fitting">Model fitting</h2>
+<div class="notes">
+<p>When we finally have the data served in the format required for feeding to the model we are ready to begin training, or potentially prediction using an existing trained model. This could involve any of the different model types and Python packages such as scikit-learn and TensorFlow, that have been covered in the preceding lectures.</p>
+<p>As an aside, it is important to note that both scikit-learn and TensorFlow internally make use of the concept of data pipelines when building models.</p>
+</div>
+<div class="notes">
+<p>Where we consider the dividing line between the model and other data pipeline stages may therefore in practice not always be that clear cut as the model itself may be a composition of multiple components, including steps we might consider as feature extraction or transformations. For example, commonly the earlier layers of deep neural network models are considered as feature extractors feeding into a regressor or classifier in the final layer.</p>
+</div>
+</section>
+<section id="example-fitting-a-periodic-spline" class="level2">
+<h2 class="anchored" data-anchor-id="example-fitting-a-periodic-spline">Example: fitting a periodic spline</h2>
+<div class="notes">
+<p>Again returning to our running climate data example, we will illustrate fitting the noisy temperature range time series data we previously observed with a <a href="https://en.wikipedia.org/wiki/Spline_(mathematics)">spline model</a> in scikit-learn. Splines are a flexible way of describing smooth relationships between variables using piecewise polynomials constrained to ensure smoothness at the join points. They are parametrized by a set of knot points defining how the input space is partitioned, and a positive integer degree specifying the exponent of the highest order polynomial term used.</p>
+<p>As we saw when plotting the data, there appears to be an underlying <em>seasonal</em> trend in the time series, and so we will additionally enforce that the model is <em>periodic</em> with period one year. We will use a spline with 7 knots, corresponding to partitioning the input time interval into 6 roughly bimonthly intervals, with this allowing capturing a smooth representation of the overall seasonal trends without overfitting to the <em>noisy</em> daily variation.</p>
+</div>
+<div id="6a53ba67" class="cell" data-output-location="fragment" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> numpy</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="im">from</span> sklearn <span class="im">import</span> pipeline, preprocessing, linear_model</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a>model <span class="op">=</span> pipeline.make_pipeline(</span>
+<span id="cb7-5"><a href="#cb7-5"></a>    preprocessing.SplineTransformer(</span>
+<span id="cb7-6"><a href="#cb7-6"></a>        degree<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb7-7"><a href="#cb7-7"></a>        knots<span class="op">=</span>numpy.linspace(<span class="dv">1</span>, <span class="dv">365</span>, <span class="dv">7</span>)[:, <span class="va">None</span>],</span>
+<span id="cb7-8"><a href="#cb7-8"></a>        extrapolation<span class="op">=</span><span class="st">"periodic"</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>    ),</span>
+<span id="cb7-10"><a href="#cb7-10"></a>    linear_model.Ridge()</span>
+<span id="cb7-11"><a href="#cb7-11"></a>)</span>
+<span id="cb7-12"><a href="#cb7-12"></a>model.fit(X_train, y_train)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+}
+
+#sk-container-id-1.light {
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: black;
+  --sklearn-color-background: white;
+  --sklearn-color-border-box: black;
+  --sklearn-color-icon: #696969;
+}
+
+#sk-container-id-1.dark {
+  --sklearn-color-text-on-default-background: white;
+  --sklearn-color-background: #111;
+  --sklearn-color-border-box: white;
+  --sklearn-color-icon: #878787;
+}
+
+#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-1 pre {
+  padding: 0;
+}
+
+#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+#sk-container-id-1 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-1 div.sk-toggleable__content {
+  display: none;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  line-height: 1.2em;
+}
+
+#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-3) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3) 1pt solid;
+  color: var(--sklearn-color-fitted-level-3);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  border: var(--sklearn-color-fitted-level-0) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-0);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  border: var(--sklearn-color-fitted-level-0) 1pt solid;
+  color: var(--sklearn-color-fitted-level-0);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+
+.estimator-table {
+    font-family: monospace;
+}
+
+.estimator-table summary {
+    padding: .5rem;
+    cursor: pointer;
+}
+
+.estimator-table summary::marker {
+    font-size: 0.7rem;
+}
+
+.estimator-table details[open] {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+    padding-bottom: 0.3rem;
+}
+
+.estimator-table .parameters-table {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0;
+}
+
+.estimator-table .parameters-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.estimator-table .parameters-table tr:nth-child(even) {
+    background-color: #f6f6f6;
+}
+
+.estimator-table .parameters-table tr:hover {
+    background-color: #e0e0e0;
+}
+
+.estimator-table table td {
+    border: 1px solid rgba(106, 105, 104, 0.232);
+}
+
+/*
+    `table td`is set in notebook with right text-align.
+    We need to overwrite it.
+*/
+.estimator-table table td.param {
+    text-align: left;
+    position: relative;
+    padding: 0;
+}
+
+.user-set td {
+    color:rgb(255, 94, 0);
+    text-align: left !important;
+}
+
+.user-set td.value {
+    color:rgb(255, 94, 0);
+    background-color: transparent;
+}
+
+.default td {
+    color: black;
+    text-align: left !important;
+}
+
+.user-set td i,
+.default td i {
+    color: black;
+}
+
+/*
+    Styles for parameter documentation links
+    We need styling for visited so jupyter doesn't overwrite it
+*/
+a.param-doc-link,
+a.param-doc-link:link,
+a.param-doc-link:visited {
+    text-decoration: underline dashed;
+    text-underline-offset: .3em;
+    color: inherit;
+    display: block;
+    padding: .5em;
+}
+
+/* "hack" to make the entire area of the cell containing the link clickable */
+a.param-doc-link::before {
+    position: absolute;
+    content: "";
+    inset: 0;
+}
+
+.param-doc-description {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    left: 0;
+    padding: .5ex;
+    margin-left: 1.5em;
+    color: var(--sklearn-color-text);
+    box-shadow: .3em .3em .4em #999;
+    width: max-content;
+    text-align: left;
+    max-height: 10em;
+    overflow-y: auto;
+
+    /* unfitted */
+    background: var(--sklearn-color-unfitted-level-0);
+    border: thin solid var(--sklearn-color-unfitted-level-3);
+}
+
+/* Fitted state for parameter tooltips */
+.fitted .param-doc-description {
+    /* fitted */
+    background: var(--sklearn-color-fitted-level-0);
+    border: thin solid var(--sklearn-color-fitted-level-3);
+}
+
+.param-doc-link:hover .param-doc-description {
+    display: block;
+}
+
+.copy-paste-icon {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTIwOCAwTDMzMi4xIDBjMTIuNyAwIDI0LjkgNS4xIDMzLjkgMTQuMWw2Ny45IDY3LjljOSA5IDE0LjEgMjEuMiAxNC4xIDMzLjlMNDQ4IDMzNmMwIDI2LjUtMjEuNSA0OC00OCA0OGwtMTkyIDBjLTI2LjUgMC00OC0yMS41LTQ4LTQ4bDAtMjg4YzAtMjYuNSAyMS41LTQ4IDQ4LTQ4ek00OCAxMjhsODAgMCAwIDY0LTY0IDAgMCAyNTYgMTkyIDAgMC0zMiA2NCAwIDAgNDhjMCAyNi41LTIxLjUgNDgtNDggNDhMNDggNTEyYy0yNi41IDAtNDgtMjEuNS00OC00OEwwIDE3NmMwLTI2LjUgMjEuNS00OCA0OC00OHoiLz48L3N2Zz4=);
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
+    background-position: 0;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('splinetransformer',
+                 SplineTransformer(extrapolation='periodic',
+                                   knots=array([[  1.        ],
+       [ 61.66666667],
+       [122.33333333],
+       [183.        ],
+       [243.66666667],
+       [304.33333333],
+       [365.        ]]))),
+                ('ridge', Ridge())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted" data-param-prefix="">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="user-set odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.pipeline.Pipeline.html#:~:text=steps,-list%20of%20tuples" class="param-doc-link" rel="noreferrer" target="_blank">steps <span class="param-doc-description">steps: list of tuples<br>
+<br>
+List of (name of step, estimator) tuples that are to be chained in<br>
+sequential order. To be compatible with the scikit-learn API, all steps<br>
+must define `fit`. All non-last steps must also define `transform`. See<br>
+:ref:`Combining Estimators <combining_estimators>` for more details.</combining_estimators></span></a></td>
+<td class="value">[('splinetransformer', ...), ('ridge', ...)]</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.pipeline.Pipeline.html#:~:text=transform_input,-list%20of%20str%2C%20default%3DNone" class="param-doc-link" rel="noreferrer" target="_blank">transform_input <span class="param-doc-description">transform_input: list of str, default=None<br>
+<br>
+The names of the :term:`metadata` parameters that should be transformed by the<br>
+pipeline before passing it to the step consuming it.<br>
+<br>
+This enables transforming some input arguments to ``fit`` (other than ``X``)<br>
+to be transformed by the steps of the pipeline up to the step which requires<br>
+them. Requirement is defined via :ref:`metadata routing <metadata_routing>`.<br>
+For instance, this can be used to pass a validation set through the pipeline.<br>
+<br>
+You can only set this if metadata routing is enabled, which you<br>
+can enable using ``sklearn.set_config(enable_metadata_routing=True)``.<br>
+<br>
+.. versionadded:: 1.6</metadata_routing></span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.pipeline.Pipeline.html#:~:text=memory,-str%20or%20object%20with%20the%20joblib.Memory%20interface%2C%20default%3DNone" class="param-doc-link" rel="noreferrer" target="_blank">memory <span class="param-doc-description">memory: str or object with the joblib.Memory interface, default=None<br>
+<br>
+Used to cache the fitted transformers of the pipeline. The last step<br>
+will never be cached, even if it is a transformer. By default, no<br>
+caching is performed. If a string is given, it is the path to the<br>
+caching directory. Enabling caching triggers a clone of the transformers<br>
+before fitting. Therefore, the transformer instance given to the<br>
+pipeline cannot be inspected directly. Use the attribute ``named_steps``<br>
+or ``steps`` to inspect estimators within the pipeline. Caching the<br>
+transformers is advantageous when fitting is time consuming. See<br>
+:ref:`sphx_glr_auto_examples_neighbors_plot_caching_nearest_neighbors.py`<br>
+for an example on how to enable caching.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.pipeline.Pipeline.html#:~:text=verbose,-bool%2C%20default%3DFalse" class="param-doc-link" rel="noreferrer" target="_blank">verbose <span class="param-doc-description">verbose: bool, default=False<br>
+<br>
+If True, the time elapsed while fitting each step will be printed as it<br>
+is completed.</span></a></td>
+<td class="value">False</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"><label for="sk-estimator-id-2" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>SplineTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html">?<span>Documentation for SplineTransformer</span></a></div></label><div class="sk-toggleable__content fitted" data-param-prefix="splinetransformer__">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=n_knots,-int%2C%20default%3D5" class="param-doc-link" rel="noreferrer" target="_blank">n_knots <span class="param-doc-description">n_knots: int, default=5<br>
+<br>
+Number of knots of the splines if `knots` equals one of<br>
+{'uniform', 'quantile'}. Must be larger or equal 2. Ignored if `knots`<br>
+is array-like.</span></a></td>
+<td class="value">5</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=degree,-int%2C%20default%3D3" class="param-doc-link" rel="noreferrer" target="_blank">degree <span class="param-doc-description">degree: int, default=3<br>
+<br>
+The polynomial degree of the spline basis. Must be a non-negative<br>
+integer.</span></a></td>
+<td class="value">3</td>
+</tr>
+<tr class="user-set odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=knots,-int%2C%20default%3D5" class="param-doc-link" rel="noreferrer" target="_blank">knots <span class="param-doc-description">knots: {'uniform', 'quantile'} or array-like of shape (n_knots, n_features), default='uniform'<br>
+<br>
+Set knot positions such that first knot &lt;= features &lt;= last knot.<br>
+<br>
+- If 'uniform', `n_knots` number of knots are distributed uniformly<br>
+from min to max values of the features.<br>
+- If 'quantile', they are distributed uniformly along the quantiles of<br>
+the features.<br>
+- If an array-like is given, it directly specifies the sorted knot<br>
+positions including the boundary knots. Note that, internally,<br>
+`degree` number of knots are added before the first knot, the same<br>
+after the last knot.</span></a></td>
+<td class="value">array([[ 1. ...65. ]])</td>
+</tr>
+<tr class="user-set even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=extrapolation,-%7B%27error%27%2C%20%27constant%27%2C%20%27linear%27%2C%20%27continue%27%2C%20%27periodic%27%7D%2C%20%20%20%20%20%20%20%20%20default%3D%27constant%27" class="param-doc-link" rel="noreferrer" target="_blank">extrapolation <span class="param-doc-description">extrapolation: {'error', 'constant', 'linear', 'continue', 'periodic'}, default='constant'<br>
+<br>
+If 'error', values outside the min and max values of the training<br>
+features raises a `ValueError`. If 'constant', the value of the<br>
+splines at minimum and maximum value of the features is used as<br>
+constant extrapolation. If 'linear', a linear extrapolation is used.<br>
+If 'continue', the splines are extrapolated as is, i.e. option<br>
+`extrapolate=True` in :class:`scipy.interpolate.BSpline`. If<br>
+'periodic', periodic splines with a periodicity equal to the distance<br>
+between the first and last knot are used. Periodic splines enforce<br>
+equal function values and derivatives at the first and last knot.<br>
+For example, this makes it possible to avoid introducing an arbitrary<br>
+jump between Dec 31st and Jan 1st in spline features derived from a<br>
+naturally periodic "day-of-year" input feature. In this case it is<br>
+recommended to manually set the knot values to control the period.</span></a></td>
+<td class="value">'periodic'</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=include_bias,-bool%2C%20default%3DTrue" class="param-doc-link" rel="noreferrer" target="_blank">include_bias <span class="param-doc-description">include_bias: bool, default=True<br>
+<br>
+If False, then the last spline element inside the data range<br>
+of a feature is dropped. As B-splines sum to one over the spline basis<br>
+functions for each data point, they implicitly include a bias term,<br>
+i.e. a column of ones. It acts as an intercept term in a linear models.</span></a></td>
+<td class="value">True</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=order,-%7B%27C%27%2C%20%27F%27%7D%2C%20default%3D%27C%27" class="param-doc-link" rel="noreferrer" target="_blank">order <span class="param-doc-description">order: {'C', 'F'}, default='C'<br>
+<br>
+Order of output array in the dense case. `'F'` order is faster to compute, but<br>
+may slow down subsequent estimators.</span></a></td>
+<td class="value">'C'</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=handle_missing,-%7B%27error%27%2C%20%27zeros%27%7D%2C%20default%3D%27error%27" class="param-doc-link" rel="noreferrer" target="_blank">handle_missing <span class="param-doc-description">handle_missing: {'error', 'zeros'}, default='error'<br>
+<br>
+Specifies the way missing values are handled.<br>
+<br>
+- 'error' : Raise an error if `np.nan` values are present during :meth:`fit`.<br>
+- 'zeros' : Encode splines of missing values with values `0`.<br>
+<br>
+Note that `handle_missing='zeros'` differs from first imputing missing values<br>
+with zeros and then creating the spline basis. The latter creates spline basis<br>
+functions which have non-zero values at the missing values<br>
+whereas this option simply sets all spline basis function values to zero at the<br>
+missing values.<br>
+<br>
+.. versionadded:: 1.8</span></a></td>
+<td class="value">'error'</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=sparse_output,-bool%2C%20default%3DFalse" class="param-doc-link" rel="noreferrer" target="_blank">sparse_output <span class="param-doc-description">sparse_output: bool, default=False<br>
+<br>
+Will return sparse CSR matrix if set True else will return an array.<br>
+<br>
+.. versionadded:: 1.2</span></a></td>
+<td class="value">False</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>Ridge</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html">?<span>Documentation for Ridge</span></a></div></label><div class="sk-toggleable__content fitted" data-param-prefix="ridge__">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=alpha,-%7Bfloat%2C%20ndarray%20of%20shape%20%28n_targets%2C%29%7D%2C%20default%3D1.0" class="param-doc-link" rel="noreferrer" target="_blank">alpha <span class="param-doc-description">alpha: {float, ndarray of shape (n_targets,)}, default=1.0<br>
+<br>
+Constant that multiplies the L2 term, controlling regularization<br>
+strength. `alpha` must be a non-negative float i.e. in `[0, inf)`.<br>
+<br>
+When `alpha = 0`, the objective is equivalent to ordinary least<br>
+squares, solved by the :class:`LinearRegression` object. For numerical<br>
+reasons, using `alpha = 0` with the `Ridge` object is not advised.<br>
+Instead, you should use the :class:`LinearRegression` object.<br>
+<br>
+If an array is passed, penalties are assumed to be specific to the<br>
+targets. Hence they must correspond in number.</span></a></td>
+<td class="value">1.0</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=fit_intercept,-bool%2C%20default%3DTrue" class="param-doc-link" rel="noreferrer" target="_blank">fit_intercept <span class="param-doc-description">fit_intercept: bool, default=True<br>
+<br>
+Whether to fit the intercept for this model. If set<br>
+to false, no intercept will be used in calculations<br>
+(i.e. ``X`` and ``y`` are expected to be centered).</span></a></td>
+<td class="value">True</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=copy_X,-bool%2C%20default%3DTrue" class="param-doc-link" rel="noreferrer" target="_blank">copy_X <span class="param-doc-description">copy_X: bool, default=True<br>
+<br>
+If True, X will be copied; else, it may be overwritten.</span></a></td>
+<td class="value">True</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=max_iter,-int%2C%20default%3DNone" class="param-doc-link" rel="noreferrer" target="_blank">max_iter <span class="param-doc-description">max_iter: int, default=None<br>
+<br>
+Maximum number of iterations for conjugate gradient solver.<br>
+For 'sparse_cg' and 'lsqr' solvers, the default value is determined<br>
+by scipy.sparse.linalg. For 'sag' solver, the default value is 1000.<br>
+For 'lbfgs' solver, the default value is 15000.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=tol,-float%2C%20default%3D1e-4" class="param-doc-link" rel="noreferrer" target="_blank">tol <span class="param-doc-description">tol: float, default=1e-4<br>
+<br>
+The precision of the solution (`coef_`) is determined by `tol` which<br>
+specifies a different convergence criterion for each solver:<br>
+<br>
+- 'svd': `tol` has no impact.<br>
+<br>
+- 'cholesky': `tol` has no impact.<br>
+<br>
+- 'sparse_cg': norm of residuals smaller than `tol`.<br>
+<br>
+- 'lsqr': `tol` is set as atol and btol of scipy.sparse.linalg.lsqr,<br>
+which control the norm of the residual vector in terms of the norms of<br>
+matrix and coefficients.<br>
+<br>
+- 'sag' and 'saga': relative change of coef smaller than `tol`.<br>
+<br>
+- 'lbfgs': maximum of the absolute (projected) gradient=max|residuals|<br>
+smaller than `tol`.<br>
+<br>
+.. versionchanged:: 1.2<br>
+Default value changed from 1e-3 to 1e-4 for consistency with other linear<br>
+models.</span></a></td>
+<td class="value">0.0001</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=solver,-%7B%27auto%27%2C%20%27svd%27%2C%20%27cholesky%27%2C%20%27lsqr%27%2C%20%27sparse_cg%27%2C%20%20%20%20%20%20%20%20%20%20%20%20%20%27sag%27%2C%20%27saga%27%2C%20%27lbfgs%27%7D%2C%20default%3D%27auto%27" class="param-doc-link" rel="noreferrer" target="_blank">solver <span class="param-doc-description">solver: {'auto', 'svd', 'cholesky', 'lsqr', 'sparse_cg', 'sag', 'saga', 'lbfgs'}, default='auto'<br>
+<br>
+Solver to use in the computational routines:<br>
+<br>
+- 'auto' chooses the solver automatically based on the type of data.<br>
+<br>
+- 'svd' uses a Singular Value Decomposition of X to compute the Ridge<br>
+coefficients. It is the most stable solver, in particular more stable<br>
+for singular matrices than 'cholesky' at the cost of being slower.<br>
+<br>
+- 'cholesky' uses the standard :func:`scipy.linalg.solve` function to<br>
+obtain a closed-form solution.<br>
+<br>
+- 'sparse_cg' uses the conjugate gradient solver as found in<br>
+:func:`scipy.sparse.linalg.cg`. As an iterative algorithm, this solver is<br>
+more appropriate than 'cholesky' for large-scale data<br>
+(possibility to set `tol` and `max_iter`).<br>
+<br>
+- 'lsqr' uses the dedicated regularized least-squares routine<br>
+:func:`scipy.sparse.linalg.lsqr`. It is the fastest and uses an iterative<br>
+procedure.<br>
+<br>
+- 'sag' uses a Stochastic Average Gradient descent, and 'saga' uses<br>
+its improved, unbiased version named SAGA. Both methods also use an<br>
+iterative procedure, and are often faster than other solvers when<br>
+both n_samples and n_features are large. Note that 'sag' and<br>
+'saga' fast convergence is only guaranteed on features with<br>
+approximately the same scale. You can preprocess the data with a<br>
+scaler from :mod:`sklearn.preprocessing`.<br>
+<br>
+- 'lbfgs' uses L-BFGS-B algorithm implemented in<br>
+:func:`scipy.optimize.minimize`. It can be used only when `positive`<br>
+is True.<br>
+<br>
+All solvers except 'svd' support both dense and sparse data. However, only<br>
+'lsqr', 'sag', 'sparse_cg', and 'lbfgs' support sparse input when<br>
+`fit_intercept` is True.<br>
+<br>
+.. versionadded:: 0.17<br>
+Stochastic Average Gradient descent solver.<br>
+.. versionadded:: 0.19<br>
+SAGA solver.</span></a></td>
+<td class="value">'auto'</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=positive,-bool%2C%20default%3DFalse" class="param-doc-link" rel="noreferrer" target="_blank">positive <span class="param-doc-description">positive: bool, default=False<br>
+<br>
+When set to ``True``, forces the coefficients to be positive.<br>
+Only 'lbfgs' solver is supported in this case.</span></a></td>
+<td class="value">False</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=random_state,-int%2C%20RandomState%20instance%2C%20default%3DNone" class="param-doc-link" rel="noreferrer" target="_blank">random_state <span class="param-doc-description">random_state: int, RandomState instance, default=None<br>
+<br>
+Used when ``solver`` == 'sag' or 'saga' to shuffle the data.<br>
+See :term:`Glossary <random_state>` for details.<br>
+<br>
+.. versionadded:: 0.17<br>
+`random_state` to support Stochastic Average Gradient.</random_state></span></a></td>
+<td class="value">None</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div></div></div></div></div><script>function copyToClipboard(text, element) {
+    // Get the parameter prefix from the closest toggleable content
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const fullParamName = paramPrefix ? `${paramPrefix}${text}` : text;
+
+    const originalStyle = element.style;
+    const computedStyle = window.getComputedStyle(element);
+    const originalWidth = computedStyle.width;
+    const originalHTML = element.innerHTML.replace('Copied!', '');
+
+    navigator.clipboard.writeText(fullParamName)
+        .then(() => {
+            element.style.width = originalWidth;
+            element.style.color = 'green';
+            element.innerHTML = "Copied!";
+
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            element.style.color = 'red';
+            element.innerHTML = "Failed!";
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        });
+    return false;
+}
+
+document.querySelectorAll('.copy-paste-icon').forEach(function(element) {
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const paramName = element.parentElement.nextElementSibling
+        .textContent.trim().split(' ')[0];
+    const fullParamName = paramPrefix ? `${paramPrefix}${paramName}` : paramName;
+
+    element.setAttribute('title', fullParamName);
+});
+
+
+/**
+ * Adapted from Skrub
+ * https://github.com/skrub-data/skrub/blob/403466d1d5d4dc76a7ef569b3f8228db59a31dc3/skrub/_reporting/_data/templates/report.js#L789
+ * @returns "light" or "dark"
+ */
+function detectTheme(element) {
+    const body = document.querySelector('body');
+
+    // Check VSCode theme
+    const themeKindAttr = body.getAttribute('data-vscode-theme-kind');
+    const themeNameAttr = body.getAttribute('data-vscode-theme-name');
+
+    if (themeKindAttr && themeNameAttr) {
+        const themeKind = themeKindAttr.toLowerCase();
+        const themeName = themeNameAttr.toLowerCase();
+
+        if (themeKind.includes("dark") || themeName.includes("dark")) {
+            return "dark";
+        }
+        if (themeKind.includes("light") || themeName.includes("light")) {
+            return "light";
+        }
+    }
+
+    // Check Jupyter theme
+    if (body.getAttribute('data-jp-theme-light') === 'false') {
+        return 'dark';
+    } else if (body.getAttribute('data-jp-theme-light') === 'true') {
+        return 'light';
+    }
+
+    // Guess based on a parent element's color
+    const color = window.getComputedStyle(element.parentNode, null).getPropertyValue('color');
+    const match = color.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*$/i);
+    if (match) {
+        const [r, g, b] = [
+            parseFloat(match[1]),
+            parseFloat(match[2]),
+            parseFloat(match[3])
+        ];
+
+        // https://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
+        const luma = 0.299 * r + 0.587 * g + 0.114 * b;
+
+        if (luma > 180) {
+            // If the text is very bright we have a dark theme
+            return 'dark';
+        }
+        if (luma < 75) {
+            // If the text is very dark we have a light theme
+            return 'light';
+        }
+        // Otherwise fall back to the next heuristic.
+    }
+
+    // Fallback to system preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+
+function forceTheme(elementId) {
+    const estimatorElement = document.querySelector(`#${elementId}`);
+    if (estimatorElement === null) {
+        console.error(`Element with id ${elementId} not found.`);
+    } else {
+        const theme = detectTheme(estimatorElement);
+        estimatorElement.classList.add(theme);
+    }
+}
+
+forceTheme('sk-container-id-1');</script>
+</div>
+</div>
+<p>We can visualise the fitted model’s predictions over the input range to check they look reasonable using <code>matplotlib</code></p>
+<div id="a813008b" class="cell" data-output-location="fragment" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">3</span>))</span>
+<span id="cb8-2"><a href="#cb8-2"></a>ax.plot(X_train, y_train, model.predict(X_train))</span>
+<span id="cb8-3"><a href="#cb8-3"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="vs">r"Day of year"</span>, ylabel<span class="op">=</span><span class="st">"Daily temperature range / $^</span><span class="er">\</span><span class="st">circ C$"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4"></a>ax.legend([<span class="st">"Data"</span>, <span class="st">"Spline fit"</span>])</span>
+<span id="cb8-5"><a href="#cb8-5"></a>fig.tight_layout()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>&lt;&gt;:3: SyntaxWarning: "\c" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\c"? A raw string is also an option.
+&lt;&gt;:3: SyntaxWarning: "\c" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\c"? A raw string is also an option.
+/tmp/ipykernel_14293/3883458718.py:3: SyntaxWarning: "\c" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\c"? A raw string is also an option.
+  ax.set(xlabel=r"Day of year", ylabel="Daily temperature range / $^\circ C$")</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture22_DataPipelines_files/figure-html/cell-9-output-2.png" width="756" height="278" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="publishing" class="level2">
+<h2 class="anchored" data-anchor-id="publishing">Publishing</h2>
+<div class="notes">
+<p>Once we have trained our model or used it to produce predictions, our job is still often not yet done. The model itself and the outputs we generate using it can be considered as new data to be shared with others to allow them to reproduce our analyses and reuse the results in their own analysis.</p>
+<p>We might therefore wish to host our model or model outputs on a platform that allows others to access them. A simple option would be to simply place the files on cloud storage service such as the Amazon Web Services Simple Storage Service we encountered previously. While a viable route for giving others access to the model files themselves, in general to ensure our data is amenable to reuse by others as possible we need to do some further work.</p>
+<p>One particular route that can be worth considering is to use a specialised repositories for hosting research data and other digital assets such as <a href="https://zenodo.org/">Zenodo</a> or institutional equivalents such as the UCL Research Data Repository. Compared to generic cloud storage services these offer more features for helping to ensure the way we share our data aligns with what are called the FAIR principles of findability, accessibility, interoperability and reusability, that we will cover in more detail shortly.</p>
+</div>
+</section>
+<section id="publishing-data" class="level2">
+<h2 class="anchored" data-anchor-id="publishing-data">Publishing data</h2>
+<div class="notes">
+<p>A key consideration when releasing and data is the format it will be stored in. Typically it is better to distribute data either in generic widely supported open data formats - for example <em>comma separated variable</em> (CSV) files for tabular data or <em>JavaScript Object Notation</em> (JSON) files for structured data, or in a formats that are standard to a particular field, for example NetCDF files for geoscientific data or DICOM for medical imaging data. Likewise it is best to avoid where possible non-open file formats that require proprietary software to read such as Excel workbooks or MATLAB data files, to ensure the data is as usable by as wide an audience as possible.</p>
+<p>A very important point is that as well as publishing the data itself, you should also distribute the data with descriptive <strong>metadata</strong> which describes for example, the provenance of the data, that is how it was generated and where any data that fed into it came from, and documents what is included within the data and how to interpret it.</p>
+</div>
+</section>
+<section id="fair-principles" class="level2">
+<h2 class="anchored" data-anchor-id="fair-principles">FAIR principles</h2>
+<div class="notes">
+<p>When publishing data or other digital assets, a useful framework to follow are what are called the <a href="https://www.go-fair.org/fair-principles/"><strong>FAIR principles</strong></a>, which where first defined in a research article in Scientific Data by a consortium of scientists and research organizations in March 2016.</p>
+<p>A key consideration underlying the FAIR principles are that the shared data and metadata should be machine actionable - that is able to be used with minimal human intervention. The four principles are defined as</p>
+<ul>
+<li>Findability - the idea that potential users should be able to search for a shared data artefact via some index. This is linked to a requirement that the data is assigned a unique and persistent global identifier so that it can indexed and also refound and referred to later, and that it is described with a rich set of metadata that facilitate searching.</li>
+<li>Accessibility - this refers to the principle that how data can be accessed must be clearly documented, ideally by allowing use of a standardized communication protocol for accessing the data and its attached metatdata via its unique global identifier.</li>
+<li>Interoperability - this encapsulates the need for the shared data artefact to be able to be integrated with other data and software. A key consideration here is the format in which both the data and any attached metadata is distributed.</li>
+<li>Reusability - the overall aim of the FAIR principles are to facilitate reuse of data. This both requires that the data is richly described by metadata that explain its provenance and how it is structured, but also that the terms of reuse of the data are clearly defined using an accessible data usage license.</li>
+</ul>
+</div>
+</section>
+<section id="publishing-models" class="level2">
+<h2 class="anchored" data-anchor-id="publishing-models">Publishing models</h2>
+<div class="notes">
+<p>We have so far discussed the idea of sharing and publishing data in a generic sense, but at the beginning of the section we made the point that the model itself is data that can be shared and published. It might not be as clear however as for a static data file how this can be accomplished. There are a variety of different ways however in which we can share models, each with their own set of strengths and weaknesses.</p>
+<ul>
+<li>We could build an executable application that allows model outputs to be computed for new data and distribute the corresponding binaries. While this may be a relatively simple way for other people to use your model in some circumstances, typically an executable will be specific to a particular operating system or hardware architecture, meaning either we limit the range of users who can use the model or have to deal with building and distributing applications for a multitude of platforms. An executable application will also typically give limited details in itself of how a model is structured, make it difficult to adapt the model and depending on the interface exposed may make it difficult to reuse the model within other software.</li>
+<li>One relatively popular option for deploying machine learning models is to create a web service which allows users to query the model with their own data via some web-based interface. This will typically be a more technically involved option than distributing an executable application but has the benefit of being inherently cross platform, with many programming languages and analysis software providing functionality to interact with web services. Similar to an executable application, publishing model as a web service will mean that while it can be used as blackbox which gives outputs for provided inputs, it will typically not allow users to understand the structures and assumptions underlying the model and adapt it to their own applications.</li>
+<li>Another option is to distribute a container, for example using software such as Docker, which has a resuable image of both the code for running your model but also all of the dependencies required for other to use the model within a virtual machine on their own computer. This has the advantage of being inherently cross platform, but can require more effort or expertise from the user in terms of being familiar with use of container technology, and a whole system image will typically be much slower to download than just a single executable application.</li>
+<li>One of the simplest approaches, and the one we show a concrete example of here, is to <em>serialize</em> the model to a file that can then be used to load the model object on a different computer or the same machine in the future. This requires support within the framework used for building the model for performing such serialization, but has the advantage of resulting in a lightweight artefact that is simple to share and can be typically be loaded on any platform that the underlying framework is supported on.</li>
+</ul>
+</div>
+</section>
+<section id="model-serialization" class="level2">
+<h2 class="anchored" data-anchor-id="model-serialization">Model serialization</h2>
+<div class="notes">
+<p>Within the Python ecosystem, there is a built-in module <code>pickle</code> which can serialize a range of both built-in and third party data types to file. Importantly for us scikit-learn models support serializing with <code>pickle</code> and so this represents a simple way of sharing trained models as static files.</p>
+<p>One important restriction however is that while pickle files can be loaded, with some restrictions, across Python versions and across different operating systems, for the pickled object to correctly load and reproduce the behaviour of the original object, at the very least the Python environment it is being loaded in must have all of the packages defining any datatypes used in the pickled objects installed, and ideally should have exactly the same versions of these packages to ensure reproducibility. This can be facilitated by for example including a text file which defines pinned versions of all the package versions installed in the environment used to produce a pickle along with the pickle file itself.</p>
+</div>
+</section>
+<section id="example-serializing-trained-model" class="level2">
+<h2 class="anchored" data-anchor-id="example-serializing-trained-model">Example: serializing trained model</h2>
+<div id="c6a6db01" class="cell" data-output-location="fragment" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">import</span> pickle</span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"trained_model.pkl"</span>, <span class="st">"wb"</span>) <span class="im">as</span> f:</span>
+<span id="cb10-4"><a href="#cb10-4"></a>    pickle.dump(model, f)</span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"trained_model.pkl"</span>, <span class="st">"rb"</span>) <span class="im">as</span> f:</span>
+<span id="cb10-6"><a href="#cb10-6"></a>    saved_model <span class="op">=</span> pickle.load(f)</span>
+<span id="cb10-7"><a href="#cb10-7"></a>saved_model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<style>#sk-container-id-2 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+}
+
+#sk-container-id-2.light {
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: black;
+  --sklearn-color-background: white;
+  --sklearn-color-border-box: black;
+  --sklearn-color-icon: #696969;
+}
+
+#sk-container-id-2.dark {
+  --sklearn-color-text-on-default-background: white;
+  --sklearn-color-background: #111;
+  --sklearn-color-border-box: white;
+  --sklearn-color-icon: #878787;
+}
+
+#sk-container-id-2 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-2 pre {
+  padding: 0;
+}
+
+#sk-container-id-2 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-2 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-2 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-2 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-2 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-2 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-2 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-2 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-2 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-2 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-2 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-2 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-2 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+#sk-container-id-2 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-2 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-2 div.sk-toggleable__content {
+  display: none;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-2 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-2 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-2 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-2 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-2 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-2 div.sk-label label.sk-toggleable__label,
+#sk-container-id-2 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-2 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-2 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  line-height: 1.2em;
+}
+
+#sk-container-id-2 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-2 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-2 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-2 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-2 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-3) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3) 1pt solid;
+  color: var(--sklearn-color-fitted-level-3);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  border: var(--sklearn-color-fitted-level-0) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-0);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  border: var(--sklearn-color-fitted-level-0) 1pt solid;
+  color: var(--sklearn-color-fitted-level-0);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-2 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-2 a.estimator_doc_link.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-2 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-2 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+
+.estimator-table {
+    font-family: monospace;
+}
+
+.estimator-table summary {
+    padding: .5rem;
+    cursor: pointer;
+}
+
+.estimator-table summary::marker {
+    font-size: 0.7rem;
+}
+
+.estimator-table details[open] {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+    padding-bottom: 0.3rem;
+}
+
+.estimator-table .parameters-table {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0;
+}
+
+.estimator-table .parameters-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.estimator-table .parameters-table tr:nth-child(even) {
+    background-color: #f6f6f6;
+}
+
+.estimator-table .parameters-table tr:hover {
+    background-color: #e0e0e0;
+}
+
+.estimator-table table td {
+    border: 1px solid rgba(106, 105, 104, 0.232);
+}
+
+/*
+    `table td`is set in notebook with right text-align.
+    We need to overwrite it.
+*/
+.estimator-table table td.param {
+    text-align: left;
+    position: relative;
+    padding: 0;
+}
+
+.user-set td {
+    color:rgb(255, 94, 0);
+    text-align: left !important;
+}
+
+.user-set td.value {
+    color:rgb(255, 94, 0);
+    background-color: transparent;
+}
+
+.default td {
+    color: black;
+    text-align: left !important;
+}
+
+.user-set td i,
+.default td i {
+    color: black;
+}
+
+/*
+    Styles for parameter documentation links
+    We need styling for visited so jupyter doesn't overwrite it
+*/
+a.param-doc-link,
+a.param-doc-link:link,
+a.param-doc-link:visited {
+    text-decoration: underline dashed;
+    text-underline-offset: .3em;
+    color: inherit;
+    display: block;
+    padding: .5em;
+}
+
+/* "hack" to make the entire area of the cell containing the link clickable */
+a.param-doc-link::before {
+    position: absolute;
+    content: "";
+    inset: 0;
+}
+
+.param-doc-description {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    left: 0;
+    padding: .5ex;
+    margin-left: 1.5em;
+    color: var(--sklearn-color-text);
+    box-shadow: .3em .3em .4em #999;
+    width: max-content;
+    text-align: left;
+    max-height: 10em;
+    overflow-y: auto;
+
+    /* unfitted */
+    background: var(--sklearn-color-unfitted-level-0);
+    border: thin solid var(--sklearn-color-unfitted-level-3);
+}
+
+/* Fitted state for parameter tooltips */
+.fitted .param-doc-description {
+    /* fitted */
+    background: var(--sklearn-color-fitted-level-0);
+    border: thin solid var(--sklearn-color-fitted-level-3);
+}
+
+.param-doc-link:hover .param-doc-description {
+    display: block;
+}
+
+.copy-paste-icon {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTIwOCAwTDMzMi4xIDBjMTIuNyAwIDI0LjkgNS4xIDMzLjkgMTQuMWw2Ny45IDY3LjljOSA5IDE0LjEgMjEuMiAxNC4xIDMzLjlMNDQ4IDMzNmMwIDI2LjUtMjEuNSA0OC00OCA0OGwtMTkyIDBjLTI2LjUgMC00OC0yMS41LTQ4LTQ4bDAtMjg4YzAtMjYuNSAyMS41LTQ4IDQ4LTQ4ek00OCAxMjhsODAgMCAwIDY0LTY0IDAgMCAyNTYgMTkyIDAgMC0zMiA2NCAwIDAgNDhjMCAyNi41LTIxLjUgNDgtNDggNDhMNDggNTEyYy0yNi41IDAtNDgtMjEuNS00OC00OEwwIDE3NmMwLTI2LjUgMjEuNS00OCA0OC00OHoiLz48L3N2Zz4=);
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
+    background-position: 0;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('splinetransformer',
+                 SplineTransformer(extrapolation='periodic',
+                                   knots=array([[  1.        ],
+       [ 61.66666667],
+       [122.33333333],
+       [183.        ],
+       [243.66666667],
+       [304.33333333],
+       [365.        ]]))),
+                ('ridge', Ridge())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox"><label for="sk-estimator-id-4" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted" data-param-prefix="">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="user-set odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.pipeline.Pipeline.html#:~:text=steps,-list%20of%20tuples" class="param-doc-link" rel="noreferrer" target="_blank">steps <span class="param-doc-description">steps: list of tuples<br>
+<br>
+List of (name of step, estimator) tuples that are to be chained in<br>
+sequential order. To be compatible with the scikit-learn API, all steps<br>
+must define `fit`. All non-last steps must also define `transform`. See<br>
+:ref:`Combining Estimators <combining_estimators>` for more details.</combining_estimators></span></a></td>
+<td class="value">[('splinetransformer', ...), ('ridge', ...)]</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.pipeline.Pipeline.html#:~:text=transform_input,-list%20of%20str%2C%20default%3DNone" class="param-doc-link" rel="noreferrer" target="_blank">transform_input <span class="param-doc-description">transform_input: list of str, default=None<br>
+<br>
+The names of the :term:`metadata` parameters that should be transformed by the<br>
+pipeline before passing it to the step consuming it.<br>
+<br>
+This enables transforming some input arguments to ``fit`` (other than ``X``)<br>
+to be transformed by the steps of the pipeline up to the step which requires<br>
+them. Requirement is defined via :ref:`metadata routing <metadata_routing>`.<br>
+For instance, this can be used to pass a validation set through the pipeline.<br>
+<br>
+You can only set this if metadata routing is enabled, which you<br>
+can enable using ``sklearn.set_config(enable_metadata_routing=True)``.<br>
+<br>
+.. versionadded:: 1.6</metadata_routing></span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.pipeline.Pipeline.html#:~:text=memory,-str%20or%20object%20with%20the%20joblib.Memory%20interface%2C%20default%3DNone" class="param-doc-link" rel="noreferrer" target="_blank">memory <span class="param-doc-description">memory: str or object with the joblib.Memory interface, default=None<br>
+<br>
+Used to cache the fitted transformers of the pipeline. The last step<br>
+will never be cached, even if it is a transformer. By default, no<br>
+caching is performed. If a string is given, it is the path to the<br>
+caching directory. Enabling caching triggers a clone of the transformers<br>
+before fitting. Therefore, the transformer instance given to the<br>
+pipeline cannot be inspected directly. Use the attribute ``named_steps``<br>
+or ``steps`` to inspect estimators within the pipeline. Caching the<br>
+transformers is advantageous when fitting is time consuming. See<br>
+:ref:`sphx_glr_auto_examples_neighbors_plot_caching_nearest_neighbors.py`<br>
+for an example on how to enable caching.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.pipeline.Pipeline.html#:~:text=verbose,-bool%2C%20default%3DFalse" class="param-doc-link" rel="noreferrer" target="_blank">verbose <span class="param-doc-description">verbose: bool, default=False<br>
+<br>
+If True, the time elapsed while fitting each step will be printed as it<br>
+is completed.</span></a></td>
+<td class="value">False</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox"><label for="sk-estimator-id-5" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>SplineTransformer</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html">?<span>Documentation for SplineTransformer</span></a></div></label><div class="sk-toggleable__content fitted" data-param-prefix="splinetransformer__">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=n_knots,-int%2C%20default%3D5" class="param-doc-link" rel="noreferrer" target="_blank">n_knots <span class="param-doc-description">n_knots: int, default=5<br>
+<br>
+Number of knots of the splines if `knots` equals one of<br>
+{'uniform', 'quantile'}. Must be larger or equal 2. Ignored if `knots`<br>
+is array-like.</span></a></td>
+<td class="value">5</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=degree,-int%2C%20default%3D3" class="param-doc-link" rel="noreferrer" target="_blank">degree <span class="param-doc-description">degree: int, default=3<br>
+<br>
+The polynomial degree of the spline basis. Must be a non-negative<br>
+integer.</span></a></td>
+<td class="value">3</td>
+</tr>
+<tr class="user-set odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=knots,-int%2C%20default%3D5" class="param-doc-link" rel="noreferrer" target="_blank">knots <span class="param-doc-description">knots: {'uniform', 'quantile'} or array-like of shape (n_knots, n_features), default='uniform'<br>
+<br>
+Set knot positions such that first knot &lt;= features &lt;= last knot.<br>
+<br>
+- If 'uniform', `n_knots` number of knots are distributed uniformly<br>
+from min to max values of the features.<br>
+- If 'quantile', they are distributed uniformly along the quantiles of<br>
+the features.<br>
+- If an array-like is given, it directly specifies the sorted knot<br>
+positions including the boundary knots. Note that, internally,<br>
+`degree` number of knots are added before the first knot, the same<br>
+after the last knot.</span></a></td>
+<td class="value">array([[ 1. ...65. ]])</td>
+</tr>
+<tr class="user-set even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=extrapolation,-%7B%27error%27%2C%20%27constant%27%2C%20%27linear%27%2C%20%27continue%27%2C%20%27periodic%27%7D%2C%20%20%20%20%20%20%20%20%20default%3D%27constant%27" class="param-doc-link" rel="noreferrer" target="_blank">extrapolation <span class="param-doc-description">extrapolation: {'error', 'constant', 'linear', 'continue', 'periodic'}, default='constant'<br>
+<br>
+If 'error', values outside the min and max values of the training<br>
+features raises a `ValueError`. If 'constant', the value of the<br>
+splines at minimum and maximum value of the features is used as<br>
+constant extrapolation. If 'linear', a linear extrapolation is used.<br>
+If 'continue', the splines are extrapolated as is, i.e. option<br>
+`extrapolate=True` in :class:`scipy.interpolate.BSpline`. If<br>
+'periodic', periodic splines with a periodicity equal to the distance<br>
+between the first and last knot are used. Periodic splines enforce<br>
+equal function values and derivatives at the first and last knot.<br>
+For example, this makes it possible to avoid introducing an arbitrary<br>
+jump between Dec 31st and Jan 1st in spline features derived from a<br>
+naturally periodic "day-of-year" input feature. In this case it is<br>
+recommended to manually set the knot values to control the period.</span></a></td>
+<td class="value">'periodic'</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=include_bias,-bool%2C%20default%3DTrue" class="param-doc-link" rel="noreferrer" target="_blank">include_bias <span class="param-doc-description">include_bias: bool, default=True<br>
+<br>
+If False, then the last spline element inside the data range<br>
+of a feature is dropped. As B-splines sum to one over the spline basis<br>
+functions for each data point, they implicitly include a bias term,<br>
+i.e. a column of ones. It acts as an intercept term in a linear models.</span></a></td>
+<td class="value">True</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=order,-%7B%27C%27%2C%20%27F%27%7D%2C%20default%3D%27C%27" class="param-doc-link" rel="noreferrer" target="_blank">order <span class="param-doc-description">order: {'C', 'F'}, default='C'<br>
+<br>
+Order of output array in the dense case. `'F'` order is faster to compute, but<br>
+may slow down subsequent estimators.</span></a></td>
+<td class="value">'C'</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=handle_missing,-%7B%27error%27%2C%20%27zeros%27%7D%2C%20default%3D%27error%27" class="param-doc-link" rel="noreferrer" target="_blank">handle_missing <span class="param-doc-description">handle_missing: {'error', 'zeros'}, default='error'<br>
+<br>
+Specifies the way missing values are handled.<br>
+<br>
+- 'error' : Raise an error if `np.nan` values are present during :meth:`fit`.<br>
+- 'zeros' : Encode splines of missing values with values `0`.<br>
+<br>
+Note that `handle_missing='zeros'` differs from first imputing missing values<br>
+with zeros and then creating the spline basis. The latter creates spline basis<br>
+functions which have non-zero values at the missing values<br>
+whereas this option simply sets all spline basis function values to zero at the<br>
+missing values.<br>
+<br>
+.. versionadded:: 1.8</span></a></td>
+<td class="value">'error'</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.SplineTransformer.html#:~:text=sparse_output,-bool%2C%20default%3DFalse" class="param-doc-link" rel="noreferrer" target="_blank">sparse_output <span class="param-doc-description">sparse_output: bool, default=False<br>
+<br>
+Will return sparse CSR matrix if set True else will return an array.<br>
+<br>
+.. versionadded:: 1.2</span></a></td>
+<td class="value">False</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox"><label for="sk-estimator-id-6" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>Ridge</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html">?<span>Documentation for Ridge</span></a></div></label><div class="sk-toggleable__content fitted" data-param-prefix="ridge__">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=alpha,-%7Bfloat%2C%20ndarray%20of%20shape%20%28n_targets%2C%29%7D%2C%20default%3D1.0" class="param-doc-link" rel="noreferrer" target="_blank">alpha <span class="param-doc-description">alpha: {float, ndarray of shape (n_targets,)}, default=1.0<br>
+<br>
+Constant that multiplies the L2 term, controlling regularization<br>
+strength. `alpha` must be a non-negative float i.e. in `[0, inf)`.<br>
+<br>
+When `alpha = 0`, the objective is equivalent to ordinary least<br>
+squares, solved by the :class:`LinearRegression` object. For numerical<br>
+reasons, using `alpha = 0` with the `Ridge` object is not advised.<br>
+Instead, you should use the :class:`LinearRegression` object.<br>
+<br>
+If an array is passed, penalties are assumed to be specific to the<br>
+targets. Hence they must correspond in number.</span></a></td>
+<td class="value">1.0</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=fit_intercept,-bool%2C%20default%3DTrue" class="param-doc-link" rel="noreferrer" target="_blank">fit_intercept <span class="param-doc-description">fit_intercept: bool, default=True<br>
+<br>
+Whether to fit the intercept for this model. If set<br>
+to false, no intercept will be used in calculations<br>
+(i.e. ``X`` and ``y`` are expected to be centered).</span></a></td>
+<td class="value">True</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=copy_X,-bool%2C%20default%3DTrue" class="param-doc-link" rel="noreferrer" target="_blank">copy_X <span class="param-doc-description">copy_X: bool, default=True<br>
+<br>
+If True, X will be copied; else, it may be overwritten.</span></a></td>
+<td class="value">True</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=max_iter,-int%2C%20default%3DNone" class="param-doc-link" rel="noreferrer" target="_blank">max_iter <span class="param-doc-description">max_iter: int, default=None<br>
+<br>
+Maximum number of iterations for conjugate gradient solver.<br>
+For 'sparse_cg' and 'lsqr' solvers, the default value is determined<br>
+by scipy.sparse.linalg. For 'sag' solver, the default value is 1000.<br>
+For 'lbfgs' solver, the default value is 15000.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=tol,-float%2C%20default%3D1e-4" class="param-doc-link" rel="noreferrer" target="_blank">tol <span class="param-doc-description">tol: float, default=1e-4<br>
+<br>
+The precision of the solution (`coef_`) is determined by `tol` which<br>
+specifies a different convergence criterion for each solver:<br>
+<br>
+- 'svd': `tol` has no impact.<br>
+<br>
+- 'cholesky': `tol` has no impact.<br>
+<br>
+- 'sparse_cg': norm of residuals smaller than `tol`.<br>
+<br>
+- 'lsqr': `tol` is set as atol and btol of scipy.sparse.linalg.lsqr,<br>
+which control the norm of the residual vector in terms of the norms of<br>
+matrix and coefficients.<br>
+<br>
+- 'sag' and 'saga': relative change of coef smaller than `tol`.<br>
+<br>
+- 'lbfgs': maximum of the absolute (projected) gradient=max|residuals|<br>
+smaller than `tol`.<br>
+<br>
+.. versionchanged:: 1.2<br>
+Default value changed from 1e-3 to 1e-4 for consistency with other linear<br>
+models.</span></a></td>
+<td class="value">0.0001</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=solver,-%7B%27auto%27%2C%20%27svd%27%2C%20%27cholesky%27%2C%20%27lsqr%27%2C%20%27sparse_cg%27%2C%20%20%20%20%20%20%20%20%20%20%20%20%20%27sag%27%2C%20%27saga%27%2C%20%27lbfgs%27%7D%2C%20default%3D%27auto%27" class="param-doc-link" rel="noreferrer" target="_blank">solver <span class="param-doc-description">solver: {'auto', 'svd', 'cholesky', 'lsqr', 'sparse_cg', 'sag', 'saga', 'lbfgs'}, default='auto'<br>
+<br>
+Solver to use in the computational routines:<br>
+<br>
+- 'auto' chooses the solver automatically based on the type of data.<br>
+<br>
+- 'svd' uses a Singular Value Decomposition of X to compute the Ridge<br>
+coefficients. It is the most stable solver, in particular more stable<br>
+for singular matrices than 'cholesky' at the cost of being slower.<br>
+<br>
+- 'cholesky' uses the standard :func:`scipy.linalg.solve` function to<br>
+obtain a closed-form solution.<br>
+<br>
+- 'sparse_cg' uses the conjugate gradient solver as found in<br>
+:func:`scipy.sparse.linalg.cg`. As an iterative algorithm, this solver is<br>
+more appropriate than 'cholesky' for large-scale data<br>
+(possibility to set `tol` and `max_iter`).<br>
+<br>
+- 'lsqr' uses the dedicated regularized least-squares routine<br>
+:func:`scipy.sparse.linalg.lsqr`. It is the fastest and uses an iterative<br>
+procedure.<br>
+<br>
+- 'sag' uses a Stochastic Average Gradient descent, and 'saga' uses<br>
+its improved, unbiased version named SAGA. Both methods also use an<br>
+iterative procedure, and are often faster than other solvers when<br>
+both n_samples and n_features are large. Note that 'sag' and<br>
+'saga' fast convergence is only guaranteed on features with<br>
+approximately the same scale. You can preprocess the data with a<br>
+scaler from :mod:`sklearn.preprocessing`.<br>
+<br>
+- 'lbfgs' uses L-BFGS-B algorithm implemented in<br>
+:func:`scipy.optimize.minimize`. It can be used only when `positive`<br>
+is True.<br>
+<br>
+All solvers except 'svd' support both dense and sparse data. However, only<br>
+'lsqr', 'sag', 'sparse_cg', and 'lbfgs' support sparse input when<br>
+`fit_intercept` is True.<br>
+<br>
+.. versionadded:: 0.17<br>
+Stochastic Average Gradient descent solver.<br>
+.. versionadded:: 0.19<br>
+SAGA solver.</span></a></td>
+<td class="value">'auto'</td>
+</tr>
+<tr class="default odd">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=positive,-bool%2C%20default%3DFalse" class="param-doc-link" rel="noreferrer" target="_blank">positive <span class="param-doc-description">positive: bool, default=False<br>
+<br>
+When set to ``True``, forces the coefficients to be positive.<br>
+Only 'lbfgs' solver is supported in this case.</span></a></td>
+<td class="value">False</td>
+</tr>
+<tr class="default even">
+<td><em></em></td>
+<td class="param"><a href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=random_state,-int%2C%20RandomState%20instance%2C%20default%3DNone" class="param-doc-link" rel="noreferrer" target="_blank">random_state <span class="param-doc-description">random_state: int, RandomState instance, default=None<br>
+<br>
+Used when ``solver`` == 'sag' or 'saga' to shuffle the data.<br>
+See :term:`Glossary <random_state>` for details.<br>
+<br>
+.. versionadded:: 0.17<br>
+`random_state` to support Stochastic Average Gradient.</random_state></span></a></td>
+<td class="value">None</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div></div></div></div></div><script>function copyToClipboard(text, element) {
+    // Get the parameter prefix from the closest toggleable content
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const fullParamName = paramPrefix ? `${paramPrefix}${text}` : text;
+
+    const originalStyle = element.style;
+    const computedStyle = window.getComputedStyle(element);
+    const originalWidth = computedStyle.width;
+    const originalHTML = element.innerHTML.replace('Copied!', '');
+
+    navigator.clipboard.writeText(fullParamName)
+        .then(() => {
+            element.style.width = originalWidth;
+            element.style.color = 'green';
+            element.innerHTML = "Copied!";
+
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            element.style.color = 'red';
+            element.innerHTML = "Failed!";
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        });
+    return false;
+}
+
+document.querySelectorAll('.copy-paste-icon').forEach(function(element) {
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const paramName = element.parentElement.nextElementSibling
+        .textContent.trim().split(' ')[0];
+    const fullParamName = paramPrefix ? `${paramPrefix}${paramName}` : paramName;
+
+    element.setAttribute('title', fullParamName);
+});
+
+
+/**
+ * Adapted from Skrub
+ * https://github.com/skrub-data/skrub/blob/403466d1d5d4dc76a7ef569b3f8228db59a31dc3/skrub/_reporting/_data/templates/report.js#L789
+ * @returns "light" or "dark"
+ */
+function detectTheme(element) {
+    const body = document.querySelector('body');
+
+    // Check VSCode theme
+    const themeKindAttr = body.getAttribute('data-vscode-theme-kind');
+    const themeNameAttr = body.getAttribute('data-vscode-theme-name');
+
+    if (themeKindAttr && themeNameAttr) {
+        const themeKind = themeKindAttr.toLowerCase();
+        const themeName = themeNameAttr.toLowerCase();
+
+        if (themeKind.includes("dark") || themeName.includes("dark")) {
+            return "dark";
+        }
+        if (themeKind.includes("light") || themeName.includes("light")) {
+            return "light";
+        }
+    }
+
+    // Check Jupyter theme
+    if (body.getAttribute('data-jp-theme-light') === 'false') {
+        return 'dark';
+    } else if (body.getAttribute('data-jp-theme-light') === 'true') {
+        return 'light';
+    }
+
+    // Guess based on a parent element's color
+    const color = window.getComputedStyle(element.parentNode, null).getPropertyValue('color');
+    const match = color.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*$/i);
+    if (match) {
+        const [r, g, b] = [
+            parseFloat(match[1]),
+            parseFloat(match[2]),
+            parseFloat(match[3])
+        ];
+
+        // https://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
+        const luma = 0.299 * r + 0.587 * g + 0.114 * b;
+
+        if (luma > 180) {
+            // If the text is very bright we have a dark theme
+            return 'dark';
+        }
+        if (luma < 75) {
+            // If the text is very dark we have a light theme
+            return 'light';
+        }
+        // Otherwise fall back to the next heuristic.
+    }
+
+    // Fallback to system preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+
+function forceTheme(elementId) {
+    const estimatorElement = document.querySelector(`#${elementId}`);
+    if (estimatorElement === null) {
+        console.error(`Element with id ${elementId} not found.`);
+    } else {
+        const theme = detectTheme(estimatorElement);
+        estimatorElement.classList.add(theme);
+    }
+}
+
+forceTheme('sk-container-id-2');</script>
+</div>
+</div>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<div class="notes">
+<p>That brings us to end of this first lecture. To summarize what we have covered so far</p>
+<ul>
+<li>We have introduced the concept of a data pipeline which encapsulates all of the stages which are involved in accessing and preprocessing the data which feed in to a model along with publishing the any outputs from the model or the model itself.</li>
+<li>A key point that we tried to illustrate via our running climate data example is that ideally all these stages can be defined programatically with this giving an explicit record of the operations that went in to building a model and allowing these steps to easily reproduced by others.</li>
+<li>One point that we touched on early in the lecture is that because of both the increasingly large size of datasets but also prevalence of technologies for sharing data, being able to access data which is held remotely is becoming more and important for data science workflows and so it is useful to be aware of tools and packages that help facilitate this.</li>
+</ul>
+<p>That concludes this first session. In the next lecture we introduce a tool, data version control, which can help us in automating some of these tasks around accessing remote data and keeping track of the outputs of data pipeline stages.</p>
+</div>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/UCL\.github\.io\/mlbd-lectures\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026. This work is openly licensed via <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
