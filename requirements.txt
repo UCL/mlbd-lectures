@@ -5,7 +5,6 @@ jupyter
 dvc
 pandas<3
 sqlalchemy
-boto3
 pyspark
 dask
 pyarrow

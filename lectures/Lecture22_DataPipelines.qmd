@@ -172,7 +172,7 @@ How we get it on our own computer will depend on the source, format and size of 
 
 To give an example of how we might access data programmatically, we will consider how to download a set of [historical global climate records](https://github.com/awslabs/open-data-docs/tree/main/docs/noaa/noaa-ghcn) from an open dataset hosted on _Simple Storage Service_ (S3) that is part of _Amazon Web Services_ (AWS) cloud offering.
 
-In this example we will use [the Python package `boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) which will allows to programmatically access data in a S3 bucket in Python - you will need to install this in your Python environment to run the code locally.
+In this example we will use [the Python standard library module `urllib.request`](https://docs.python.org/3/library/urllib.request.html) which allows programmatically accessing data hosted on the web via _hypertext transfer protocol_ (HTTP). In more complex cases, for example where access to an S3 bucket requires authentication, [the Python package `boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) is a dedicated Python package for interacting with AWS services programmatically.
 
 :::
 
@@ -190,12 +190,6 @@ Users can upload datasets which can be accessed by others.
 
 ::: {.slides-only}
 As a running example we will look at an [open dataset of historical global climate records](https://github.com/awslabs/open-data-docs/tree/main/docs/noaa/noaa-ghcn).
-:::
-
-. . .
-
-::: {.slides-only}
-To run example locally, you will need to install [the Python package `boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html).
 :::
 
 ## Example: Downloading climate data {.slides-only}
@@ -217,18 +211,18 @@ from IPython.display import display
 
 ```{python}
 #| echo: true
-#| code-line-numbers: "1-2,5-6|3,7|4,8-10|11"
+#| code-line-numbers: "1,5-6|2,7|3,8-10|11"
 #| output-location: fragment
-import boto3
-from botocore import client, UNSIGNED
+import urllib.request
 import gzip
 import pandas
-client = boto3.client('s3', config=client.Config(signature_version=UNSIGNED))
-response = client.get_object(Bucket="noaa-ghcn-pds", Key="csv.gz/1800.csv.gz")
-with gzip.open(response['Body'], "rb") as f:
-    input_data = pandas.read_csv(
-        f, usecols=range(4), names=["station", "date", "quantity", "value"]
-    )
+
+data_url = "https://noaa-ghcn-pds.s3.amazonaws.com/csv.gz/1800.csv.gz"
+with urllib.request.urlopen(data_url) as response:
+    with gzip.open(response, "rb") as f:
+        input_data = pandas.read_csv(
+            f, usecols=range(4), names=["station", "date", "quantity", "value"]
+        )
 display(input_data.head())
 ```
 
