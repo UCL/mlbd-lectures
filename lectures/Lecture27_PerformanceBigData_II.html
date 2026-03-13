@@ -372,7 +372,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="example-pyspark-pandas" class="level2">
 <h2 class="anchored" data-anchor-id="example-pyspark-pandas">Example: <code>pyspark</code> pandas</h2>
 <p><code>DataFrame</code>s can be created by specifying the values directly, or by reading from and transforming an existing source (including a Pandas <code>DataFrame</code>).</p>
-<div id="79d08407" class="cell" data-output-location="fragment" data-execution_count="2">
+<div id="84db3930" class="cell" data-output-location="fragment" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyspark.pandas <span class="im">as</span> ps</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>dataframe <span class="op">=</span> ps.DataFrame({<span class="st">"x"</span>: [<span class="dv">1</span>, <span class="fl">2.1</span>, <span class="fl">3.5</span>],  <span class="st">"y"</span>: [<span class="dv">2</span>, <span class="fl">4.2</span>, <span class="dv">7</span>]})</span>
@@ -382,8 +382,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-26/03/13 13:29:02 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-[Stage 0:&gt;                                                          (0 + 1) / 1]                                                                                </code></pre>
+26/03/13 14:58:41 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[Stage 0:&gt;                                                          (0 + 1) / 1][Stage 0:===========================================================(1 + 0) / 1]                                                                                </code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
@@ -420,7 +420,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 </div>
 </div>
 <p>Spark <code>DataFrame</code>s can also be handled like pandas <code>DataFrame</code>s:</p>
-<div id="3c8b7d77" class="cell" data-output-location="fragment" data-execution_count="3">
+<div id="67e5a954" class="cell" data-output-location="fragment" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dataframe[<span class="st">"z"</span>] <span class="op">=</span> dataframe[<span class="st">"x"</span>] <span class="op">*</span> dataframe[<span class="st">"y"</span>]</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dataframe</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -481,7 +481,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 <section id="example-mllib-logistic-regression" class="level2">
 <h2 class="anchored" data-anchor-id="example-mllib-logistic-regression">Example: <code>MLlib</code> logistic regression</h2>
 <p>To allow us to demonstrate fitting a logistic regression model with <code>MLlib</code>, we first download an example data file and save it in a local temporary file:</p>
-<div id="46d59404" class="cell" data-execution_count="4">
+<div id="8c9eee88" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> urllib.request</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="im">import</span> tempfile</span>
 <span id="cb4-3"><a href="#cb4-3"></a></span>
@@ -495,7 +495,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 <span id="cb4-11"><a href="#cb4-11"></a>    f.write(contents)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We now train a logistic regression model and print the fitted parameters (<a href="https://github.com/apache/spark">adapted from the Spark documentation</a>):</p>
-<div id="74c0c4c0" class="cell" data-output-location="fragment" data-execution_count="5">
+<div id="96fabe0a" class="cell" data-output-location="fragment" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="im">from</span> pyspark.ml.classification <span class="im">import</span> LogisticRegression</span>
 <span id="cb5-3"><a href="#cb5-3"></a></span>
@@ -551,7 +551,7 @@ Intercept = -0.5991460286401438</code></pre>
 <section id="example-dask-timeseries-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="example-dask-timeseries-analysis">Example: Dask timeseries analysis</h2>
 <p>As a simple example, we construct a simulated timeseries <code>DataFrame</code> in Dask using the <a href="https://docs.dask.org/en/stable/api.html#dask.datasets.timeseries"><code>dask.dataset.timeseries</code> function</a></p>
-<div id="b29a7130" class="cell" data-execution_count="6">
+<div id="66a2c586" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dask</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>dataframe <span class="op">=</span> dask.datasets.timeseries(</span>
@@ -559,14 +559,14 @@ Intercept = -0.5991460286401438</code></pre>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The generated <code>DataFrame</code> here is relatively large:</p>
-<div id="355a17f3" class="cell" data-output-location="fragment" data-execution_count="7">
+<div id="424226de" class="cell" data-output-location="fragment" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Number of records: "</span>, dataframe.size.compute())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of records:  9676800</code></pre>
 </div>
 </div>
 <p>Importantly Dask data structures are <em>partitioned</em> to allow distributing computations on chunks of the data.</p>
-<div id="733e41d0" class="cell" data-output-location="fragment" data-execution_count="8">
+<div id="d34d75fa" class="cell" data-output-location="fragment" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dataframe</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div><strong>Dask DataFrame Structure:</strong></div>
@@ -631,7 +631,7 @@ Intercept = -0.5991460286401438</code></pre>
 </div>
 </div>
 <p>As with pandas <code>DataFrame</code> objects we can use the <code>head</code> method to inspect the first few rows</p>
-<div id="f7cc7fde" class="cell" data-output-location="fragment" data-execution_count="9">
+<div id="4190c58f" class="cell" data-output-location="fragment" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dataframe.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div>
@@ -697,7 +697,7 @@ Intercept = -0.5991460286401438</code></pre>
 </div>
 </div>
 <p>Dask <code>DataFrame</code>s provide a pandas like interface which we can use to perform filtering, grouping and aggregation operations.</p>
-<div id="a87da3de" class="cell" data-output-location="fragment" data-execution_count="10">
+<div id="f1a6f37a" class="cell" data-output-location="fragment" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>filtered <span class="op">=</span> dataframe[dataframe.x <span class="op">&gt;</span> <span class="dv">0</span>]</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> filtered.groupby(<span class="st">"name"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> grouped[<span class="st">"x"</span>, <span class="st">"y"</span>].std()</span>
@@ -737,7 +737,7 @@ Intercept = -0.5991460286401438</code></pre>
 </div>
 <p>Unlike pandas where operations are evaluated <em>eagerly</em>, operations in Dask are evaluated <em>lazily</em> with an expression graph being built representing the applied operations.</p>
 <p>We can visualize the <em>expression graph</em> associated with a Dask <code>DataFrame</code> using the <code>visualize</code> method</p>
-<div id="c5b5c0d7" class="cell" data-output-height="3" data-output-width="3" data-execution_count="11">
+<div id="d3921f71" class="cell" data-output-height="3" data-output-width="3" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>results.visualize(rankdir<span class="op">=</span><span class="st">"TD"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
@@ -748,7 +748,7 @@ Intercept = -0.5991460286401438</code></pre>
 </div>
 </div>
 <p>We can also <em>optimize</em> the expression graph, for example fusing operations</p>
-<div id="21e61b27" class="cell" data-execution_count="12">
+<div id="f16e7b39" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>optimized <span class="op">=</span> results.optimize()</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>optimized.visualize(rankdir<span class="op">=</span><span class="st">"TD"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
@@ -760,7 +760,7 @@ Intercept = -0.5991460286401438</code></pre>
 </div>
 </div>
 <p>We can also instead visualize the constructed <em>task graph</em></p>
-<div id="110ff611" class="cell" data-execution_count="13">
+<div id="79546c5d" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>optimized.visualize(tasks<span class="op">=</span><span class="va">True</span>, rankdir<span class="op">=</span><span class="st">"LR"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <div>
@@ -771,7 +771,7 @@ Intercept = -0.5991460286401438</code></pre>
 </div>
 </div>
 <p>Calling the <code>compute</code> method on a Dask <code>DataFrame</code> will <em>schedule</em> the attached task graph, and output a pandas <code>DataFrame</code></p>
-<div id="f340f55d" class="cell" data-output-location="fragment" data-execution_count="14">
+<div id="f9654540" class="cell" data-output-location="fragment" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>optimized.compute().head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div>
