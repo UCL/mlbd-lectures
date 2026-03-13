@@ -121,9 +121,9 @@ When possible, it is useful to perform these steps programmatically (through cod
 ::: {.notes}
 Commonly the first step in any data science project will be to get hold of the data we will be analysing, unless we happen to have collected it ourselves. This typically happens in a variety of different ways, for example:
 
-- we get sent a data file by a colleague.
-- we pull the data from some web service.
-- we might run a scraper to extract data from a website
+- we get sent a data file by a colleague,
+- we pull the data from some web service,
+- we might run a scraper to extract data from a website,
 - or we might execute a query to a database we have access to.
 :::
 
