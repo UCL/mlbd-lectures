@@ -375,20 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">dvc</span> init</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>hint: Using 'master' as the name for the initial branch. This default branch name
-hint: will change to "main" in Git 3.0. To configure the initial branch name
-hint: to use in all of your new repositories, which will suppress this warning,
-hint: call:
-hint:
-hint:   git config --global init.defaultBranch &lt;name&gt;
-hint:
-hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
-hint: 'development'. The just-created branch can be renamed via this command:
-hint:
-hint:   git branch -m &lt;name&gt;
-hint:
-hint: Disable this message with "git config set advice.defaultBranchName false"
-Initialized empty Git repository in /tmp/RtmpLkB654/dvc-example-1f7d2dfb8795/.git/
+<pre><code>Initialized empty Git repository in /tmp/Rtmp6CDOpZ/dvc-example-1f5715387871/.git/
 Initialized DVC repository.
 
 You can now commit the changes to git.
@@ -415,7 +402,7 @@ What's next?
 <div class="cell" data-output-location="fragment">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Initial setup"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[master (root-commit) 8027f07] Initial setup
+<pre><code>[main (root-commit) 87e2bce] Initial setup
  3 files changed, 6 insertions(+)
  create mode 100644 .dvc/.gitignore
  create mode 100644 .dvc/config
@@ -474,7 +461,7 @@ To enable auto staging, run:
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add data/data.xml.dvc data/.gitignore</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add initial version of dataset"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[master c52b96a] Add initial version of dataset
+<pre><code>[main ddbde42] Add initial version of dataset
  2 files changed, 6 insertions(+)
  create mode 100644 data/.gitignore
  create mode 100644 data/data.xml.dvc</code></pre>
@@ -490,8 +477,8 @@ To enable auto staging, run:
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>total 14M
--rw-r--r-- 1 runner runner 14M Mar 13 08:26 data.xml
--rw-r--r-- 1 runner runner  92 Mar 13 08:26 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 14M Mar 13 13:30 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 13 13:30 data.xml.dvc</code></pre>
 </div>
 </div>
 </section>
@@ -514,8 +501,8 @@ To enable auto staging, run:
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>total 28M
--rw-r--r-- 1 runner runner 28M Mar 13 08:26 data.xml
--rw-r--r-- 1 runner runner  92 Mar 13 08:26 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 28M Mar 13 13:30 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 13 13:30 data.xml.dvc</code></pre>
 </div>
 </div>
 <div class="notes">
@@ -534,7 +521,7 @@ To track the changes with git, run:
 To enable auto staging, run:
 
     dvc config core.autostage true
-[master b45b64d] Double size of dataset
+[main 8cca354] Double size of dataset
  1 file changed, 2 insertions(+), 2 deletions(-)</code></pre>
 </div>
 </div>
@@ -566,7 +553,7 @@ Or undo this operation with:
 
 Turn off this advice by setting config variable advice.detachedHead to false
 
-HEAD is now at c52b96a Add initial version of dataset</code></pre>
+HEAD is now at ddbde42 Add initial version of dataset</code></pre>
 </div>
 </div>
 <div class="notes">
@@ -587,8 +574,8 @@ HEAD is now at c52b96a Add initial version of dataset</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>total 14M
--rw-r--r-- 1 runner runner 14M Mar 13 08:26 data.xml
--rw-r--r-- 1 runner runner  92 Mar 13 08:26 data.xml.dvc</code></pre>
+-rw-r--r-- 1 runner runner 14M Mar 13 13:30 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 13 13:30 data.xml.dvc</code></pre>
 </div>
 </div>
 <div class="notes">
@@ -598,7 +585,9 @@ HEAD is now at c52b96a Add initial version of dataset</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout main</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">dvc</span> checkout</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>error: pathspec 'main' did not match any file(s) known to git</code></pre>
+<pre><code>Previous HEAD position was ddbde42 Add initial version of dataset
+Switched to branch 'main'
+M       data/data.xml</code></pre>
 </div>
 </div>
 <div class="notes">
@@ -607,9 +596,9 @@ HEAD is now at c52b96a Add initial version of dataset</code></pre>
 <div class="cell" data-output-location="fragment">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>total 14M
--rw-r--r-- 1 runner runner 14M Mar 13 08:26 data.xml
--rw-r--r-- 1 runner runner  92 Mar 13 08:26 data.xml.dvc</code></pre>
+<pre><code>total 28M
+-rw-r--r-- 1 runner runner 28M Mar 13 13:30 data.xml
+-rw-r--r-- 1 runner runner  92 Mar 13 13:30 data.xml.dvc</code></pre>
 </div>
 </div>
 </section>
