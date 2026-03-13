@@ -637,7 +637,7 @@ file.
 </div>
 </div>
 <div class="fragment">
-<div id="fcfbe278" class="cell" data-execution_count="1">
+<div id="be0f1d4c" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" data-code-line-numbers="1,4-6|2,8|10-12|14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> urllib.request</span>
 <span id="cb1-2"><a></a><span class="im">import</span> tempfile</span>
 <span id="cb1-3"><a></a></span>
@@ -675,7 +675,7 @@ file.
 <p>Python comes with built-in support for SQLite databases through the <a href="https://docs.python.org/3/library/sqlite3.html"><code>sqlite3</code> package</a>.</p>
 <div class="fragment">
 <p>The <a href="https://docs.python.org/3/library/sqlite3.html#sqlite3.connect"><code>sqlite3.connect</code> function</a> can be used to create a connection to a database given a path to the database file.</p>
-<div id="2a2a49b3" class="cell" data-execution_count="2">
+<div id="521a24b4" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">import</span> sqlite3</span>
 <span id="cb3-2"><a></a></span>
 <span id="cb3-3"><a></a>connection <span class="op">=</span> sqlite3.<span class="ex">connect</span>(database_temp_file.name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -685,7 +685,7 @@ file.
 <section id="example-executing-queries" class="slide level2">
 <h2>Example: executing queries</h2>
 <p>Once connected, we can execute SQL queries to get results.</p>
-<div id="ae51b15f" class="cell" data-execution_count="3">
+<div id="a4ae3126" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="bu">help</span>(connection.execute)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell fragment" data-execution_count="3">
@@ -715,7 +715,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 <section id="example-querying-database" class="slide level2">
 <h2>Example: querying database</h2>
 <p>Let’s run this query in Python and print the results:</p>
-<div id="ea3a4786" class="cell" data-execution_count="4">
+<div id="f3eb7a0b" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" data-code-line-numbers="1|2|3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>results <span class="op">=</span> connection.execute(<span class="st">"SELECT personal, family FROM Person"</span>)</span>
 <span id="cb8-2"><a></a><span class="cf">for</span> result <span class="kw">in</span> results:</span>
 <span id="cb8-3"><a></a>    <span class="bu">print</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -754,7 +754,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 <p>In our example, we may wish to select all columns from the <code>Survey</code> table, returning only rows where the value for the reading column is negative.</p>
 <div class="fragment">
 <p>This could be implemented as a SQL query as follows:</p>
-<div id="faf63d70" class="cell" data-execution_count="5">
+<div id="8b6fcd4e" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="cf">for</span> result <span class="kw">in</span> connection.execute(<span class="st">"SELECT * FROM Survey WHERE reading &lt; 0"</span>):</span>
 <span id="cb11-2"><a></a>    <span class="bu">print</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -784,7 +784,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 <section id="example-joining-across-tables" class="slide level2">
 <h2>Example: joining across tables</h2>
 <p>We can execute this query and print the results:</p>
-<div id="2229250d" class="cell" data-execution_count="6">
+<div id="770d470b" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="cf">for</span> result <span class="kw">in</span> connection.execute(<span class="st">"""</span></span>
 <span id="cb14-2"><a></a><span class="st">SELECT Person.family, Survey.reading</span></span>
 <span id="cb14-3"><a></a><span class="st">FROM Survey, Person</span></span>
@@ -810,7 +810,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 <section id="example-joining-across-tables-1" class="slide level2 slides-only">
 <h2>Example: joining across tables</h2>
 <p>While the previous query works, more commonly this sort of combining of data from tables would usually be expressed using the <code>JOIN</code> and <code>ON</code> keywords</p>
-<div id="a62f29f6" class="cell" data-execution_count="7">
+<div id="7ca5bd79" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a><span class="cf">for</span> result <span class="kw">in</span> connection.execute(<span class="st">"""</span></span>
 <span id="cb16-2"><a></a><span class="st">SELECT Person.family, Survey.reading</span></span>
 <span id="cb16-3"><a></a><span class="st">FROM Survey</span></span>
@@ -863,7 +863,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 <section id="example-aggregating-readings" class="slide level2">
 <h2>Example: aggregating readings</h2>
 <p>In our running example to compute the mean salinity reading we could execute a query as follows:</p>
-<div id="4633d51b" class="cell" data-execution_count="8">
+<div id="5d0d6001" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a>result <span class="op">=</span> connection.execute(<span class="st">"SELECT avg(reading) FROM Survey WHERE quant = 'sal'"</span>)</span>
 <span id="cb18-2"><a></a><span class="bu">print</span>(<span class="bu">next</span>(result))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -874,7 +874,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 </div>
 <div class="fragment">
 <p>Likewise we could compute the number of readings by the person with identifier <code>lake</code> as follows</p>
-<div id="e18af8ee" class="cell" data-execution_count="9">
+<div id="479f2c73" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>result <span class="op">=</span> connection.execute(<span class="st">"SELECT count(*) FROM Survey WHERE person = 'lake'"</span>)</span>
 <span id="cb20-2"><a></a><span class="bu">print</span>(<span class="bu">next</span>(result))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -958,7 +958,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 <section id="example-loading-a-table-with-pandas" class="slide level2">
 <h2>Example: loading a table with <code>pandas</code></h2>
 <p>For example we can use <a href="https://pandas.pydata.org/docs/reference/api/pandas.read_sql_table.html">the <code>pandas.read_sql_table</code> function</a> to open the <code>Person</code> table from our running example database.</p>
-<div id="c0f5fd70" class="cell" data-execution_count="11">
+<div id="38899fab" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24" data-code-line-numbers="1|2|3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb24-2"><a></a>dataframe <span class="op">=</span> pd.read_sql_table(<span class="st">"Person"</span>, <span class="ss">f"sqlite:///</span><span class="sc">{</span>database_temp_file<span class="sc">.</span>name<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb24-3"><a></a>dataframe.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

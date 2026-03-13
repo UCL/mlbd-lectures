@@ -334,7 +334,7 @@ window.Quarto = {
 <section id="problem-scaling-1" class="level2">
 <h2 class="anchored" data-anchor-id="problem-scaling-1">Problem scaling</h2>
 <p>The scaling behaviour of an algorithm can have a significant effect in how it can handle large input data:</p>
-<div id="1caf30c2" class="cell" data-execution_count="1">
+<div id="bfe39aea" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -438,7 +438,7 @@ window.Quarto = {
 <section id="example-mapreduce-in-python" class="level2">
 <h2 class="anchored" data-anchor-id="example-mapreduce-in-python">Example: MapReduce in Python</h2>
 <p>We can construct a very minimal (and non-parallelised) Python implementation of a MapReduce ‘engine’ as follows</p>
-<div id="ca389847" class="cell" data-execution_count="2">
+<div id="744d21ac" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">def</span> mapreduce(data, mapper, reducer):</span>
@@ -465,7 +465,7 @@ window.Quarto = {
 </ul>
 </div>
 <p>In code:</p>
-<div id="65119e55" class="cell" data-output-location="fragment" data-execution_count="3">
+<div id="09730ffb" class="cell" data-output-location="fragment" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>character_counts <span class="op">=</span> mapreduce(</span>
 <span id="cb2-2"><a href="#cb2-2"></a>    data<span class="op">=</span><span class="st">"The quick brown fox jumps over the lazy dog."</span>,</span>
 <span id="cb2-3"><a href="#cb2-3"></a>    mapper<span class="op">=</span><span class="kw">lambda</span> character: {character: <span class="dv">1</span>},</span>
@@ -477,7 +477,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Or sorting the output:</p>
-<div id="b64937b5" class="cell" data-output-location="fragment" data-execution_count="4">
+<div id="13d1f261" class="cell" data-output-location="fragment" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">dict</span>(<span class="bu">sorted</span>(character_counts.items())))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{' ': 8, '.': 1, 'T': 1, 'a': 1, 'b': 1, 'c': 1, 'd': 1, 'e': 3, 'f': 1, 'g': 1, 'h': 2, 'i': 1, 'j': 1, 'k': 1, 'l': 1, 'm': 1, 'n': 1, 'o': 4, 'p': 1, 'q': 1, 'r': 2, 's': 1, 't': 1, 'u': 2, 'v': 1, 'w': 1, 'x': 1, 'y': 1, 'z': 1}</code></pre>
