@@ -45,6 +45,10 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
+      # DVC I lecture notebook assumes git init creates main as default branch
+      - name: Change default Git branch name to main
+        run: git config set --global init.defaultBranch main
+
       - name: Publish to GitHub Pages (and render) 
         uses: quarto-dev/quarto-actions/publish@v2
         with:
