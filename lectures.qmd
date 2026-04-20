@@ -1,7 +1,7 @@
 ---
 title: Lectures
 listing:
-  contents: "lectures/Lecture*.qmd"
+  contents: "lectures/{Lecture*,RevisionLecture}.qmd"
   type: default
 ---
 
