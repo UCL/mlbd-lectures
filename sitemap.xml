@@ -1,59 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://UCL.github.io/mlbd-lectures/index.html</loc>
+    <lastmod>2026-04-21T07:39:58.496Z</lastmod>
+  </url>
+  <url>
     <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture23_DataVersionControl_I.html</loc>
-    <lastmod>2026-03-13T14:55:43.868Z</lastmod>
+    <lastmod>2026-04-21T07:39:58.497Z</lastmod>
   </url>
   <url>
     <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture23_DataVersionControl_I.slides.html</loc>
-    <lastmod>2026-03-13T15:00:40.568Z</lastmod>
+    <lastmod>2026-04-21T07:48:43.531Z</lastmod>
   </url>
   <url>
     <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture25_Databases.html</loc>
-    <lastmod>2026-03-13T14:55:43.872Z</lastmod>
+    <lastmod>2026-04-21T07:39:58.502Z</lastmod>
   </url>
   <url>
     <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture25_Databases.slides.html</loc>
-    <lastmod>2026-03-13T14:59:53.695Z</lastmod>
-  </url>
-  <url>
-    <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture26_PerformanceBigData_I.html</loc>
-    <lastmod>2026-03-13T14:55:43.876Z</lastmod>
-  </url>
-  <url>
-    <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture26_PerformanceBigData_I.slides.html</loc>
-    <lastmod>2026-03-13T14:58:33.670Z</lastmod>
-  </url>
-  <url>
-    <loc>https://UCL.github.io/mlbd-lectures/lectures.html</loc>
-    <lastmod>2026-03-13T14:55:43.867Z</lastmod>
-  </url>
-  <url>
-    <loc>https://UCL.github.io/mlbd-lectures/index.html</loc>
-    <lastmod>2026-03-13T14:55:43.867Z</lastmod>
-  </url>
-  <url>
-    <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture24_DataVersionControl_II.slides.html</loc>
-    <lastmod>2026-03-13T14:58:18.051Z</lastmod>
-  </url>
-  <url>
-    <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture24_DataVersionControl_II.html</loc>
-    <lastmod>2026-03-13T14:55:43.871Z</lastmod>
-  </url>
-  <url>
-    <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture27_PerformanceBigData_II.slides.html</loc>
-    <lastmod>2026-03-13T14:59:38.966Z</lastmod>
+    <lastmod>2026-04-21T07:48:06.206Z</lastmod>
   </url>
   <url>
     <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture27_PerformanceBigData_II.html</loc>
-    <lastmod>2026-03-13T14:55:43.889Z</lastmod>
+    <lastmod>2026-04-21T07:39:58.521Z</lastmod>
+  </url>
+  <url>
+    <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture27_PerformanceBigData_II.slides.html</loc>
+    <lastmod>2026-04-21T07:47:27.276Z</lastmod>
+  </url>
+  <url>
+    <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture24_DataVersionControl_II.html</loc>
+    <lastmod>2026-04-21T07:39:58.500Z</lastmod>
+  </url>
+  <url>
+    <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture24_DataVersionControl_II.slides.html</loc>
+    <lastmod>2026-04-21T07:46:18.940Z</lastmod>
+  </url>
+  <url>
+    <loc>https://UCL.github.io/mlbd-lectures/lectures/RevisionLecture.slides.html</loc>
+    <lastmod>2026-04-21T07:46:22.219Z</lastmod>
+  </url>
+  <url>
+    <loc>https://UCL.github.io/mlbd-lectures/lectures/RevisionLecture.html</loc>
+    <lastmod>2026-04-21T07:39:58.521Z</lastmod>
   </url>
   <url>
     <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture22_DataPipelines.slides.html</loc>
-    <lastmod>2026-03-13T15:00:17.039Z</lastmod>
+    <lastmod>2026-04-21T07:47:50.650Z</lastmod>
   </url>
   <url>
     <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture22_DataPipelines.html</loc>
-    <lastmod>2026-03-13T14:55:43.867Z</lastmod>
+    <lastmod>2026-04-21T07:39:58.496Z</lastmod>
+  </url>
+  <url>
+    <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture26_PerformanceBigData_I.slides.html</loc>
+    <lastmod>2026-04-21T07:48:20.293Z</lastmod>
+  </url>
+  <url>
+    <loc>https://UCL.github.io/mlbd-lectures/lectures/Lecture26_PerformanceBigData_I.html</loc>
+    <lastmod>2026-04-21T07:39:58.505Z</lastmod>
+  </url>
+  <url>
+    <loc>https://UCL.github.io/mlbd-lectures/lectures.html</loc>
+    <lastmod>2026-04-21T07:39:58.496Z</lastmod>
   </url>
 </urlset>

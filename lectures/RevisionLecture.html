@@ -8,9 +8,9 @@
 
 <meta name="author" content="Matt Graham">
 <meta name="author" content="Anastasis Georgoulas">
-<meta name="description" content="Advanced features of DVC">
+<meta name="description" content="Review of topics covered in lectures">
 
-<title>Data version control II – SPCE0038: Machine Learning with Big Data</title>
+<title>Revision lecture – SPCE0038: Machine Learning with Big Data</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -25,41 +25,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -108,6 +73,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -148,7 +116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/Lecture24_DataVersionControl_II.html">Data version control II</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/RevisionLecture.html">Revision lecture</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -174,7 +142,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../lectures/Lecture24_DataVersionControl_II.html" class="sidebar-item-text sidebar-link active">
+  <a href="../lectures/Lecture24_DataVersionControl_II.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data version control II</span></a>
   </div>
 </li>
@@ -198,7 +166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../lectures/RevisionLecture.html" class="sidebar-item-text sidebar-link">
+  <a href="../lectures/RevisionLecture.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Revision lecture</span></a>
   </div>
 </li>
@@ -212,34 +180,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning outcomes</a></li>
-  <li><a href="#adding-external-files" id="toc-adding-external-files" class="nav-link" data-scroll-target="#adding-external-files">Adding external files</a></li>
-  <li><a href="#creating-pipelines" id="toc-creating-pipelines" class="nav-link" data-scroll-target="#creating-pipelines">Creating pipelines</a></li>
-  <li><a href="#pipeline-example" id="toc-pipeline-example" class="nav-link" data-scroll-target="#pipeline-example">Pipeline example</a></li>
-  <li><a href="#representing-a-pipeline" id="toc-representing-a-pipeline" class="nav-link" data-scroll-target="#representing-a-pipeline">Representing a pipeline</a></li>
-  <li><a href="#dvc.yaml-files" id="toc-dvc.yaml-files" class="nav-link" data-scroll-target="#dvc.yaml-files"><code>dvc.yaml</code> files</a></li>
-  <li><a href="#dvc-parameters" id="toc-dvc-parameters" class="nav-link" data-scroll-target="#dvc-parameters">DVC parameters</a></li>
-  <li><a href="#creating-steps" id="toc-creating-steps" class="nav-link" data-scroll-target="#creating-steps">Creating steps</a></li>
-  <li><a href="#reproducing-a-pipeline" id="toc-reproducing-a-pipeline" class="nav-link" data-scroll-target="#reproducing-a-pipeline">Reproducing a pipeline</a></li>
-  <li><a href="#metrics-and-outputs" id="toc-metrics-and-outputs" class="nav-link" data-scroll-target="#metrics-and-outputs">Metrics and outputs</a></li>
-  <li><a href="#other-dvc-features" id="toc-other-dvc-features" class="nav-link" data-scroll-target="#other-dvc-features">Other DVC features</a></li>
-  <li><a href="#mlflow" id="toc-mlflow" class="nav-link" data-scroll-target="#mlflow">MLflow</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#data-pipelines" id="toc-data-pipelines" class="nav-link active" data-scroll-target="#data-pipelines">Data pipelines</a></li>
+  <li><a href="#data-version-control" id="toc-data-version-control" class="nav-link" data-scroll-target="#data-version-control">Data version control</a></li>
+  <li><a href="#databases" id="toc-databases" class="nav-link" data-scroll-target="#databases">Databases</a></li>
+  <li><a href="#working-with-lots-of-data" id="toc-working-with-lots-of-data" class="nav-link" data-scroll-target="#working-with-lots-of-data">Working with lots of data</a></li>
+  <li><a href="#software-frameworks" id="toc-software-frameworks" class="nav-link" data-scroll-target="#software-frameworks">Software frameworks</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Lecture24_DataVersionControl_II.slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li><li><a href="Lecture24_DataVersionControl_II.ipynb" download="Lecture24_DataVersionControl_II.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="RevisionLecture.slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li><li><a href="RevisionLecture.ipynb" download="RevisionLecture.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data version control II</h1>
+<h1 class="title">Revision lecture</h1>
 </div>
 
 <div>
   <div class="description">
-    Advanced features of DVC
+    Review of topics covered in lectures
   </div>
 </div>
 
@@ -274,203 +233,152 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<div class="notes">
-<p>In this lecture we will be continuing to explore data version control. Specifically in this lecture we will look at some more advanced features of DVC, namely</p>
+<section id="data-pipelines" class="level2">
+<h2 class="anchored" data-anchor-id="data-pipelines">Data pipelines</h2>
+<p><em>Data pipelines</em> are an abstraction for thinking about data analysis workflows.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    access --&gt; preprocess --&gt; transform --&gt; serve --&gt; model:::highlight --&gt;  publish
+    classDef default fill:#00c0c3,stroke-width:0;
+    classDef highlight fill:#f9c437;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Can be visualised as a <em>directed acyclic graph</em> (DAG) showing how data ‘flows’ between different stages of analysis.</p>
+<p>Defining all stages of a data pipeline programmatically allows us to <em>reproduce</em> the analysis.</p>
+<p>Published data artefacts should aim to be FAIR - <em>findable</em>, <em>accessible</em>, <em>interoperable</em> and <em>reusable</em>.</p>
 <ul>
-<li>How we can access and track files from remote data sources such as cloud storage services.</li>
-<li>How we use DVC to define the stages of a data pipeline in a way that makes it easily reproducible by both ourselves and others.</li>
-</ul>
-</div>
-</section>
-<section id="learning-outcomes" class="level2">
-<h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes</h2>
-<ul>
-<li>Apply different approaches for <strong>adding external files</strong> to a DVC repository.</li>
-<li>Understand how <strong>pipelines</strong> are represented in DVC.</li>
-<li>Define a DVC pipeline via a YAML file or commands.</li>
-<li>Explain how DVC <strong>reproduces the outputs</strong> of pipelines.</li>
-<li>Use parameters and metrics to <strong>control</strong> and <strong>compare</strong> the outputs of DVC pipelines.</li>
-<li>Compare DVC to other workflow tools such as MLFlow.</li>
-</ul>
-</section>
-<section id="adding-external-files" class="level2">
-<h2 class="anchored" data-anchor-id="adding-external-files">Adding external files</h2>
-<div class="notes">
-<p>In the last lecture we saw how to use the <code>dvc add</code> command to track files that are already in our local repository. In practice however we will often want to include data files that are already available in an external repository or remote storage service.</p>
-<p>There are several different commands available in DVC for working with external files</p>
-<ul>
-<li>We have already seen <code>dvc get</code> which allows us to download a file from a remote DVC or Git repository.</li>
-<li><code>dvc import</code> allows to reuse a file from a remote repository, both downloading the file and setting up tracking including specifying the remote source of the file to allow checking if it has been updated there in future.</li>
-<li>There are also variants of these two commands <code>dvc get-url</code> and <code>dvc import-url</code> that allow us to work with more general, non-Git based, remote storage services such as files accessible directly using hypertext transfer protocol (HTTP) or on cloud storage services.</li>
-</ul>
-</div>
-<div class="notes">
-<p>The <a href="https://dvc.org/doc/command-reference/get"><code>get</code></a> and <a href="https://dvc.org/doc/command-reference/import"><code>import</code></a> commands are similar and easy to confuse, but the key point is <code>import</code> also sets up tracking from the remote repository, and so if a data file we need is already under a remote repository, should be generally preferred. If the file is subsequently updated in the remote repository we can bring these changes in locally using the <a href="https://dvc.org/doc/command-reference/update"><code>dvc update</code></a> command.</p>
-<p>The []<code>get-url</code>](https://dvc.org/doc/command-reference/get-url) and <a href="https://dvc.org/doc/command-reference/import-url"><code>import-url</code></a> variants allow us the flexibility of working with non-Git based storage, with there built in support for a range of protocols and providers and an extensible interface for working with additional unsupported providers.</p>
-</div>
-</section>
-<section id="creating-pipelines" class="level2">
-<h2 class="anchored" data-anchor-id="creating-pipelines">Creating pipelines</h2>
-<div class="notes">
-<p>While the ability to track potentially large datasets with DVC is useful, its power becomes more apparent in its support for working with data pipelines. Pipelines are a first class construct in DVC and let us think in terms of data flows and the dependencies between files rather than the individual files themselves.</p>
-<p>DVC allows us to in a very generic way:</p>
-<ul>
-<li>defines the stages of a data pipeline,</li>
-<li>infer the graph of dependencies between the pipeline stages,</li>
-<li>reproducibly run a whole pipeline, or if we make changes to only some dependencies only the parts of the pipeline that need to be rerun, which can be a major efficiency gain for computationally intensive pipelines.</li>
-</ul>
-</div>
-</section>
-<section id="pipeline-example" class="level2 nostretch">
-<h2 class="nostretch anchored" data-anchor-id="pipeline-example">Pipeline example</h2>
-<div class="notes">
-<p>We will consider a toy example here of a data pipeline for performing a logistic regression on a comma separated value formatted dataset. You can find a <a href="https://github.com/ucl/dvc-example-pipeline">toy implementation</a> of it on GitHub. We will assume the covariates in the dataset are high-dimensional and so we perform an initial dimensionality reduction step using principle components analysis to produce reduced dimensionality features. The reduced dimensionality features and associated target labels are then used to train a logistic regression classification model, before the model is serialized to a file in pickle format for sharing.</p>
-</div>
-<p><img alt="Image of a data pipeline with a set of samples undergoing PCA and logistic regression. Each step is represented as a box with arrows linking them." src="Lecture24_Images/pipeline-example.svg" width="100%"></p>
-<p>Start with a labelled set of samples in a file <code>samples.csv</code>.</p>
-<p>First step is to run <code>reduce_dim.py</code>. This reads the inputs, performs <em>principle component analysis</em> (PCA) to reduce their dimensionality and outputs to a file <code>reduced.csv</code>.</p>
-<p>Running <code>log_reg.py</code> then trains a logistic regression classifier on the reduced dataset, serializes the trained model and outputs it in Pickle format to a file <code>classifier.pkl</code>.</p>
-</section>
-<section id="representing-a-pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="representing-a-pipeline">Representing a pipeline</h2>
-<div class="notes">
-<p>In DVC a pipeline is defined as a collection of steps or stages, each with a set of input <strong>dependencies</strong>, and one or more <strong>outputs</strong>. The dependencies between stages are inferred from them having mutually shared outputs and inputs.</p>
-<p>Pipeline stages can additionally have <strong>parameters</strong> that control the behaviour of the stage, and which typically represent variables we will want to investigate varying to explore their effect on performance.</p>
-</div>
-</section>
-<section id="dvc.yaml-files" class="level2">
-<h2 class="anchored" data-anchor-id="dvc.yaml-files"><code>dvc.yaml</code> files</h2>
-<div class="notes">
-<p>As we build up the definition of a pipeline, DVC stores the description in a structured format in a <code>dvc.yaml</code> file. The toy example we just introduced might have a <code>dvc.yaml</code> file with something like the following content.</p>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stages</span><span class="kw">:</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pca</span><span class="kw">:</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">cmd</span><span class="kw">:</span><span class="at"> python reduce_dim.py</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">deps</span><span class="kw">:</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> reduce_dim.py</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> samples.csv</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> total_var</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">outs</span><span class="kw">:</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> reduced.csv </span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">classification</span><span class="kw">:</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">cmd</span><span class="kw">:</span><span class="at"> python log_reg.py</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">deps</span><span class="kw">:</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> log_reg.py</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> reduced.csv</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">outs</span><span class="kw">:</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> classifier.pkl</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="notes">
-<p>The format is relatively human readable - under the <code>stages</code> key we have a set of pipeline stages, keyed by their stage names. Each pipeline stage species the command to run, a list of file dependencies for the stage, a list of outputs for the stage and optionally any parameters that control the stage.</p>
-<p>An important point is that <em>the code used to run the stage should be considered a dependency of the stage</em> as well as any data inputs as if the code changes we want to know to re-run the stage.</p>
-</div>
-</section>
-<section id="dvc-parameters" class="level2">
-<h2 class="anchored" data-anchor-id="dvc-parameters">DVC parameters</h2>
-<div class="notes">
-<p>The actual parameter values are stored in a dedicated file, by default a YAML file <code>params.yaml</code> though it is possible to use different formats such as JSON.</p>
-<p>Here we have just one parameter which controls the total variance to be explained by the chosen number of principle components in the dimension reduction stage.</p>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">total_var</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.9</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="creating-steps" class="level2">
-<h2 class="anchored" data-anchor-id="creating-steps">Creating steps</h2>
-<div class="notes">
-<p>While we can directly create a <code>dvc.yaml</code> file specifying the stages of a pipeline, in practice we will often add the steps sequentially as we build up a workflow, and DVC has commands available to add pipeline stages from the command line.</p>
-<p>In particular <a href="https://dvc.org/doc/command-reference/stage/add">the <code>dvc stage add</code> command</a> command allows use to specify the properties of a stage to be added, with command options specifying the stage name, dependencies, parameters, outputs and command to run the stage.</p>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dvc</span> stage add <span class="dt">\</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-n</span> pca <span class="dt">\</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-d</span> reduce_dim.py <span class="at">-d</span> samples.csv <span class="dt">\</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-p</span> total_var <span class="dt">\</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-o</span> reduced.csv <span class="dt">\</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    python reduce_dim.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The properties of the stage are given in the command options:</p>
-<ul>
-<li><code>-n</code>: name of the step,</li>
-<li><code>-d</code>: dependencies,</li>
-<li><code>-p</code>: parameters,</li>
-<li><code>-o</code>: outputs,</li>
-<li>finally, the command to run.</li>
+<li>How can we visualize data pipelines?</li>
+<li>What are the advantages of defining a data pipeline programmatically?</li>
+<li>What issues should we consider when publishing the outputs of a data workflow?</li>
 </ul>
 </section>
-<section id="reproducing-a-pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="reproducing-a-pipeline">Reproducing a pipeline</h2>
-<div class="notes">
-<p>Once we have defined a pipeline in DVC we can use the <code>dvc repro</code> command to run the pipeline stages.</p>
-<p>Commonly it will be the case that we do not need to run all the steps in a pipeline. For instance, if we change only the <code>log_reg.py</code> script used to fit the model since we last ran the pipeline then the output of the previous dimension reduction stage would be unaffected by this change and so not need to rerun.</p>
-<p>Conversely if we update the input <code>samples.csv</code> data file then initial dimension reduction step would need to be re-run as well as all stages that depend directly or indirectly on outputs of it.</p>
-<p>Importantly, DVC automates this process of considering the dependencies between pipeline stages and only running the stages that are effected by changes when we execute <code>dvc repro</code>, which for larger and more complex pipelines can be a significant efficiency saving.</p>
+<section id="data-version-control" class="level2">
+<h2 class="anchored" data-anchor-id="data-version-control">Data version control</h2>
+<p><em>Data version control</em> is a way of systematically keeping track of models and datasets.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">gitGraph
+    commit id: "a13fb"
+    commit id: "cb28d"
+    commit id: "2ef7c"
+    branch develop
+    commit id: "ff86a"
+    checkout main
+    commit id: "46cd3"
+    merge develop
+    commit id: "54eb9"
+</pre>
 </div>
-</section>
-<section id="metrics-and-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="metrics-and-outputs">Metrics and outputs</h2>
-<div class="notes">
-<p>In addition to its support for data pipelines, DVC also offers the ability to compare and track the performance of models as changes are made to them, by defining the performance metrics of interest.</p>
-<p>For our toy logistic regression example, we might for example have an additional stage which scores our trained classifier model with its precision and are under the receiver operator characteristic curve, outputting the computed metrics to a file <code>scores.json</code>.</p>
+<p></p></figure><p></p>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"precision"</span><span class="fu">:</span> <span class="fl">0.63</span><span class="fu">,</span> <span class="dt">"roc_auc"</span><span class="fu">:</span> <span class="fl">0.85</span> <span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="notes">
-<p>We can indicate that a stage produces performance metrics using the <code>metrics</code> key in the <code>dvc.yaml</code> file or using the <code>-m</code> option when specifying a stage using <code>dvc stage add</code>.</p>
-<p>A pipeline with this additional evaluation stage would now additionally produce the <code>scores.json</code> file when run with <code>dvc repro</code>.</p>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stages</span><span class="kw">:</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="at">  (...as above...)</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">evaluation</span><span class="kw">:</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">cmd</span><span class="kw">:</span><span class="at"> python evaluate.py</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">deps</span><span class="kw">:</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> evaluate.py</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> classifier.pkl</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">outs</span><span class="kw">:</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> scores.json</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">metrics</span><span class="kw">:</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> scores.json</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="notes">
-<p>Importantly as well as outputting the metrics, compared to standard stage outputs, DVC allows use to use the metrics to compare the runs of the pipeline, for example across different parameter values or versions.</p>
-<p>For example if we change the <code>total_var</code> parameter in the <code>parameters.yaml</code> file, DVC will identify the parameter has been changed. We can see the change by for example running <code>dvc params diff</code> .</p>
 </div>
-<pre><code>Path         Param          Old    New
-params.yaml  total_var      0.9    0.95</code></pre>
-<div class="notes">
-<p>If we re-run the pipeline we can also compare the effect on the performance metrics using the <code>dvc metrics diff</code> command which will output the changes in the performance metrics.</p>
-</div>
-<pre><code>Path         Metric     Old     New      Change
-scores.json  precision  0.63    0.65     0.02
-scores.json  roc_auc    0.85    0.91     0.06</code></pre>
-<div class="notes">
-<p>This allows us to iteratively try out different values for parameters and easily see the effect it has on performance metrics, and importantly allows us to easily track these changes to allow us to go back to promising parameter values later.</p>
-</div>
-</section>
-<section id="other-dvc-features" class="level2">
-<h2 class="anchored" data-anchor-id="other-dvc-features">Other DVC features</h2>
-<div class="notes">
-<p>That concludes our brief tour of DVC. We have only covered a subset of the features DVC offers here, with for example it additionally offering</p>
+<p>Builds on <em>Git</em>, a general version control system, which allows us to track changes in a directory of files.</p>
+<p>DVC extends Git by</p>
+<div class="compressed-list">
 <ul>
-<li>Support for automatically producing plots of metrics.</li>
-<li>An experiment management system for systematically tracking the results of different pipeline runs and presenting them cleanly.</li>
-<li>The ability to push the repository to remote hosts.</li>
-<li>A programmatic Python API that allows us to directly use DVC within our Python code.</li>
+<li>giving better support for working with large data files,</li>
+<li>integration with remote data providers,</li>
+<li>and adding abstractions for thinking in terms of data workflows.</li>
 </ul>
 </div>
-</section>
-<section id="mlflow" class="level2">
-<h2 class="anchored" data-anchor-id="mlflow">MLflow</h2>
-<div class="notes">
-<p>While we have concentrated on DVC here, there are a range of other MLOps tools which offer overlapping features. One package of note is <a href="https://mlflow.org/">MLflow</a> which also offers the ability for tracking and reproducing machine learning workflows. Unlike DVC it is typically used directly within the code defining the pipeline, and is more specific to Python workflows, offering tight integrations with a number of frameworks such as Tensorflow and Pytorch. Compared to DVC it offers some additional features such as a visual web based interface for live monitoring of the progress of experiments.</p>
-</div>
-</section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<div class="notes">
-<p>In this lecture we have explored:</p>
 <ul>
-<li>DVC’s support for loading and tracking files from remote repositories and storage services.</li>
-<li>How we can use DVC to programmatically define the stages of a data pipeline and allow us to easily reproduce pipeline outputs.</li>
-<li>DVC’s support for comparing how pipelines perform on different metrics as we vary parameter values.</li>
+<li>Why should we use version control?</li>
+<li>How does data version control (DVC) differ from version control systems such as Git?</li>
+<li>How does DVC represent data pipelines?</li>
 </ul>
+</section>
+<section id="databases" class="level2">
+<h2 class="anchored" data-anchor-id="databases">Databases</h2>
+<p><em>Databases</em> are collections of data organized in a way that allows more efficient storage and retrieval.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">erDiagram
+     direction LR
+     Person{
+        text id
+        text personal
+        text family
+     }
+     Visited{
+        integer id
+        text site
+        text dated
+     }
+     Site{
+        text name
+        real lat
+        real long
+     }
+     Person ||--|| Visited : " "
+     Visited ||--|| Site : " "
+</pre>
 </div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><em>Relational databases</em> store data in tables with columns with fixed names and types and relational constraints between primary and foreign keys across tables.</p>
+<p><em>Structured Query Language</em> (SQL) provides a standardized approach to extracting, joining, aggregating and updating data in relational databases.</p>
+<p>Non-relational databases offer an alternative approaches for working with less rigidly structured data.</p>
+<ul>
+<li>What are the benefits of using a database to store and access data?</li>
+<li>How can we specify the structure of a relational database?</li>
+<li>How do we select data subsets of interest from a relational database?</li>
+<li>What are the advantages and disadvantages of non-relational (‘NoSQL’) databases compared to relational databases?</li>
+</ul>
+</section>
+<section id="working-with-lots-of-data" class="level2">
+<h2 class="anchored" data-anchor-id="working-with-lots-of-data">Working with lots of data</h2>
+<p>When working with ‘big data’ the size of datasets and resources available limit the computations we can perform.</p>
+<p>One option is to increase our available resources for a problem - for example by exploiting cloud compute services.</p>
+<p>An alternative approach is to break down the problem in to smaller subtasks that can be distributed.</p>
+<p>MapReduce offers one particular framework for efficiently breaking down tasks and combining results</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://github.com/bcongdon/corral/raw/master/img/architecture.svg" class="img-fluid figure-img"></p>
+<figcaption>Image credit: Ben Congdon</figcaption>
+</figure>
+</div>
+<ul>
+<li>What are key issues affecting the performance of data analysis tasks?</li>
+<li>How can we describe the scaling behaviour of the algorithms we use?</li>
+<li>What are the benefits and drawbacks of using cloud services as an approach for scaling computations?</li>
+<li>How can we break down and distribute large computational tasks?</li>
+</ul>
+</section>
+<section id="software-frameworks" class="level2">
+<h2 class="anchored" data-anchor-id="software-frameworks">Software frameworks</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture27_Images/framework-logos.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Logos of Hadoop, Spark and Dash"></p>
+</figure>
+</div>
+<p>Apache Hadoop, Apache Spark and Dash are three open-source frameworks for large scale data processing.</p>
+<p>Hadoop provides a distributed file system and implementation of MapReduce framework.</p>
+<p>Spark allows processing large amounts of data <em>in-memory</em> and supports more general workflows than Hadoop’s MapReduce.</p>
+<p>Dask is modern native Python framework for distributed data processing that supports a generic <em>task-scheduling</em> paradigm.</p>
+<ul>
+<li>What are the key features of Hadoop, Spark and Dask and how do they differ?</li>
+<li>Why would we use a distributed file system for data processing?</li>
+<li>How can we access Spark’s capabilities programmatically?</li>
+<li>What is streaming data?</li>
+<li>How does Dask abstract computations to allow them to be optimized and distributed?</li>
+</ul>
 
 
 </section>

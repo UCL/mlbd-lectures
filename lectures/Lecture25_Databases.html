@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,6 +12,9 @@
 
 <title>Databases – SPCE0038: Machine Learning with Big Data</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -70,15 +73,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-17036d4dc503a054b08c9a8cd30d1ed9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-84244d6014897f94eda7509784684fcb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -195,6 +197,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../lectures/Lecture27_PerformanceBigData_II.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Performance of big data problems II</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/RevisionLecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Revision lecture</span></a>
   </div>
 </li>
     </ul>
@@ -398,7 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You can read more about the structure of the database in the <a href="https://swcarpentry.github.io/sql-novice-survey/01-select/index.html">tutorial</a> it originates from.</p>
 <p>First we need to download the data. In this case, database itself is stored in a file which can be shared like any other file.</p>
 </div>
-<div id="efa9e6b9" class="cell" data-output-location="fragment" data-execution_count="1">
+<div id="144476d0" class="cell" data-output-location="fragment" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> urllib.request</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> tempfile</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
@@ -428,7 +436,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="example-connecting-to-a-database">Example: connecting to a database</h2>
 <p>Python comes with built-in support for SQLite databases through the <a href="https://docs.python.org/3/library/sqlite3.html"><code>sqlite3</code> package</a>.</p>
 <p>The <a href="https://docs.python.org/3/library/sqlite3.html#sqlite3.connect"><code>sqlite3.connect</code> function</a> can be used to create a connection to a database given a path to the database file.</p>
-<div id="3ce07bce" class="cell" data-execution_count="2">
+<div id="02b85cc3" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sqlite3</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>connection <span class="op">=</span> sqlite3.<span class="ex">connect</span>(database_temp_file.name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -437,7 +445,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="example-executing-queries" class="level2">
 <h2 class="anchored" data-anchor-id="example-executing-queries">Example: executing queries</h2>
 <p>Once connected, we can execute SQL queries to get results.</p>
-<div id="6413e272" class="cell" data-output-location="fragment" data-execution_count="3">
+<div id="d65654fa" class="cell" data-output-location="fragment" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(connection.execute)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Help on built-in function execute:
@@ -461,7 +469,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 <section id="example-querying-database" class="level2">
 <h2 class="anchored" data-anchor-id="example-querying-database">Example: querying database</h2>
 <p>Let’s run this query in Python and print the results:</p>
-<div id="4d1c33ac" class="cell" data-output-location="fragment" data-execution_count="4">
+<div id="ba22f74b" class="cell" data-output-location="fragment" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>results <span class="op">=</span> connection.execute(<span class="st">"SELECT personal, family FROM Person"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="cf">for</span> result <span class="kw">in</span> results:</span>
 <span id="cb8-3"><a href="#cb8-3"></a>    <span class="bu">print</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -489,7 +497,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 <h2 class="anchored" data-anchor-id="example-using-a-where-clause">Example: using a <code>WHERE</code> clause</h2>
 <p>In our example, we may wish to select all columns from the <code>Survey</code> table, returning only rows where the value for the reading column is negative.</p>
 <p>This could be implemented as a SQL query as follows:</p>
-<div id="8ff189b8" class="cell" data-output-location="fragment" data-execution_count="5">
+<div id="5d81f81f" class="cell" data-output-location="fragment" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> result <span class="kw">in</span> connection.execute(<span class="st">"SELECT * FROM Survey WHERE reading &lt; 0"</span>):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -512,7 +520,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 <section id="example-joining-across-tables" class="level2">
 <h2 class="anchored" data-anchor-id="example-joining-across-tables">Example: joining across tables</h2>
 <p>We can execute this query and print the results:</p>
-<div id="2a439f36" class="cell" data-output-location="fragment" data-execution_count="6">
+<div id="dbbc8702" class="cell" data-output-location="fragment" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> result <span class="kw">in</span> connection.execute(<span class="st">"""</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT Person.family, Survey.reading</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM Survey, Person</span></span>
@@ -531,7 +539,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 </div>
 <p>The family name of the person who took the reading for all returned results is Lake as expected.</p>
 <p>While the previous query works, more commonly this sort of combining of data from tables would usually be expressed using the <code>JOIN</code> and <code>ON</code> keywords</p>
-<div id="8e1df1e6" class="cell" data-output-location="fragment" data-execution_count="7">
+<div id="4b9ae24e" class="cell" data-output-location="fragment" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> result <span class="kw">in</span> connection.execute(<span class="st">"""</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT Person.family, Survey.reading</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM Survey</span></span>
@@ -574,7 +582,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 <section id="example-aggregating-readings" class="level2">
 <h2 class="anchored" data-anchor-id="example-aggregating-readings">Example: aggregating readings</h2>
 <p>In our running example to compute the mean salinity reading we could execute a query as follows:</p>
-<div id="5ad9d41e" class="cell" data-output-location="fragment" data-execution_count="8">
+<div id="396860d9" class="cell" data-output-location="fragment" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> connection.execute(<span class="st">"SELECT avg(reading) FROM Survey WHERE quant = 'sal'"</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(result))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -582,7 +590,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 </div>
 </div>
 <p>Likewise we could compute the number of readings by the person with identifier <code>lake</code> as follows</p>
-<div id="ac510538" class="cell" data-output-location="fragment" data-execution_count="9">
+<div id="4965dc68" class="cell" data-output-location="fragment" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> connection.execute(<span class="st">"SELECT count(*) FROM Survey WHERE person = 'lake'"</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(result))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -657,7 +665,7 @@ execute(sql, parameters=&lt;unrepresentable&gt;, /) method of sqlite3.Connection
 <section id="example-loading-a-table-with-pandas" class="level2">
 <h2 class="anchored" data-anchor-id="example-loading-a-table-with-pandas">Example: loading a table with <code>pandas</code></h2>
 <p>For example we can use <a href="https://pandas.pydata.org/docs/reference/api/pandas.read_sql_table.html">the <code>pandas.read_sql_table</code> function</a> to open the <code>Person</code> table from our running example database.</p>
-<div id="ec17902a" class="cell" data-output-location="fragment" data-execution_count="11">
+<div id="406e650c" class="cell" data-output-location="fragment" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb24-2"><a href="#cb24-2"></a>dataframe <span class="op">=</span> pd.read_sql_table(<span class="st">"Person"</span>, <span class="ss">f"sqlite:///</span><span class="sc">{</span>database_temp_file<span class="sc">.</span>name<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb24-3"><a href="#cb24-3"></a>dataframe.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

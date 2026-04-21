@@ -11,7 +11,7 @@
 
   <meta name="author" content="Matt Graham">
   <meta name="author" content="Anastasis Georgoulas">
-  <title>SPCE0038: Machine Learning with Big Data – Performance of big data problems I</title>
+  <title>SPCE0038: Machine Learning with Big Data – Revision lecture</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -32,72 +32,6 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      { color: #003b4f; background-color: #f1f3f5; }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #003b4f; } /* Normal */
-    code span.al { color: #ad0000; } /* Alert */
-    code span.an { color: #5e5e5e; } /* Annotation */
-    code span.at { color: #657422; } /* Attribute */
-    code span.bn { color: #ad0000; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #20794d; } /* Char */
-    code span.cn { color: #8f5902; } /* Constant */
-    code span.co { color: #5e5e5e; } /* Comment */
-    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-    code span.dt { color: #ad0000; } /* DataType */
-    code span.dv { color: #ad0000; } /* DecVal */
-    code span.er { color: #ad0000; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #ad0000; } /* Float */
-    code span.fu { color: #4758ab; } /* Function */
-    code span.im { color: #00769e; } /* Import */
-    code span.in { color: #5e5e5e; } /* Information */
-    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
-    code span.op { color: #5e5e5e; } /* Operator */
-    code span.ot { color: #003b4f; } /* Other */
-    code span.pp { color: #ad0000; } /* Preprocessor */
-    code span.sc { color: #5e5e5e; } /* SpecialChar */
-    code span.ss { color: #20794d; } /* SpecialString */
-    code span.st { color: #20794d; } /* String */
-    code span.va { color: #111111; } /* Variable */
-    code span.vs { color: #20794d; } /* VerbatimString */
-    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
   <link rel="stylesheet" href="styles.css">
@@ -192,6 +126,9 @@
       margin-right: 0; 
     }
   </style>
+  <script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -199,12 +136,12 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">
-    Lecture 26:
-    Performance of big data problems I
+    
+    Revision lecture
   </h1>
   <figure>
-    <img src="Lecture26_Images/mapreduce-architecture.svg" width="80%">
-    <figcaption style="font-size: 60%; color: #555;">Image credit: Ben Congdon, https://github.com/bcongdon/corral/</figcaption>
+    <img src="https://imgs.xkcd.com/comics/machine_learning_2x.png" width="30%">
+    <figcaption style="font-size: 60%; color: #555;">Image credit: XKCD, Randall Munroe</figcaption>
   </figure>
 
 <div class="quarto-title-authors">
@@ -224,232 +161,190 @@
 </div>
 
 </section>
-<section id="introduction-performance-issues" class="slide level2">
-<h2>Introduction: performance issues</h2>
-<p>Particularly when dealing with “big data”, the <strong>size of the datasets</strong> and the <strong>resources at our disposal</strong> impose <strong>limits</strong> on what computations we can realistically do.</p>
+<section id="data-pipelines" class="slide level2">
+<h2>Data pipelines</h2>
+<p><em>Data pipelines</em> are an abstraction for thinking about data analysis workflows.</p>
 <div class="fragment">
-<p>Even when a solution for a problem exists in theory, in practice we are bound by <strong>limited resources</strong>:</p>
-<div class="compressed-list">
-<ul>
-<li class="fragment"><strong>Memory size</strong>: can we keep everything we need in memory or do we need to write to the disk often?</li>
-<li class="fragment"><strong>Processing power</strong>: do we have enough processors to complete the computation in a reasonable time?</li>
-<li class="fragment"><strong>Network bandwidth</strong>: can we transfer everything we need?</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="learning-outcomes" class="slide level2">
-<h2>Learning outcomes</h2>
-<ul>
-<li class="fragment">Identify key issues affecting the performance of data analysis tasks.</li>
-<li class="fragment">Use ‘big O’ notation to describe the scaling behaviour of algorithms.</li>
-<li class="fragment">Assess the benefits and drawbacks of using cloud services to scale computations.</li>
-<li class="fragment">Explain how we can break down and distribute large computational tasks.</li>
-</ul>
-</section>
-<section id="problem-scaling" class="slide level2">
-<h2>Problem scaling</h2>
-<p>Just because we can solve a problem on a small dataset doesn’t guarantee that we can do it for large ones!</p>
-<div class="fragment">
-<p>We must also consider the <strong>scaling behaviour</strong>: a dataset that is 10x larger may require much more than 10x longer to process.</p>
-</div>
-<div class="fragment">
-<p>How an algorithm scales with the input size <span class="math inline">\(N\)</span> can be expressed in asymptotic ‘big-O’ notation. For example:</p>
-<div class="compressed-list">
-<ul>
-<li class="fragment"><span class="math inline">\(O(\log N)\)</span>: logarithmic in the size of the input.</li>
-<li class="fragment"><span class="math inline">\(O(N)\)</span>: linear in the size of the input.</li>
-<li class="fragment"><span class="math inline">\(O(N^2)\)</span>: quadratic in the size of the input.</li>
-<li class="fragment"><span class="math inline">\(O(2^N)\)</span>: exponential in the size of the input.</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="problem-scaling-1" class="slide level2">
-<h2>Problem scaling</h2>
-<p>The scaling behaviour of an algorithm can have a significant effect in how it can handle large input data:</p>
-<div class="fragment">
-<div id="c8de1e65" class="cell" data-execution_count="1">
-<div class="cell-output cell-output-display">
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
 <div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    access --&gt; preprocess --&gt; transform --&gt; serve --&gt; model:::highlight --&gt;  publish
+    classDef default fill:#00c0c3,stroke-width:0;
+    classDef highlight fill:#f9c437;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Can be visualised as a <em>directed acyclic graph</em> (DAG) showing how data ‘flows’ between different stages of analysis.</p>
+</div>
+<div class="fragment">
+<p>Defining all stages of a data pipeline programmatically allows us to <em>reproduce</em> the analysis.</p>
+</div>
+<div class="fragment">
+<p>Published data artefacts should aim to be FAIR - <em>findable</em>, <em>accessible</em>, <em>interoperable</em> and <em>reusable</em>.</p>
+</div>
+</section>
+<section id="data-pipelines-1" class="slide level2 slides-only">
+<h2>Data pipelines</h2>
+<ul>
+<li class="fragment">How can we visualize data pipelines?</li>
+<li class="fragment">What are the advantages of defining a data pipeline programmatically?</li>
+<li class="fragment">What issues should we consider when publishing the outputs of a data workflow?</li>
+</ul>
+</section>
+<section id="data-version-control" class="slide level2">
+<h2>Data version control</h2>
+<p><em>Data version control</em> is a way of systematically keeping track of models and datasets.</p>
+<div class="fragment">
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">gitGraph
+    commit id: "a13fb"
+    commit id: "cb28d"
+    commit id: "2ef7c"
+    branch develop
+    commit id: "ff86a"
+    checkout main
+    commit id: "46cd3"
+    merge develop
+    commit id: "54eb9"
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Builds on <em>Git</em>, a general version control system, which allows us to track changes in a directory of files.</p>
+</div>
+<div class="fragment">
+<p>DVC extends Git by</p>
+<div class="compressed-list">
+<ul>
+<li class="fragment">giving better support for working with large data files,</li>
+<li class="fragment">integration with remote data providers,</li>
+<li class="fragment">and adding abstractions for thinking in terms of data workflows.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="data-version-control-1" class="slide level2 slides-only">
+<h2>Data version control</h2>
+<ul>
+<li class="fragment">Why should we use version control?</li>
+<li class="fragment">How does data version control (DVC) differ from version control systems such as Git?</li>
+<li class="fragment">How does DVC represent data pipelines?</li>
+</ul>
+</section>
+<section id="databases" class="slide level2">
+<h2>Databases</h2>
+<p><em>Databases</em> are collections of data organized in a way that allows more efficient storage and retrieval.</p>
+<div class="fragment">
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">erDiagram
+     direction LR
+     Person{
+        text id
+        text personal
+        text family
+     }
+     Visited{
+        integer id
+        text site
+        text dated
+     }
+     Site{
+        text name
+        real lat
+        real long
+     }
+     Person ||--|| Visited : " "
+     Visited ||--|| Site : " "
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><em>Relational databases</em> store data in tables with columns with fixed names and types and relational constraints between primary and foreign keys across tables.</p>
+</div>
+<div class="fragment">
+<p><em>Structured Query Language</em> (SQL) provides a standardized approach to extracting, joining, aggregating and updating data in relational databases.</p>
+</div>
+<div class="fragment">
+<p>Non-relational databases offer an alternative approaches for working with less rigidly structured data.</p>
+</div>
+</section>
+<section id="databases-1" class="slide level2 slides-only">
+<h2>Databases</h2>
+<ul>
+<li class="fragment">What are the benefits of using a database to store and access data?</li>
+<li class="fragment">How can we specify the structure of a relational database?</li>
+<li class="fragment">How do we select data subsets of interest from a relational database?</li>
+<li class="fragment">What are the advantages and disadvantages of non-relational (‘NoSQL’) databases compared to relational databases?</li>
+</ul>
+</section>
+<section id="working-with-lots-of-data" class="slide level2">
+<h2>Working with lots of data</h2>
+<p>When working with ‘big data’ the size of datasets and resources available limit the computations we can perform.</p>
+<div class="fragment">
+<p>One option is to increase our available resources for a problem - for example by exploiting cloud compute services.</p>
+</div>
+<div class="fragment">
+<p>An alternative approach is to break down the problem in to smaller subtasks that can be distributed.</p>
+</div>
+<div class="fragment">
+<p>MapReduce offers one particular framework for efficiently breaking down tasks and combining results</p>
+<div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="Lecture26_PerformanceBigData_I_files/figure-revealjs/cell-2-output-1.png" width="827" height="434"></p>
+<p><img data-src="https://github.com/bcongdon/corral/raw/master/img/architecture.svg"></p>
+<figcaption>Image credit: Ben Congdon</figcaption>
 </figure>
 </div>
 </div>
-</div>
-</div>
 </section>
-<section id="improving-resources" class="slide level2">
-<h2>Improving resources</h2>
-<p>An obvious approach is to throw more resources at the problem: more memory, faster networks, better processors. However:</p>
+<section id="working-with-lots-of-data-1" class="slide level2 slides-only">
+<h2>Working with lots of data</h2>
 <ul>
-<li class="fragment">We need to make sure it’s the right resource! Hence: <strong>profiling</strong> to understand resource consumption and bottlenecks.</li>
-<li class="fragment">More resource is not always available.</li>
-<li class="fragment">There may be other considerations e.g.&nbsp;energy consumption.</li>
+<li class="fragment">What are key issues affecting the performance of data analysis tasks?</li>
+<li class="fragment">How can we describe the scaling behaviour of the algorithms we use?</li>
+<li class="fragment">What are the benefits and drawbacks of using cloud services as an approach for scaling computations?</li>
+<li class="fragment">How can we break down and distribute large computational tasks?</li>
 </ul>
 </section>
-<section id="cloud-computing" class="slide level2">
-<h2>Cloud computing</h2>
-<p>A paradigm that is becoming very popular recently is the use of <strong>cloud resources</strong>: storage and computing resources held <strong>remotely</strong> and <strong>available on demand</strong>.</p>
-<div class="fragment">
-<p>We saw an example of this in Lecture 22 when downloading data from S3 (Amazon Web Services).</p>
-</div>
-<div class="fragment">
-<p>Major providers include <em>Amazon Web Services</em>, <em>Microsoft Azure</em> and <em>Google Cloud Platform</em>.</p>
-</div>
-</section>
-<section id="cloud-resources" class="slide level2">
-<h2>Cloud resources</h2>
-<p>Cloud providers offer a variety of resources, such as:</p>
-<ul>
-<li class="fragment"><strong>Storage</strong> (both files and various databases).</li>
-<li class="fragment"><strong>Compute</strong> (virtual machines, clusters for parallel computing).</li>
-<li class="fragment"><strong>Services</strong> (instances of popular programs like Tensorflow).</li>
-</ul>
-</section>
-<section id="cloud-computing-advantages" class="slide level2">
-<h2>Cloud computing advantages</h2>
-<p>This offers several advantages:</p>
-<ul>
-<li class="fragment"><strong>Flexibility</strong>: resources can be requested as and when needed, and can be scaled up or down depending on requirements.</li>
-<li class="fragment"><strong>No maintenance</strong>: updates are usually taken care of automatically by the provider.</li>
-<li class="fragment"><strong>Ease of setup</strong>: can use a service without worrying about setting up the infrastructure for it.</li>
-</ul>
-</section>
-<section id="cloud-computing-disadvantages" class="slide level2">
-<h2>Cloud computing disadvantages</h2>
-<p>However, there are also considerations to keep in mind:</p>
-<ul>
-<li class="fragment"><strong>Cost</strong>: can be difficult to predict.</li>
-<li class="fragment"><strong>Limited customisability</strong> compared to setting it up yourself.</li>
-<li class="fragment"><strong>Geographical constraints</strong> for data storage and processing (e.g.&nbsp;latency, personal data).</li>
-</ul>
-</section>
-<section id="alternative-approaches" class="slide level2">
-<h2>Alternative approaches</h2>
-<p>Instead of using more or bigger resources, we could look at different kinds of technologies and computational approaches:</p>
-<ul>
-<li class="fragment">Different language(s), libraries, algorithms.</li>
-<li class="fragment">Accelerator devices such as graphics processing units.</li>
-<li class="fragment">Parallel and distributed processing on multiple processors or a cluster.</li>
-</ul>
-<div class="fragment">
-<p>These usually involve more work in adapting the solution but, if effective, can yield important benefits.</p>
-</div>
-</section>
-<section id="breaking-down-the-task" class="slide level2 nostretch slides-only">
-<h2>Breaking down the task</h2>
-<p>A small resource (e.g.&nbsp;computer) can handle a small task:</p>
-<p><img data-src="Lecture26_Images/task.png" alt="A small task represented by a blue circle, matched to a small computer." width="281"></p>
-</section>
-<section id="breaking-down-the-task-1" class="slide level2 nostretch slides-only">
-<h2>Breaking down the task</h2>
-<p>Faced with a large task, instead of increasing size of resource…</p>
-<p><img data-src="Lecture26_Images/task.png" alt="A large task represented by a large blue circle, matched to a large computer." width="562"></p>
-</section>
-<section id="breaking-down-the-task-2" class="slide level2 nostretch slides-only">
-<h2>Breaking down the task</h2>
-<p>…break it down into smaller tasks:</p>
-<p><img data-src="Lecture26_Images/tasks_many.png" alt="A large task being split into many smaller ones, each matched to a small computer." width="576"></p>
-</section>
-<section id="breaking-down-the-task-3" class="slide level2 slides-only">
-<h2>Breaking down the task</h2>
-<p>This is still not trivial:</p>
-<ul>
-<li class="fragment">Does the algorithm support it?</li>
-<li class="fragment">Can we efficiently combine results?</li>
-<li class="fragment">Is there support for doing it on the hardware?</li>
-</ul>
-</section>
-<section id="changing-algorithms" class="slide level2">
-<h2>Changing algorithms</h2>
-<ul>
-<li class="fragment">Reformulate in different steps that allow separation.</li>
-<li class="fragment">Maximize degree of parallelism.</li>
-<li class="fragment">Minimize communication.</li>
-<li class="fragment">Maintain correctness, avoid problems e.g.&nbsp;deadlock.</li>
-</ul>
-</section>
-<section id="mapreduce" class="slide level2">
-<h2>MapReduce</h2>
-<p>How do we efficiently break down tasks and combine results?</p>
+<section id="software-frameworks" class="slide level2">
+<h2>Software frameworks</h2>
 
-<img data-src="Lecture26_Images/mapreduce-architecture.png" style="width:60.0%" alt="Schematic of the Map Reduce approach taken from bcongdon/corral GitHub repository." class="r-stretch quarto-figure-center"><p class="caption">Image credit: Ben Congdon, https://github.com/bcongdon/corral</p><div class="compressed-list">
-<ul>
-<li class="fragment">Break down data into smaller chunks.</li>
-<li class="fragment">Handle each chunk separately.</li>
-<li class="fragment">Group together results from smaller chunks.</li>
-<li class="fragment">Combine smaller results to form result from whole input.</li>
-</ul>
-</div>
-</section>
-<section id="example-mapreduce-in-python" class="slide level2">
-<h2>Example: MapReduce in Python</h2>
-<p>We can construct a very minimal (and non-parallelised) Python implementation of a MapReduce ‘engine’ as follows</p>
-<div id="187cdc55" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" data-code-line-numbers="3|5|6|1,4,7|8,10,12|8-9,11-12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
-<span id="cb1-2"><a></a></span>
-<span id="cb1-3"><a></a><span class="kw">def</span> mapreduce(data, mapper, reducer):</span>
-<span id="cb1-4"><a></a>    grouper <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
-<span id="cb1-5"><a></a>    <span class="cf">for</span> chunk <span class="kw">in</span> data:</span>
-<span id="cb1-6"><a></a>        <span class="cf">for</span> key, value <span class="kw">in</span> mapper(chunk).items():</span>
-<span id="cb1-7"><a></a>            grouper[key].append(value)</span>
-<span id="cb1-8"><a></a>    <span class="cf">return</span> {</span>
-<span id="cb1-9"><a></a>        k2: v2 </span>
-<span id="cb1-10"><a></a>        <span class="cf">for</span> k1, v1 <span class="kw">in</span> grouper.items() </span>
-<span id="cb1-11"><a></a>        <span class="cf">for</span> k2, v2 <span class="kw">in</span> reducer(k1, v1).items()</span>
-<span id="cb1-12"><a></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="example-counting-characters" class="slide level2">
-<h2>Example: counting characters</h2>
-<p>As an example task imagine we want to count the number of occurrences of each character in a sentence.</p>
+<img data-src="Lecture27_Images/framework-logos.svg" class="quarto-figure quarto-figure-center r-stretch" alt="Logos of Hadoop, Spark and Dash"><p>Apache Hadoop, Apache Spark and Dash are three open-source frameworks for large scale data processing.</p>
 <div class="fragment">
-<p>We can apply <code>mapreduce</code> by</p>
-<div class="compressed-list">
-<ul>
-<li class="fragment">using the <em>mapper</em> to assign a partial count of 1 to each character,</li>
-<li class="fragment">the <em>grouper</em> then gathers the partial counts for each character,</li>
-<li class="fragment">and the <em>reducer</em> sums the counts to outputs the counts per character.</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="example-counting-characters-1" class="slide level2 slides-only">
-<h2>Example: counting characters</h2>
-<p>In code:</p>
-<div id="5d33c141" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" data-code-line-numbers="1,5|2|3|4|6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>character_counts <span class="op">=</span> mapreduce(</span>
-<span id="cb2-2"><a></a>    data<span class="op">=</span><span class="st">"The quick brown fox jumps over the lazy dog."</span>,</span>
-<span id="cb2-3"><a></a>    mapper<span class="op">=</span><span class="kw">lambda</span> character: {character: <span class="dv">1</span>},</span>
-<span id="cb2-4"><a></a>    reducer<span class="op">=</span><span class="kw">lambda</span> character, partial_counts: {character: <span class="bu">sum</span>(partial_counts)}</span>
-<span id="cb2-5"><a></a>)</span>
-<span id="cb2-6"><a></a><span class="bu">print</span>(character_counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell fragment" data-execution_count="3">
-<div class="cell-output cell-output-stdout">
-<pre><code>{'T': 1, 'h': 2, 'e': 3, ' ': 8, 'q': 1, 'u': 2, 'i': 1, 'c': 1, 'k': 1, 'b': 1, 'r': 2, 'o': 4, 'w': 1, 'n': 1, 'f': 1, 'x': 1, 'j': 1, 'm': 1, 'p': 1, 's': 1, 'v': 1, 't': 1, 'l': 1, 'a': 1, 'z': 1, 'y': 1, 'd': 1, 'g': 1, '.': 1}</code></pre>
-</div>
+<p>Hadoop provides a distributed file system and implementation of MapReduce framework.</p>
 </div>
 <div class="fragment">
-<p>Or sorting the output:</p>
-<div id="868c6dde" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="bu">print</span>(<span class="bu">dict</span>(<span class="bu">sorted</span>(character_counts.items())))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Spark allows processing large amounts of data <em>in-memory</em> and supports more general workflows than Hadoop’s MapReduce.</p>
 </div>
-<div class="cell fragment" data-execution_count="4">
-<div class="cell-output cell-output-stdout">
-<pre><code>{' ': 8, '.': 1, 'T': 1, 'a': 1, 'b': 1, 'c': 1, 'd': 1, 'e': 3, 'f': 1, 'g': 1, 'h': 2, 'i': 1, 'j': 1, 'k': 1, 'l': 1, 'm': 1, 'n': 1, 'o': 4, 'p': 1, 'q': 1, 'r': 2, 's': 1, 't': 1, 'u': 2, 'v': 1, 'w': 1, 'x': 1, 'y': 1, 'z': 1}</code></pre>
-</div>
-</div>
+<div class="fragment">
+<p>Dask is modern native Python framework for distributed data processing that supports a generic <em>task-scheduling</em> paradigm.</p>
 </div>
 </section>
-<section id="summary" class="slide level2">
-<h2>Summary</h2>
+<section id="software-frameworks-1" class="slide level2 slides-only">
+<h2>Software frameworks</h2>
 <ul>
-<li class="fragment">The size of big data poses difficulties on conventional processing.</li>
-<li class="fragment">Using more powerful resources is a possibility, but sometimes a paradigm change is needed.</li>
-<li class="fragment">Conversion (such as by distributing computation) is not always straightforward but frameworks offer support.</li>
+<li class="fragment">What are the key features of Hadoop, Spark and Dask and how do they differ?</li>
+<li class="fragment">Why would we use a distributed file system for data processing?</li>
+<li class="fragment">How can we access Spark’s capabilities programmatically?</li>
+<li class="fragment">What is streaming data?</li>
+<li class="fragment">How does Dask abstract computations to allow them to be optimized and distributed?</li>
 </ul>
 
 
