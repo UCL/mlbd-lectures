@@ -5,18 +5,18 @@ on:
 
 name: Render and Publish
 
-permissions: 
+permissions:
     contents: write
     pages: write
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-        
+
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         env:
@@ -24,7 +24,10 @@ jobs:
 
       - name: Install graphviz
         run: sudo apt install -y graphviz
-      
+
+      - name: Install chrome-headless-shell (for Mermaid rendering)
+        run: quarto install chrome-headless-shell
+
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
@@ -49,10 +52,9 @@ jobs:
       - name: Change default Git branch name to main
         run: git config set --global init.defaultBranch main
 
-      - name: Publish to GitHub Pages (and render) 
+      - name: Publish to GitHub Pages (and render)
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
