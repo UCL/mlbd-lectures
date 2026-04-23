@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-d67febc4d67219ffe40af13d11b7ad65.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-84244d6014897f94eda7509784684fcb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -354,7 +354,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="notes">
 <p>The particular data we will be using are the climate records from the year 1800, which are held in an S3 bucket <code>noaa-ghcn-pds</code> in tabular format as a <em>comma separated variable</em> (CSV) file, which has been compressed using <a href="https://en.wikipedia.org/wiki/Gzip">gzip</a>. Python has a built-in module <code>gzip</code> which can be used to uncompress the file and we will use Pandas to read in the data to a dataframe.</p>
 </div>
-<div id="9e441b1b" class="cell" data-output-location="fragment" data-execution_count="2">
+<div id="8b666de0" class="cell" data-output-location="fragment" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> urllib.request</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> gzip</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> pandas</span>
@@ -452,7 +452,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="notes">
 <p>Specifically here we will look for the records recorded at a station in Milan, Italy and use the <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.query.html">Pandas <code>DataFrame.query</code> method</a> to perform the filtering.</p>
 </div>
-<div id="8bcb1ee9" class="cell" data-output-location="fragment" data-execution_count="3">
+<div id="ce00db7b" class="cell" data-output-location="fragment" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>preprocessed_data <span class="op">=</span> input_data.query(</span>
 <span id="cb2-2"><a href="#cb2-2"></a>    <span class="st">'station == "ITE00100554" and quantity in ["TMIN", "TMAX"]'</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a>)</span>
@@ -525,7 +525,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="notes">
 <p>Going back to our running example again, after the preprocessing step we have a dataframe <code>preprocessed_data</code> containing records of all the daily minimum and maximum temperature measurements, in tenths of a degree Celsius, for each day in 1800 for the station of interest in Milan. Our aim is to fit a model to the daily temperature range in degrees Celsius against the date, and so we need to process the dataframe to produce the required variates and covariates for regression.</p>
 </div>
-<div id="bc97ba99" class="cell" data-output-location="fragment" data-execution_count="4">
+<div id="d6af62d8" class="cell" data-output-location="fragment" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>pivoted_data <span class="op">=</span> preprocessed_data.pivot(</span>
 <span id="cb3-2"><a href="#cb3-2"></a>    index<span class="op">=</span><span class="st">"date"</span>, columns<span class="op">=</span><span class="st">"quantity"</span>, values<span class="op">=</span><span class="st">"value"</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a>)</span>
@@ -580,7 +580,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="56b8c362" class="cell" data-output-location="fragment" data-execution_count="5">
+<div id="52592efe" class="cell" data-output-location="fragment" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>transformed_data <span class="op">=</span> pandas.DataFrame(</span>
 <span id="cb4-2"><a href="#cb4-2"></a>    {<span class="st">"temperature_range"</span>: (pivoted_data.TMAX <span class="op">-</span> pivoted_data.TMIN) <span class="op">/</span> <span class="dv">10</span>}</span>
 <span id="cb4-3"><a href="#cb4-3"></a>)</span>
@@ -653,7 +653,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="notes">
 <p>For our running example we will convert the measurement dates to integer days of the year as the input features, so that they are of a numeric type as required. For the target outputs we will use the temperature ranges.</p>
 </div>
-<div id="15b93bc9" class="cell" data-output-location="fragment" data-execution_count="6">
+<div id="3a57f176" class="cell" data-output-location="fragment" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-2"><a href="#cb6-2"></a></span>
 <span id="cb6-3"><a href="#cb6-3"></a>X_train <span class="op">=</span> transformed_data.index.day_of_year.array[:, <span class="va">None</span>]</span>
@@ -687,7 +687,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Again returning to our running climate data example, we will illustrate fitting the noisy temperature range time series data we previously observed with a <a href="https://en.wikipedia.org/wiki/Spline_(mathematics)">spline model</a> in scikit-learn. Splines are a flexible way of describing smooth relationships between variables using piecewise polynomials constrained to ensure smoothness at the join points. They are parametrized by a set of knot points defining how the input space is partitioned, and a positive integer degree specifying the exponent of the highest order polynomial term used.</p>
 <p>As we saw when plotting the data, there appears to be an underlying <em>seasonal</em> trend in the time series, and so we will additionally enforce that the model is <em>periodic</em> with period one year. We will use a spline with 7 knots, corresponding to partitioning the input time interval into 6 roughly bimonthly intervals, with this allowing capturing a smooth representation of the overall seasonal trends without overfitting to the <em>noisy</em> daily variation.</p>
 </div>
-<div id="ec8b54bb" class="cell" data-output-location="fragment" data-execution_count="7">
+<div id="79ba78af" class="cell" data-output-location="fragment" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> numpy</span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="im">from</span> sklearn <span class="im">import</span> pipeline, preprocessing, linear_model</span>
 <span id="cb7-3"><a href="#cb7-3"></a></span>
@@ -1713,7 +1713,7 @@ forceTheme('sk-container-id-1');</script>
 </div>
 </div>
 <p>We can visualise the fitted model’s predictions over the input range to check they look reasonable using <code>matplotlib</code></p>
-<div id="3d17f414" class="cell" data-output-location="fragment" data-execution_count="8">
+<div id="55585fd1" class="cell" data-output-location="fragment" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">3</span>))</span>
 <span id="cb8-2"><a href="#cb8-2"></a>ax.plot(X_train, y_train, model.predict(X_train))</span>
 <span id="cb8-3"><a href="#cb8-3"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Day of year"</span>, ylabel<span class="op">=</span><span class="vs">r"Daily temperature range / </span><span class="dv">$^</span><span class="er">\</span><span class="vs">circ C</span><span class="dv">$</span><span class="vs">"</span>)</span>
@@ -1777,7 +1777,7 @@ forceTheme('sk-container-id-1');</script>
 </section>
 <section id="example-serializing-trained-model" class="level2">
 <h2 class="anchored" data-anchor-id="example-serializing-trained-model">Example: serializing trained model</h2>
-<div id="4ed0b7dd" class="cell" data-output-location="fragment" data-execution_count="9">
+<div id="172d72bb" class="cell" data-output-location="fragment" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> pickle</span>
 <span id="cb9-2"><a href="#cb9-2"></a></span>
 <span id="cb9-3"><a href="#cb9-3"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"trained_model.pkl"</span>, <span class="st">"wb"</span>) <span class="im">as</span> f:</span>
