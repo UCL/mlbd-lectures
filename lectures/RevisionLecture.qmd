@@ -102,13 +102,11 @@ erDiagram
      Visited ||--|| Site : " "
 ```
 
+:::incremental-stack
 _Relational databases_ store data in tables with columns with fixed names and types and relational constraints between primary and foreign keys across tables.
 
-. . .
-
-_Structured Query Language_ (SQL) provides a standardized approach to extracting, aggregating and updating data in relational databases.
-
-. . .
+_Structured Query Language_ (SQL) provides a standardized approach to extracting, joining, aggregating and updating data in relational databases.
+:::
 
 Non-relational databases offer an alternative approaches for working with less rigidly structured data.
 
