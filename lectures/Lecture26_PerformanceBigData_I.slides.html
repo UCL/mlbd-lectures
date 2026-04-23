@@ -269,7 +269,7 @@
 <h2>Problem scaling</h2>
 <p>The scaling behaviour of an algorithm can have a significant effect in how it can handle large input data:</p>
 <div class="fragment">
-<div id="dc3c7da1" class="cell" data-execution_count="1">
+<div id="1f3dbf10" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -387,7 +387,7 @@
 <section id="example-mapreduce-in-python" class="slide level2">
 <h2>Example: MapReduce in Python</h2>
 <p>We can construct a very minimal (and non-parallelised) Python implementation of a MapReduce ‘engine’ as follows</p>
-<div id="772d6f74" class="cell" data-execution_count="2">
+<div id="f98b6af6" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" data-code-line-numbers="3|5|6|1,4,7|8,10,12|8-9,11-12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
 <span id="cb1-2"><a></a></span>
 <span id="cb1-3"><a></a><span class="kw">def</span> mapreduce(data, mapper, reducer):</span>
@@ -419,7 +419,7 @@
 <section id="example-counting-characters-1" class="slide level2 slides-only">
 <h2>Example: counting characters</h2>
 <p>In code:</p>
-<div id="5587f073" class="cell" data-execution_count="3">
+<div id="2e5efc16" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" data-code-line-numbers="1,5|2|3|4|6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>character_counts <span class="op">=</span> mapreduce(</span>
 <span id="cb2-2"><a></a>    data<span class="op">=</span><span class="st">"The quick brown fox jumps over the lazy dog."</span>,</span>
 <span id="cb2-3"><a></a>    mapper<span class="op">=</span><span class="kw">lambda</span> character: {character: <span class="dv">1</span>},</span>
@@ -434,7 +434,7 @@
 </div>
 <div class="fragment">
 <p>Or sorting the output:</p>
-<div id="3adb0e47" class="cell" data-execution_count="4">
+<div id="34f16c7c" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="bu">print</span>(<span class="bu">dict</span>(<span class="bu">sorted</span>(character_counts.items())))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell fragment" data-execution_count="4">

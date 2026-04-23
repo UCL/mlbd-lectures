@@ -357,7 +357,7 @@
 <section id="example-pyspark-pandas" class="slide level2">
 <h2>Example: <code>pyspark</code> pandas</h2>
 <p><code>DataFrame</code>s can be created by specifying the values directly, or by reading from and transforming an existing source (including a Pandas <code>DataFrame</code>).</p>
-<div id="39f468ae" class="cell" data-execution_count="2">
+<div id="9559ca14" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> pyspark.pandas <span class="im">as</span> ps</span>
 <span id="cb1-2"><a></a></span>
 <span id="cb1-3"><a></a>dataframe <span class="op">=</span> ps.DataFrame({<span class="st">"x"</span>: [<span class="dv">1</span>, <span class="fl">2.1</span>, <span class="fl">3.5</span>],  <span class="st">"y"</span>: [<span class="dv">2</span>, <span class="fl">4.2</span>, <span class="dv">7</span>]})</span>
@@ -414,7 +414,7 @@
 <section id="example-pyspark-pandas-1" class="slide level2 slides-only">
 <h2>Example: <code>pyspark</code> pandas</h2>
 <p>Spark <code>DataFrame</code>s can also be handled like pandas <code>DataFrame</code>s:</p>
-<div id="b027f19d" class="cell" data-execution_count="3">
+<div id="c2bf444f" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>dataframe[<span class="st">"z"</span>] <span class="op">=</span> dataframe[<span class="st">"x"</span>] <span class="op">*</span> dataframe[<span class="st">"y"</span>]</span>
 <span id="cb2-2"><a></a>dataframe</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -495,7 +495,7 @@
 <section id="example-mllib-logistic-regression" class="slide level2">
 <h2>Example: <code>MLlib</code> logistic regression</h2>
 <p>To allow us to demonstrate fitting a logistic regression model with <code>MLlib</code>, we first download an example data file and save it in a local temporary file:</p>
-<div id="054d0f30" class="cell" data-execution_count="4">
+<div id="c03e8218" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" data-code-line-numbers="1,4-7|2,8|9-11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">import</span> urllib.request</span>
 <span id="cb3-2"><a></a><span class="im">import</span> tempfile</span>
 <span id="cb3-3"><a></a></span>
@@ -512,7 +512,7 @@
 <section id="example-mllib-logistic-regression-1" class="slide level2 slides-only">
 <h2>Example: <code>MLlib</code> logistic regression</h2>
 <p>We now train a logistic regression model and print the fitted parameters (<a href="https://github.com/apache/spark">adapted from the Spark documentation</a>):</p>
-<div id="7bd7f034" class="cell" data-execution_count="5">
+<div id="ae419954" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" data-code-line-numbers="1,4|5|2,6|7|8-9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
 <span id="cb4-2"><a></a><span class="im">from</span> pyspark.ml.classification <span class="im">import</span> LogisticRegression</span>
 <span id="cb4-3"><a></a></span>
@@ -587,7 +587,7 @@ Intercept = -0.5991460286401438</code></pre>
 <section id="example-dask-timeseries-analysis" class="slide level2">
 <h2>Example: Dask timeseries analysis</h2>
 <p>As a simple example, we construct a simulated timeseries <code>DataFrame</code> in Dask using the <a href="https://docs.dask.org/en/stable/api.html#dask.datasets.timeseries"><code>dask.dataset.timeseries</code> function</a></p>
-<div id="71258588" class="cell" data-execution_count="6">
+<div id="fd3e49a2" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="im">import</span> dask</span>
 <span id="cb6-2"><a></a></span>
 <span id="cb6-3"><a></a>dataframe <span class="op">=</span> dask.datasets.timeseries(</span>
@@ -596,7 +596,7 @@ Intercept = -0.5991460286401438</code></pre>
 </div>
 <div class="fragment">
 <p>The generated <code>DataFrame</code> here is relatively large:</p>
-<div id="388689e9" class="cell" data-execution_count="7">
+<div id="6500f425" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="bu">print</span>(<span class="st">"Number of records: "</span>, dataframe.size.compute())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell fragment" data-execution_count="7">
@@ -609,7 +609,7 @@ Intercept = -0.5991460286401438</code></pre>
 <section id="example-dask-timeseries-analysis-1" class="slide level2 slides-only">
 <h2>Example: Dask timeseries analysis</h2>
 <p>Importantly Dask data structures are <em>partitioned</em> to allow distributing computations on chunks of the data.</p>
-<div id="59e33d53" class="cell" data-execution_count="8">
+<div id="4bf0c875" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>dataframe</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell fragment" data-execution_count="8">
@@ -679,7 +679,7 @@ Intercept = -0.5991460286401438</code></pre>
 <section id="example-dask-timeseries-analysis-2" class="slide level2 slides-only">
 <h2>Example: Dask timeseries analysis</h2>
 <p>As with pandas <code>DataFrame</code> objects we can use the <code>head</code> method to inspect the first few rows</p>
-<div id="2e838743" class="cell" data-execution_count="9">
+<div id="24792f2d" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>dataframe.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell fragment" data-execution_count="9">
@@ -762,7 +762,7 @@ Intercept = -0.5991460286401438</code></pre>
 <section id="example-dask-timeseries-analysis-3" class="slide level2 slides-only">
 <h2>Example: Dask timeseries analysis</h2>
 <p>Dask <code>DataFrame</code>s provide a pandas like interface which we can use to perform filtering, grouping and aggregation operations.</p>
-<div id="a038ca22" class="cell" data-execution_count="10">
+<div id="e599d525" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>filtered <span class="op">=</span> dataframe[dataframe.x <span class="op">&gt;</span> <span class="dv">0</span>]</span>
 <span id="cb11-2"><a></a>grouped <span class="op">=</span> filtered.groupby(<span class="st">"name"</span>)</span>
 <span id="cb11-3"><a></a>results <span class="op">=</span> grouped[<span class="st">"x"</span>, <span class="st">"y"</span>].std()</span>
@@ -810,7 +810,7 @@ Intercept = -0.5991460286401438</code></pre>
 <section id="example-dask-timeseries-analysis-5" class="slide level2 slides-only">
 <h2>Example: Dask timeseries analysis</h2>
 <p>We can visualize the <em>expression graph</em> associated with a Dask <code>DataFrame</code> using the <code>visualize</code> method</p>
-<div id="80891ef3" class="cell" data-output-height="3" data-output-width="3" data-execution_count="11">
+<div id="6695b4d1" class="cell" data-output-height="3" data-output-width="3" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a>results.visualize(rankdir<span class="op">=</span><span class="st">"TD"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
@@ -818,7 +818,7 @@ Intercept = -0.5991460286401438</code></pre>
 <section id="example-dask-timeseries-analysis-6" class="slide level2 slides-only">
 <h2>Example: Dask timeseries analysis</h2>
 <p>We can also <em>optimize</em> the expression graph, for example fusing operations</p>
-<div id="da494d3b" class="cell" data-execution_count="12">
+<div id="d18e6b04" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>optimized <span class="op">=</span> results.optimize()</span>
 <span id="cb13-2"><a></a>optimized.visualize(rankdir<span class="op">=</span><span class="st">"TD"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
@@ -827,7 +827,7 @@ Intercept = -0.5991460286401438</code></pre>
 <section id="example-dask-timeseries-analysis-7" class="slide level2 slides-only">
 <h2>Example: Dask timeseries analysis</h2>
 <p>We can also instead visualize the constructed <em>task graph</em></p>
-<div id="a181883d" class="cell" data-execution_count="13">
+<div id="fdb2dee8" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a>optimized.visualize(tasks<span class="op">=</span><span class="va">True</span>, rankdir<span class="op">=</span><span class="st">"LR"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
@@ -835,7 +835,7 @@ Intercept = -0.5991460286401438</code></pre>
 <section id="example-dask-timeseries-analysis-8" class="slide level2 slides-only">
 <h2>Example: Dask timeseries analysis</h2>
 <p>Calling the <code>compute</code> method on a Dask <code>DataFrame</code> will <em>schedule</em> the attached task graph, and output a pandas <code>DataFrame</code></p>
-<div id="031e3e73" class="cell" data-execution_count="14">
+<div id="0c2b8ae6" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a>optimized.compute().head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell fragment" data-execution_count="14">
