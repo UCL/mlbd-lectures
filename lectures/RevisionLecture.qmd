@@ -65,7 +65,7 @@ DVC extends Git by
 :::compressed-list
 - giving better support for working with large data files,
 - integration with remote data providers,
-- and adding abstractions for thinking in terms of data workflows.
+- abstractions for thinking in terms of data workflows.
 :::
 
 ## Data version control {.slides-only}
@@ -106,7 +106,7 @@ _Relational databases_ store data in tables with columns with fixed names and ty
 
 . . .
 
-_Structured Query Language_ (SQL) provides a standardized approach to extracting, joining,  aggregating and updating data in relational databases.
+_Structured Query Language_ (SQL) provides a standardized approach to extracting, aggregating and updating data in relational databases.
 
 . . .
 
@@ -169,6 +169,11 @@ Dask is modern native Python framework for distributed data processing that supp
 
 - What are the key features of Hadoop, Spark and Dask and how do they differ?
 - Why would we use a distributed file system for data processing?
-- How can we access Spark's capabilities programmatically?
 - What is streaming data?
 - How does Dask abstract computations to allow them to be optimized and distributed?
+
+## General exam tips
+
+- You need to know how to _apply_ concepts and tools covered in lectures to real data problems.
+- Make sure to justify and explain points you are making - need to see evidence of _understanding material_ not just recall.
+- __Read the exam rubric carefully__ - each question should be answered in a separate booklet.
